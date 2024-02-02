@@ -9,6 +9,7 @@
 #include "../../netbus/netbus.h"
 
 int main(int argc, char** argv) {
+	netbus::instance()->init();
 	netbus::instance()->start_tcp_server(8023);
 	netbus::instance()->start_tcp_server(8024);
 

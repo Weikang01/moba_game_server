@@ -38,14 +38,11 @@ extern "C" {
 				fprintf(stderr, "Read error %s\n", uv_strerror(nread));
 			}
 			uv_session* session = (uv_session*)client->data;
-			
-			uv_shutdown_t* req = &session->req_shutdown;
-			memset(req, 0, sizeof(uv_shutdown_t));
-			uv_shutdown(req, client, on_uv_shutdown);
+			session->close();
 		}
 		else {
 			uv_session* session = (uv_session*)client->data;
-			session->send(buf->base, nread);
+			session->send(buf->base, (int)nread);
 			//session->close();
 		}
 	}
@@ -65,7 +62,7 @@ extern "C" {
 		uv_tcp_getpeername((uv_tcp_t*)client, (struct sockaddr*)&addr, &len);
 		uv_ip4_name(&addr, session->client_address, 32);
 		session->client_port = ntohs(addr.sin_port);
-		session->socket_type = (int)server->data;
+		session->socket_type = (int)(server->data);
 
 		printf("New connection from %s:%d\n", session->client_address, session->client_port);
 
@@ -80,6 +77,11 @@ extern "C" {
 	}
 }
 
+
+void netbus::init()
+{
+	init_session_allocator();
+}
 
 void netbus::start_tcp_server(int port) {
 	uv_tcp_t* tcp_server = (uv_tcp_t*)malloc(sizeof(uv_tcp_t));

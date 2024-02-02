@@ -18,8 +18,7 @@ public:
 	int client_port;
 
 	uv_shutdown_t req_shutdown;
-	uv_write_t req_write;
-	uv_buf_t wrbuf;
+	bool is_shutdown;
 public:
 	char recv_buffer[SESSION_RECV_LEN];
 	int recved;
@@ -38,6 +37,5 @@ public:
 	const char* get_address(int* client_port) override;
 };
 
-
-
+void init_session_allocator();
 #endif // !__SESSION_UV_H__
