@@ -5,6 +5,8 @@
 
 #define SESSION_RECV_LEN 4096
 
+struct cmd_msg;
+
 enum {
 	SESSION_TYPE_TCP,
 	SESSION_TYPE_WS,
@@ -38,6 +40,7 @@ public:
 public:
 	void close() override;
 	void send_data(const char* data, int len) override;
+	void send_msg(cmd_msg* msg) override;
 	const char* get_address(int* client_port) override;
 };
 

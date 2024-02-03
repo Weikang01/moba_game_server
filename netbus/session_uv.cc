@@ -10,8 +10,11 @@
 #include "../utils/cache_alloc.h"
 #include "session.h"
 #include "session_uv.h"
+#include "proto_manager.h"
+#include "service_manager.h"
 #include "ws_protocol.h"
 #include "tcp_protocol.h"
+
 
 #define SESSION_CACHE_CAPACITY 6144
 #define WRITING_REQ_CACHE_CAPACITY 4096
@@ -96,6 +99,9 @@ void uv_session::close()
 		return;
 	}
 
+	// broadcast to all service that the client is offline
+	service_manager::on_session_disconnect(this);
+
 	this->is_shutdown = true;
 	uv_shutdown_t* req = &this->req_shutdown;
 	memset(req, 0, sizeof(uv_shutdown_t));
@@ -129,6 +135,20 @@ void uv_session::send_data(const char* data, int len)
 	}
 
 	uv_write(write_req, (uv_stream_t*)&this->client_handler, &wrbuf, 1, after_write);
+}
+
+void uv_session::send_msg(cmd_msg* msg)
+{
+	int encode_len = 0;
+	unsigned char*  encode_data = (unsigned char*)proto_manager::encode_cmd_msg(msg, &encode_len);
+
+	if (encode_data != NULL) {
+		this->send_data((const char*)encode_data, encode_len);
+		proto_manager::cmd_msg_free(msg);
+	}
+	else {
+		printf("encode cmd msg failed\n");
+	}
 }
 
 const char* uv_session::get_address(int* client_port)
