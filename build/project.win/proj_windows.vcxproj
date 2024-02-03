@@ -138,6 +138,7 @@
     <ClCompile Include="..\..\apps\test\main.cc" />
     <ClCompile Include="..\..\netbus\netbus.cc" />
     <ClCompile Include="..\..\netbus\session_uv.cc" />
+    <ClCompile Include="..\..\netbus\tcp_protocol.cc" />
     <ClCompile Include="..\..\netbus\ws_protocol.cc" />
     <ClCompile Include="..\..\utils\cache_alloc.c" />
     <ClCompile Include="..\..\vendor\crypto\base64_decoder.c" />
@@ -181,6 +182,7 @@
     <ClInclude Include="..\..\netbus\netbus.h" />
     <ClInclude Include="..\..\netbus\session.h" />
     <ClInclude Include="..\..\netbus\session_uv.h" />
+    <ClInclude Include="..\..\netbus\tcp_protocol.h" />
     <ClInclude Include="..\..\netbus\ws_protocol.h" />
     <ClInclude Include="..\..\utils\cache_alloc.h" />
     <ClInclude Include="..\..\vendor\crypto\base64_decoder.h" />

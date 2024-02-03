@@ -47,7 +47,7 @@ void destroy_cache_allocator(struct cache_allocator* allocator)
 void* cache_alloc(struct cache_allocator* allocator, int elem_size)
 {
 	if (allocator->element_size < elem_size) {
-		return NULL;
+		return malloc(elem_size);
 	}
 
 	if (allocator->free_list == NULL) {

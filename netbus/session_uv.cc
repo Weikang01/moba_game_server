@@ -11,12 +11,16 @@
 #include "session.h"
 #include "session_uv.h"
 #include "ws_protocol.h"
+#include "tcp_protocol.h"
 
 #define SESSION_CACHE_CAPACITY 6144
 #define WRITING_REQ_CACHE_CAPACITY 4096
+#define WBUF_CACHE_CAPACITY 1024
+#define WBUF_CACHE_SIZE 1024
 
 struct cache_allocator* session_allocator = NULL;
 struct cache_allocator* wrt_req_allocator = NULL;
+cache_allocator* wbuf_allocator = NULL;
 
 
 void init_session_allocator()
@@ -27,6 +31,10 @@ void init_session_allocator()
 
 	if (wrt_req_allocator == NULL) {
 		wrt_req_allocator = create_cache_allocator(WRITING_REQ_CACHE_CAPACITY, sizeof(uv_write_t));
+	}
+
+	if (wbuf_allocator == NULL) {
+		wbuf_allocator = create_cache_allocator(WBUF_CACHE_CAPACITY, WBUF_CACHE_SIZE);
 	}
 }
 
@@ -98,7 +106,7 @@ void uv_session::send_data(const char* data, int len)
 {
 	uv_write_t* write_req = (uv_write_t*)cache_alloc(wrt_req_allocator, sizeof(uv_write_t));
 	uv_buf_t wrbuf;
-	
+
 	if (this->socket_type == SESSION_TYPE_WS) {
 		if (this->is_ws_shakehand) {
 			int ws_len = 0;
@@ -111,7 +119,10 @@ void uv_session::send_data(const char* data, int len)
 		}
 	}
 	else if (this->socket_type == SESSION_TYPE_TCP) {
-		wrbuf = uv_buf_init((char*)data, len);
+		int tcp_len = 0;
+		unsigned char* tcp_data = tcp_protocol::package((const unsigned char*)data, len, &tcp_len);
+
+		wrbuf = uv_buf_init((char*)tcp_data, tcp_len);
 	}
 	else {
 		return;

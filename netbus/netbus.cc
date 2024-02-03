@@ -7,6 +7,7 @@
 #include "netbus.h"
 #include "session_uv.h"
 #include "ws_protocol.h"
+#include "tcp_protocol.h"
 
 static netbus* _instance = nullptr;
 netbus* netbus::instance()
@@ -44,7 +45,6 @@ extern "C" {
 					session->long_pkg_len = head_size + payload_size;
 				}
 				else { // tcp package > receive length
-
 				}
 			}
 			*buf = uv_buf_init(session->long_pkg + session->recved, session->long_pkg_len - session->recved);
@@ -53,10 +53,39 @@ extern "C" {
 
 	static void on_recv_client_command(uv_session* session, unsigned char* payload, int len) {
 		// print first "len" bytes of payload (string)
-		printf("on_recv_client_command: %.*s\n", len, payload);
 		session->send_data((const char*)payload, len);
 	}
 
+	static void on_receive_tcp_data(uv_session* session) {
+		unsigned char* package_data = (unsigned char*)((session->long_pkg == NULL) ? session->recv_buffer : session->long_pkg);
+
+		while (session->recved > 0) {
+			int payload_size = 0;
+			int head_size = 0;
+
+			if (!tcp_protocol::read_header(package_data, session->recved, &head_size, &payload_size)) {
+				break;
+			}
+
+			if (session->recved < payload_size + head_size) {
+				break;
+			}
+
+			on_recv_client_command(session, package_data + head_size, payload_size);
+
+			if (session->recved > payload_size + head_size) {
+				memmove(package_data, package_data + payload_size + head_size, payload_size + head_size);
+			}
+
+			session->recved -= payload_size + head_size;
+
+			if (session->recved == 0 && session->long_pkg != NULL) {
+				free(session->long_pkg);
+				session->long_pkg = NULL;
+				session->long_pkg_len = 0;
+			}
+		}
+	}
 
 	static void on_receive_ws_data(uv_session* session) {
 		unsigned char* package_data = (unsigned char*)((session->long_pkg == NULL) ? session->recv_buffer : session->long_pkg);
@@ -101,6 +130,7 @@ extern "C" {
 		uv_session* client_session = (uv_session*)client->data;
 		if (nread < 0) {
 			client_session->close();
+			return;
 		}
 
 		client_session->recved += nread;
@@ -120,7 +150,7 @@ extern "C" {
 			}
 		}
 		else if (client_session->socket_type == SESSION_TYPE_TCP) {
-			client_session->send_data(buf->base, buf->len);
+			on_receive_tcp_data(client_session);
 		}
 		else {}
 

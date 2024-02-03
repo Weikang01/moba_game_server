@@ -18,6 +18,9 @@ static int is_sec_key = 0;
 static int has_sec_key = 0;
 static int is_shake_ended = 0;
 
+#include "../utils/cache_alloc.h"
+extern cache_allocator* wbuf_allocator;
+
 extern "C" {
 	#include <base64_encoder.h>
 	#include <sha1.h>
@@ -48,21 +51,6 @@ extern "C" {
 		is_shake_ended = 1;
 		return 0;
 	}
-
-	static char* ws_accept_key(const char* key) {
-		const char* guid = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
-		char* concat = (char*)malloc(strlen(key) + strlen(guid) + 1);
-		strcpy(concat, key);
-		strcat(concat, guid);
-		unsigned char sha1[SHA1_DIGEST_SIZE];
-		int sha1_size = 0;
-
-		crypt_sha1((uint8_t*)concat, strlen(concat), (uint8_t*)sha1, &sha1_size);
-		int base_len;
-		char* base_buf = base64_encode((uint8_t*)sha1, SHA1_DIGEST_SIZE, &base_len);
-
-		return base_buf;
-	}
 }
 
 bool ws_protocol::ws_shakehand(session* s, const char* data, int len)
@@ -91,9 +79,20 @@ bool ws_protocol::ws_shakehand(session* s, const char* data, int len)
 			"Sec-WebSocket-Accept:%s\r\n"
 			"WebSocket-Protocol:chat\r\n\r\n";
 		// format response
-		char* key = ws_accept_key(value_sec_key);
-		char* response_buf = (char*)malloc(strlen(response) + strlen(key) + 1);
-		sprintf(response_buf, response, key);
+		static char key_magic[512];
+
+		static const char* guid = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
+
+		sprintf(key_magic, "%s%s", value_sec_key, guid);
+		unsigned char sha1[SHA1_DIGEST_SIZE];
+		int sha1_size = 0;
+
+		crypt_sha1((uint8_t*)key_magic, strlen(key_magic), (uint8_t*)sha1, &sha1_size);
+		int base_len;
+		char* base_buf = base64_encode((uint8_t*)sha1, SHA1_DIGEST_SIZE, &base_len);
+
+		static char response_buf[512];
+		sprintf(response_buf, response, base_buf);
 
 		s->send_data(response_buf, strlen(response_buf));
 
@@ -163,8 +162,7 @@ unsigned char* ws_protocol::package_ws_send_data(const unsigned char* data, int 
 		head_len += 2;
 	}
 
-	// TODO: cache the malloc
-	unsigned char* send_resp = (unsigned char*)malloc(len + head_len);
+	unsigned char* send_resp = (unsigned char*)cache_alloc(wbuf_allocator, len + head_len);
 	send_resp[0] = 0x81;
 	if (len < 126) {
 		send_resp[1] = len;
@@ -195,5 +193,5 @@ unsigned char* ws_protocol::package_ws_send_data(const unsigned char* data, int 
 
 void ws_protocol::free_ws_package(unsigned char* package)
 {
-	free(package);
+	cache_free(wbuf_allocator, package);
 }
