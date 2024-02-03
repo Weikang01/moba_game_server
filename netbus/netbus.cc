@@ -8,6 +8,7 @@
 #include "session_uv.h"
 #include "ws_protocol.h"
 #include "tcp_protocol.h"
+#include "proto_manager.h"
 
 static netbus* _instance = nullptr;
 netbus* netbus::instance()
@@ -54,6 +55,25 @@ extern "C" {
 	static void on_recv_client_command(uv_session* session, unsigned char* payload, int len) {
 		// print first "len" bytes of payload (string)
 		session->send_data((const char*)payload, len);
+
+		struct cmd_msg* msg = NULL;
+		if (proto_manager::decode_cmd_msg((const char*)payload, len, &msg)) {
+						// print first "len" bytes of payload (string)
+			unsigned char* encode_data = NULL;
+			int encode_len = 0;
+			encode_data = (unsigned char*)proto_manager::encode_cmd_msg(msg, &encode_len);
+
+			if (encode_data != NULL) {
+				session->send_data((const char*)encode_data, encode_len);
+				proto_manager::cmd_msg_free(msg);
+			}
+			else {
+				printf("encode cmd msg failed\n");
+			}
+		}
+		else {
+			printf("decode cmd msg failed\n");
+		}
 	}
 
 	static void on_receive_tcp_data(uv_session* session) {

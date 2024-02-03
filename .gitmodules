@@ -4,3 +4,9 @@
 [submodule "vendor/http_parser"]
 	path = vendor/http_parser
 	url = https://github.com/nodejs/http-parser.git
+[submodule "vendor/protobuf"]
+	path = vendor/protobuf
+	url = https://github.com/protocolbuffers/protobuf.git
+[submodule "vendor/cJSON"]
+	path = vendor/cJSON
+	url = https://github.com/DaveGamble/cJSON.git

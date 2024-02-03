@@ -35,6 +35,12 @@
     <Filter Include="vendor\crypto">
       <UniqueIdentifier>{7b58c8a8-259b-4ed8-a855-957e8499849c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="vendor\cJSON">
+      <UniqueIdentifier>{e846cd0d-3c00-4d46-81d9-c8ceec504bdd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="apps\test\proto">
+      <UniqueIdentifier>{c83fd2d4-cf42-4081-aa63-cfadbba1ae3d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\apps\test\main.cc">
@@ -163,6 +169,18 @@
     <ClCompile Include="..\..\netbus\tcp_protocol.cc">
       <Filter>netbus</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\vendor\cJSON\cJSON.c">
+      <Filter>vendor\cJSON</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\apps\test\proto\game.pb.cc">
+      <Filter>apps\test\proto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\apps\test\proto\pf_cmd_map.cc">
+      <Filter>apps\test\proto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\netbus\proto_manager.cc">
+      <Filter>netbus</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\vendor\libuv\include\android-ifaddrs.h">
@@ -273,5 +291,22 @@
     <ClInclude Include="..\..\netbus\tcp_protocol.h">
       <Filter>netbus</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\vendor\cJSON\cJSON.h">
+      <Filter>vendor\cJSON</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\apps\test\proto\game.pb.h">
+      <Filter>apps\test\proto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\apps\test\proto\pf_cmd_map.h">
+      <Filter>apps\test\proto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\netbus\proto_manager.h">
+      <Filter>netbus</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\apps\test\proto\game.proto">
+      <Filter>apps\test\proto</Filter>
+    </None>
   </ItemGroup>
 </Project>
