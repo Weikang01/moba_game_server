@@ -181,6 +181,12 @@
     <ClCompile Include="..\..\netbus\proto_manager.cc">
       <Filter>netbus</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\netbus\service.cc">
+      <Filter>netbus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\netbus\service_manager.cc">
+      <Filter>netbus</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\vendor\libuv\include\android-ifaddrs.h">
@@ -301,6 +307,12 @@
       <Filter>apps\test\proto</Filter>
     </ClInclude>
     <ClInclude Include="..\..\netbus\proto_manager.h">
+      <Filter>netbus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\netbus\service.h">
+      <Filter>netbus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\netbus\service_manager.h">
       <Filter>netbus</Filter>
     </ClInclude>
   </ItemGroup>
