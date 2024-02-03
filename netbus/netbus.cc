@@ -5,9 +5,8 @@
 #include <uv.h>
 
 #include "netbus.h"
-
 #include "session_uv.h"
-
+#include "ws_protocol.h"
 
 static netbus* _instance = nullptr;
 netbus* netbus::instance()
@@ -28,23 +27,103 @@ extern "C" {
 
 	static void on_alloc_buffer(uv_handle_t* handle, size_t suggested_size, uv_buf_t* buf) {
 		uv_session* session = (uv_session*)handle->data;
-		*buf = uv_buf_init(session->recv_buffer + session->recved, SESSION_RECV_LEN - session->recved);
 
+		if (session->recved < SESSION_RECV_LEN) {
+			*buf = uv_buf_init(session->recv_buffer + session->recved, SESSION_RECV_LEN - session->recved);
+		}
+		else {
+			if (session->long_pkg == NULL) { // alloc memory
+				if (session->socket_type == SESSION_TYPE_WS && session->is_ws_shakehand) {
+					int payload_size = 0;
+					int head_size = 0;
+					ws_protocol::read_ws_header((unsigned char*)session->recv_buffer, session->recved, &head_size, &payload_size);
+					
+					session->long_pkg = (char*)malloc(head_size + payload_size);
+					memcpy(session->long_pkg, session->recv_buffer, session->recved);
+
+					session->long_pkg_len = head_size + payload_size;
+				}
+				else { // tcp package > receive length
+
+				}
+			}
+			*buf = uv_buf_init(session->long_pkg + session->recved, session->long_pkg_len - session->recved);
+		}
+	}
+
+	static void on_recv_client_command(uv_session* session, unsigned char* payload, int len) {
+		// print first "len" bytes of payload (string)
+		printf("on_recv_client_command: %.*s\n", len, payload);
+		session->send_data((const char*)payload, len);
+	}
+
+
+	static void on_receive_ws_data(uv_session* session) {
+		unsigned char* package_data = (unsigned char*)((session->long_pkg == NULL) ? session->recv_buffer : session->long_pkg);
+
+		while (session->recved > 0) {
+			int payload_size = 0;
+			int head_size = 0;
+
+			if (package_data[0] == 0x88) { // client close
+				session->close();
+				break;
+			}
+
+			// package_size - head_size = body_size
+			if (!ws_protocol::read_ws_header(package_data, session->recved, &head_size, &payload_size)) {
+				break;
+			}
+
+			if (session->recved < payload_size + head_size) {
+				break;
+			}
+
+			ws_protocol::parse_ws_recv_data(package_data, head_size, payload_size);
+
+			on_recv_client_command(session, package_data + head_size, payload_size);
+
+			if (session->recved > payload_size + head_size) {
+				memmove(package_data, package_data + payload_size + head_size, payload_size + head_size);
+			}
+
+			session->recved -= payload_size + head_size;
+
+			if (session->recved == 0 && session->long_pkg != NULL) {
+				free(session->long_pkg);
+				session->long_pkg = NULL;
+				session->long_pkg_len = 0;
+			}
+		}
 	}
 
 	static void after_read(uv_stream_t* client, ssize_t nread, const uv_buf_t* buf) {
+		uv_session* client_session = (uv_session*)client->data;
 		if (nread < 0) {
-			if (nread != UV_EOF) {
-				fprintf(stderr, "Read error %s\n", uv_strerror(nread));
+			client_session->close();
+		}
+
+		client_session->recved += nread;
+		
+		if (client_session->socket_type == SESSION_TYPE_WS) {
+			if (client_session->is_ws_shakehand == 0) { // shakehand
+				if (ws_protocol::ws_shakehand((session*)client_session, buf->base, (int)nread)) {
+					client_session->is_ws_shakehand = 1;
+					client_session->recved = 0;
+				}
+				else {
+					client_session->close();
+				}
 			}
-			uv_session* session = (uv_session*)client->data;
-			session->close();
+			else { // receive data
+				on_receive_ws_data(client_session);
+			}
 		}
-		else {
-			uv_session* session = (uv_session*)client->data;
-			session->send(buf->base, (int)nread);
-			//session->close();
+		else if (client_session->socket_type == SESSION_TYPE_TCP) {
+			client_session->send_data(buf->base, buf->len);
 		}
+		else {}
+
 	}
 
 	static void on_new_connection(uv_stream_t* server, int status) {
@@ -64,7 +143,7 @@ extern "C" {
 		session->client_port = ntohs(addr.sin_port);
 		session->socket_type = (int)(server->data);
 
-		printf("New connection from %s:%d\n", session->client_address, session->client_port);
+		printf("New connection from %s:%d\tsocket type:%d\n", session->client_address, session->client_port, session->socket_type);
 
 		uv_tcp_init(uv_default_loop(), client);
 		client->data = (void*)session;
@@ -106,6 +185,24 @@ void netbus::start_tcp_server(int port) {
 
 void netbus::start_ws_server(int port)
 {
+	uv_tcp_t* tcp_server = (uv_tcp_t*)malloc(sizeof(uv_tcp_t));
+	memset(tcp_server, 0, sizeof(uv_tcp_t));
+
+	uv_tcp_init(uv_default_loop(), tcp_server);
+
+	struct sockaddr_in addr;
+	uv_ip4_addr("127.0.0.1", port, &addr);
+
+	int ret = uv_tcp_bind(tcp_server, (const struct sockaddr*)&addr, 0);
+
+	if (ret) {
+		printf("Bind error %s\n", uv_strerror(ret));
+		return;
+	}
+
+	tcp_server->data = (void*)SESSION_TYPE_WS;
+	// Start listening
+	uv_listen((uv_stream_t*)tcp_server, SOMAXCONN, on_new_connection);
 }
 
 void netbus::run()

@@ -76,7 +76,7 @@
       <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)vendor\libuv\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)vendor\libuv\include;$(SolutionDir)vendor\http_parser;$(SolutionDir)vendor\crypto</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -92,7 +92,7 @@
       <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)vendor\libuv\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)vendor\libuv\include;$(SolutionDir)vendor\http_parser;$(SolutionDir)vendor\crypto</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -108,7 +108,7 @@
       <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)vendor\libuv\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)vendor\libuv\include;$(SolutionDir)vendor\http_parser;$(SolutionDir)vendor\crypto</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -124,7 +124,7 @@
       <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)vendor\libuv\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)vendor\libuv\include;$(SolutionDir)vendor\http_parser;$(SolutionDir)vendor\crypto</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -138,7 +138,13 @@
     <ClCompile Include="..\..\apps\test\main.cc" />
     <ClCompile Include="..\..\netbus\netbus.cc" />
     <ClCompile Include="..\..\netbus\session_uv.cc" />
+    <ClCompile Include="..\..\netbus\ws_protocol.cc" />
     <ClCompile Include="..\..\utils\cache_alloc.c" />
+    <ClCompile Include="..\..\vendor\crypto\base64_decoder.c" />
+    <ClCompile Include="..\..\vendor\crypto\base64_encoder.c" />
+    <ClCompile Include="..\..\vendor\crypto\md5.c" />
+    <ClCompile Include="..\..\vendor\crypto\sha1.c" />
+    <ClCompile Include="..\..\vendor\http_parser\http_parser.c" />
     <ClCompile Include="..\..\vendor\libuv\src\fs-poll.c" />
     <ClCompile Include="..\..\vendor\libuv\src\inet.c" />
     <ClCompile Include="..\..\vendor\libuv\src\threadpool.c" />
@@ -175,7 +181,13 @@
     <ClInclude Include="..\..\netbus\netbus.h" />
     <ClInclude Include="..\..\netbus\session.h" />
     <ClInclude Include="..\..\netbus\session_uv.h" />
+    <ClInclude Include="..\..\netbus\ws_protocol.h" />
     <ClInclude Include="..\..\utils\cache_alloc.h" />
+    <ClInclude Include="..\..\vendor\crypto\base64_decoder.h" />
+    <ClInclude Include="..\..\vendor\crypto\base64_encoder.h" />
+    <ClInclude Include="..\..\vendor\crypto\md5.h" />
+    <ClInclude Include="..\..\vendor\crypto\sha1.h" />
+    <ClInclude Include="..\..\vendor\http_parser\http_parser.h" />
     <ClInclude Include="..\..\vendor\libuv\include\android-ifaddrs.h" />
     <ClInclude Include="..\..\vendor\libuv\include\pthread-barrier.h" />
     <ClInclude Include="..\..\vendor\libuv\include\stdint-msvc2008.h" />

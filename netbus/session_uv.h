@@ -23,6 +23,10 @@ public:
 	char recv_buffer[SESSION_RECV_LEN];
 	int recved;
 	int socket_type;
+	int is_ws_shakehand;
+
+	char* long_pkg;
+	int long_pkg_len;
 private:
 	void init();
 	void exit();
@@ -33,7 +37,7 @@ public:
 
 public:
 	void close() override;
-	void send(const char* data, int len) override;
+	void send_data(const char* data, int len) override;
 	const char* get_address(int* client_port) override;
 };
 
