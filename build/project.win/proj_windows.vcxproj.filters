@@ -160,6 +160,9 @@
     <ClCompile Include="..\..\vendor\crypto\sha1.c">
       <Filter>vendor\crypto</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\netbus\tcp_protocol.cc">
+      <Filter>netbus</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\vendor\libuv\include\android-ifaddrs.h">
@@ -266,6 +269,9 @@
     </ClInclude>
     <ClInclude Include="..\..\vendor\crypto\sha1.h">
       <Filter>vendor\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\netbus\tcp_protocol.h">
+      <Filter>netbus</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
