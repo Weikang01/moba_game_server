@@ -54,7 +54,7 @@ extern "C" {
 
 	static void after_write(uv_write_t* req, int status) {
 		if (status < 0) {
-			fprintf(stderr, "Write error %s\n", uv_strerror(status));
+			//fprintf(stderr, "Write error %s\n", uv_strerror(status));
 		}
 		cache_free(wrt_req_allocator, req);
 	}
@@ -108,7 +108,7 @@ void uv_session::close()
 	uv_shutdown(req, (uv_stream_t*)&this->client_handler, on_uv_shutdown);
 }
 
-void uv_session::send_data(const char* data, int len)
+void uv_session::send_data(unsigned char* data, int len)
 {
 	uv_write_t* write_req = (uv_write_t*)cache_alloc(wrt_req_allocator, sizeof(uv_write_t));
 	uv_buf_t wrbuf;
@@ -116,7 +116,7 @@ void uv_session::send_data(const char* data, int len)
 	if (this->socket_type == SESSION_TYPE_WS) {
 		if (this->is_ws_shakehand) {
 			int ws_len = 0;
-			unsigned char* ws_data = ws_protocol::package_ws_send_data((const unsigned char*)data, len, &ws_len);
+			unsigned char* ws_data = ws_protocol::package_ws_send_data(data, len, &ws_len);
 
 			wrbuf = uv_buf_init((char*)ws_data, ws_len);
 		}
@@ -140,14 +140,14 @@ void uv_session::send_data(const char* data, int len)
 void uv_session::send_msg(cmd_msg* msg)
 {
 	int encode_len = 0;
-	unsigned char*  encode_data = (unsigned char*)proto_manager::encode_cmd_msg(msg, &encode_len);
+	unsigned char*  encode_data = proto_manager::encode_msg_to_raw(msg, &encode_len);
 
 	if (encode_data != NULL) {
-		this->send_data((const char*)encode_data, encode_len);
+		this->send_data(encode_data, encode_len);
 		proto_manager::cmd_msg_free(msg);
 	}
 	else {
-		printf("encode cmd msg failed\n");
+		//printf("encode_msg_to_raw failed\n");
 	}
 }
 

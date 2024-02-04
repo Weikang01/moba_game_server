@@ -152,6 +152,7 @@
     <ClCompile Include="..\..\netbus\service_manager.cc" />
     <ClCompile Include="..\..\netbus\session_uv.cc" />
     <ClCompile Include="..\..\netbus\tcp_protocol.cc" />
+    <ClCompile Include="..\..\netbus\udp_session.cc" />
     <ClCompile Include="..\..\netbus\ws_protocol.cc" />
     <ClCompile Include="..\..\utils\cache_alloc.c" />
     <ClCompile Include="..\..\utils\logger.cc" />
@@ -205,6 +206,7 @@
     <ClInclude Include="..\..\netbus\session.h" />
     <ClInclude Include="..\..\netbus\session_uv.h" />
     <ClInclude Include="..\..\netbus\tcp_protocol.h" />
+    <ClInclude Include="..\..\netbus\udp_session.h" />
     <ClInclude Include="..\..\netbus\ws_protocol.h" />
     <ClInclude Include="..\..\utils\cache_alloc.h" />
     <ClInclude Include="..\..\utils\logger.h" />
