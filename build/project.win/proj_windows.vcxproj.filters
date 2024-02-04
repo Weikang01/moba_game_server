@@ -187,6 +187,15 @@
     <ClCompile Include="..\..\netbus\service_manager.cc">
       <Filter>netbus</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\utils\time_list.c">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\utils\timestamp.c">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\utils\logger.cc">
+      <Filter>utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\vendor\libuv\include\android-ifaddrs.h">
@@ -314,6 +323,15 @@
     </ClInclude>
     <ClInclude Include="..\..\netbus\service_manager.h">
       <Filter>netbus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\utils\time_list.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\utils\timestamp.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\utils\logger.h">
+      <Filter>utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
