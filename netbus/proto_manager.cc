@@ -115,7 +115,7 @@ bool proto_manager::decode_cmd_msg(const char* in_data, int in_len, cmd_msg** ou
 	return true;
 }
 
-unsigned char* proto_manager::encode_cmd_msg(cmd_msg* msg, int* out_len)
+unsigned char* proto_manager::encode_msg_to_raw(cmd_msg* msg, int* out_len)
 {
 	int len = CMD_HEADER_SIZE;
 	if (msg->body) {
@@ -147,7 +147,7 @@ unsigned char* proto_manager::encode_cmd_msg(cmd_msg* msg, int* out_len)
 			}
 
 			// debug: print protobuf message
-			printf("encode_cmd_msg: %s\n", ((google::protobuf::Message*)msg->body)->DebugString().c_str());
+			//printf("encode_cmd_msg: %s\n", ((google::protobuf::Message*)msg->body)->DebugString().c_str());
 		}
 	}
 

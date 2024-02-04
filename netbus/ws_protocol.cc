@@ -94,7 +94,7 @@ bool ws_protocol::ws_shakehand(session* s, const char* data, int len)
 		static char response_buf[512];
 		sprintf(response_buf, response, base_buf);
 
-		s->send_data(response_buf, strlen(response_buf));
+		s->send_data((unsigned char*)response_buf, strlen(response_buf));
 
 		return true;
 	}
@@ -103,7 +103,7 @@ bool ws_protocol::ws_shakehand(session* s, const char* data, int len)
 			"Content-Length: 0\r\n"
 			"\r\n";
 
-		s->send_data(response, strlen(response));
+		s->send_data((unsigned char*)response, strlen(response));
 
 		return false;
 	}

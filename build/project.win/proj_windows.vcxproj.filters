@@ -196,6 +196,9 @@
     <ClCompile Include="..\..\utils\logger.cc">
       <Filter>utils</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\netbus\udp_session.cc">
+      <Filter>netbus</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\vendor\libuv\include\android-ifaddrs.h">
@@ -332,6 +335,9 @@
     </ClInclude>
     <ClInclude Include="..\..\utils\logger.h">
       <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\netbus\udp_session.h">
+      <Filter>netbus</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

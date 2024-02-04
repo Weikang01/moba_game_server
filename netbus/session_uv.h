@@ -39,7 +39,7 @@ public:
 
 public:
 	void close() override;
-	void send_data(const char* data, int len) override;
+	void send_data(unsigned char* data, int len) override;
 	void send_msg(cmd_msg* msg) override;
 	const char* get_address(int* client_port) override;
 };

@@ -20,7 +20,7 @@ public:
 	static int proto_type();
 
 	static bool decode_cmd_msg(const char* in_data, int in_len, cmd_msg** out_msg);
-	static unsigned char* encode_cmd_msg(cmd_msg* msg, int* out_len);
+	static unsigned char* encode_msg_to_raw(cmd_msg* msg, int* out_len);
 
 	static void cmd_msg_free(cmd_msg* msg);
 	static void raw_msg_free(char* raw_msg);
