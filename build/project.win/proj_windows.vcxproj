@@ -76,14 +76,14 @@
       <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)vendor\libuv\include;$(SolutionDir)vendor\http_parser;$(SolutionDir)vendor\crypto;$(SolutionDir)vendor\protobuf\src;$(SolutionDir)vendor\cJSON</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)vendor\libuv\include;$(SolutionDir)vendor\http_parser;$(SolutionDir)vendor\crypto;$(SolutionDir)vendor\protobuf\src;$(SolutionDir)vendor\cJSON;$(SolutionDir)vendor\mysql_connector\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalOptions>ws2_32.lib IPHLPAPI.lib Userenv.lib Psapi.lib libprotobufd.lib libprotocd.lib</AdditionalOptions>
+      <AdditionalOptions>ws2_32.lib IPHLPAPI.lib Userenv.lib Psapi.lib libprotobufd.lib libprotocd.lib mysqlcppconn.lib</AdditionalOptions>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)protobuf;</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)protobuf;$(SolutionDir)vendor\mysql_connector_debug\lib64\vs14;$(SolutionDir)vendor\mysql_connector_debug\lib64\vs14\debug</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -94,16 +94,16 @@
       <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)vendor\libuv\include;$(SolutionDir)vendor\http_parser;$(SolutionDir)vendor\crypto;$(SolutionDir)vendor\protobuf\src;$(SolutionDir)vendor\cJSON</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)vendor\libuv\include;$(SolutionDir)vendor\http_parser;$(SolutionDir)vendor\crypto;$(SolutionDir)vendor\protobuf\src;$(SolutionDir)vendor\cJSON;$(SolutionDir)vendor\mysql_connector\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalOptions>ws2_32.lib IPHLPAPI.lib Userenv.lib Psapi.lib libprotobufd.lib libprotocd.lib</AdditionalOptions>
+      <AdditionalOptions>ws2_32.lib IPHLPAPI.lib Userenv.lib Psapi.lib libprotobufd.lib libprotocd.lib mysqlcppconn.lib</AdditionalOptions>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)protobuf;</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)protobuf;$(SolutionDir)vendor\mysql_connector\lib64\vs14</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -112,14 +112,14 @@
       <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)vendor\libuv\include;$(SolutionDir)vendor\http_parser;$(SolutionDir)vendor\crypto;$(SolutionDir)vendor\protobuf\src;$(SolutionDir)vendor\cJSON</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)vendor\libuv\include;$(SolutionDir)vendor\http_parser;$(SolutionDir)vendor\crypto;$(SolutionDir)vendor\protobuf\src;$(SolutionDir)vendor\cJSON;$(SolutionDir)vendor\mysql_connector\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalOptions>ws2_32.lib IPHLPAPI.lib Userenv.lib Psapi.lib libprotobufd.lib libprotocd.lib</AdditionalOptions>
+      <AdditionalOptions>ws2_32.lib IPHLPAPI.lib Userenv.lib Psapi.lib libprotobufd.lib libprotocd.lib mysqlcppconn.lib</AdditionalOptions>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)protobuf;</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)protobuf;$(SolutionDir)vendor\mysql_connector_debug\lib64\vs14;$(SolutionDir)vendor\mysql_connector_debug\lib64\vs14\debug</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -130,22 +130,23 @@
       <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)vendor\libuv\include;$(SolutionDir)vendor\http_parser;$(SolutionDir)vendor\crypto;$(SolutionDir)vendor\protobuf\src;$(SolutionDir)vendor\cJSON</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)vendor\libuv\include;$(SolutionDir)vendor\http_parser;$(SolutionDir)vendor\crypto;$(SolutionDir)vendor\protobuf\src;$(SolutionDir)vendor\cJSON;$(SolutionDir)vendor\mysql_connector\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalOptions>ws2_32.lib IPHLPAPI.lib Userenv.lib Psapi.lib libprotobufd.lib libprotocd.lib</AdditionalOptions>
+      <AdditionalOptions>ws2_32.lib IPHLPAPI.lib Userenv.lib Psapi.lib libprotobufd.lib libprotocd.lib mysqlcppconn.lib</AdditionalOptions>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)protobuf;</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)protobuf;$(SolutionDir)vendor\mysql_connector\lib64\vs14</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\apps\test\main.cc" />
     <ClCompile Include="..\..\apps\test\proto\game.pb.cc" />
     <ClCompile Include="..\..\apps\test\proto\pf_cmd_map.cc" />
+    <ClCompile Include="..\..\database\mysql_wrapper.cc" />
     <ClCompile Include="..\..\netbus\netbus.cc" />
     <ClCompile Include="..\..\netbus\proto_manager.cc" />
     <ClCompile Include="..\..\netbus\service.cc" />
@@ -199,6 +200,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\apps\test\proto\game.pb.h" />
     <ClInclude Include="..\..\apps\test\proto\pf_cmd_map.h" />
+    <ClInclude Include="..\..\database\mysql_wrapper.h" />
     <ClInclude Include="..\..\netbus\netbus.h" />
     <ClInclude Include="..\..\netbus\proto_manager.h" />
     <ClInclude Include="..\..\netbus\service.h" />
@@ -243,6 +245,27 @@
     <ClInclude Include="..\..\vendor\libuv\src\win\stream-inl.h" />
     <ClInclude Include="..\..\vendor\libuv\src\win\winapi.h" />
     <ClInclude Include="..\..\vendor\libuv\src\win\winsock.h" />
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\build_config.h" />
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\callback.h" />
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\config.h" />
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\connection.h" />
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\datatype.h" />
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\driver.h" />
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\exception.h" />
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\metadata.h" />
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\parameter_metadata.h" />
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\prepared_statement.h" />
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\resultset.h" />
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\resultset_metadata.h" />
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\sqlstring.h" />
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\statement.h" />
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\variant.h" />
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\version_info.h" />
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\warning.h" />
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\mysql_connection.h" />
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\mysql_driver.h" />
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\mysql_error.h" />
+    <ClInclude Include="..\..\vendor\mysql_connector\include\mysql\jdbc.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\apps\test\proto\game.proto" />
