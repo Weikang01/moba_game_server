@@ -10,3 +10,9 @@
 [submodule "vendor/cJSON"]
 	path = vendor/cJSON
 	url = https://github.com/DaveGamble/cJSON.git
+[submodule "vendor/mysql_connector"]
+	path = vendor/mysql_connector
+	url = https://github.com/Weikang01/mysql-connector-c--8.3.0-winx64.git
+[submodule "vendor/mysql_connector_debug"]
+	path = vendor/mysql_connector_debug
+	url = https://github.com/Weikang01/mysql-connector-c--8.3.0-winx64-debug.git

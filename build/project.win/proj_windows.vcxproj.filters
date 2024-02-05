@@ -41,6 +41,21 @@
     <Filter Include="apps\test\proto">
       <UniqueIdentifier>{c83fd2d4-cf42-4081-aa63-cfadbba1ae3d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="database">
+      <UniqueIdentifier>{28a4f38d-bebe-4087-90fa-d9631337b924}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vendor\mysql_connector">
+      <UniqueIdentifier>{ea6ec78e-7a7f-489b-97fa-4da48e0d2992}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vendor\mysql_connector\mysql">
+      <UniqueIdentifier>{34017f03-9ce5-4922-8fa9-c6f92e53eee8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vendor\mysql_connector\jdbc">
+      <UniqueIdentifier>{41bf73c0-9582-4ffa-95dc-331cab1d7a6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vendor\mysql_connector\jdbc\cppconn">
+      <UniqueIdentifier>{08718cb6-52a4-4b64-a6d7-0ce17b7f9729}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\apps\test\main.cc">
@@ -199,6 +214,9 @@
     <ClCompile Include="..\..\netbus\udp_session.cc">
       <Filter>netbus</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\database\mysql_wrapper.cc">
+      <Filter>database</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\vendor\libuv\include\android-ifaddrs.h">
@@ -338,6 +356,72 @@
     </ClInclude>
     <ClInclude Include="..\..\netbus\udp_session.h">
       <Filter>netbus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\database\mysql_wrapper.h">
+      <Filter>database</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vendor\mysql_connector\include\mysql\jdbc.h">
+      <Filter>vendor\mysql_connector\mysql</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\mysql_connection.h">
+      <Filter>vendor\mysql_connector\jdbc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\mysql_driver.h">
+      <Filter>vendor\mysql_connector\jdbc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\mysql_error.h">
+      <Filter>vendor\mysql_connector\jdbc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\datatype.h">
+      <Filter>vendor\mysql_connector\jdbc\cppconn</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\driver.h">
+      <Filter>vendor\mysql_connector\jdbc\cppconn</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\exception.h">
+      <Filter>vendor\mysql_connector\jdbc\cppconn</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\metadata.h">
+      <Filter>vendor\mysql_connector\jdbc\cppconn</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\parameter_metadata.h">
+      <Filter>vendor\mysql_connector\jdbc\cppconn</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\prepared_statement.h">
+      <Filter>vendor\mysql_connector\jdbc\cppconn</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\resultset.h">
+      <Filter>vendor\mysql_connector\jdbc\cppconn</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\resultset_metadata.h">
+      <Filter>vendor\mysql_connector\jdbc\cppconn</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\sqlstring.h">
+      <Filter>vendor\mysql_connector\jdbc\cppconn</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\statement.h">
+      <Filter>vendor\mysql_connector\jdbc\cppconn</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\variant.h">
+      <Filter>vendor\mysql_connector\jdbc\cppconn</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\version_info.h">
+      <Filter>vendor\mysql_connector\jdbc\cppconn</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\warning.h">
+      <Filter>vendor\mysql_connector\jdbc\cppconn</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\build_config.h">
+      <Filter>vendor\mysql_connector\jdbc\cppconn</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\callback.h">
+      <Filter>vendor\mysql_connector\jdbc\cppconn</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\config.h">
+      <Filter>vendor\mysql_connector\jdbc\cppconn</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\connection.h">
+      <Filter>vendor\mysql_connector\jdbc\cppconn</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
