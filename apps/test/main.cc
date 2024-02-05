@@ -28,10 +28,12 @@ static void test_on_mysql_query(const char* erro, std::vector<std::vector<std::s
 		return;
 	}
 
-	for (size_t i = 0; i < result->size(); i++) {
-		std::vector<std::string>& row = (*result)[i];
-		for (size_t j = 0; j < row.size(); j++) {
-			log_debug("test_on_mysql_query: %s", row[j].c_str());
+	if (result) {
+		for (size_t i = 0; i < result->size(); i++) {
+			std::vector<std::string>& row = (*result)[i];
+			for (size_t j = 0; j < row.size(); j++) {
+				log_debug("test_on_mysql_query: %s", row[j].c_str());
+			}
 		}
 	}
 }
@@ -44,7 +46,7 @@ static void test_on_mysql_connect(const char* erro, void* context) {
 		return;
 	}
 
-	mysql_wrapper::query(context, "select * from countries", test_on_mysql_query);
+	mysql_wrapper::query(context, "insert into families (`name`, `family_size`) values('alex2', 12);", test_on_mysql_query);
 }
 
 static void test_mysql() {
