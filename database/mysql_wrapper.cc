@@ -161,15 +161,28 @@ static void query_work(uv_work_t* req) {
 			r_size = 1;
 		}
 		if (!r_size)
+		{
 			r->result = NULL;
+			r->err = NULL;
+		}
 
 		delete res;
 		delete stmt;
 	}
 	catch (const std::exception& e)
 	{
-		r->result = NULL;
-		r->err = (char*)e.what();
+		// if e is "no result available" then it's not an error
+		if (strcmp(e.what(), "No result available") == 0)
+		{
+			r->result = NULL;
+			r->err = NULL;
+		}
+		else
+		{
+			r->result = NULL;
+			r->err = (char*)e.what();
+			printf("query_work exception: %s\n", e.what());
+		}
 	}
 
 	uv_mutex_unlock(&my_conn->lock);
@@ -178,13 +191,19 @@ static void query_work(uv_work_t* req) {
 static void on_query_work_complete(uv_work_t* req, int status) {
 	query_req* r = (query_req*)req->data;
 	r->query_cb(r->err, r->result);
+
+	int has_result = 0;
 	
 	if (r->sql)
 		free(r->sql);
 	if (r->result)
+	{
 		delete r->result;
-	if (r->err)
-		free(r->err);
+		has_result = 1;
+		//if (r->err)
+		//	free(r->err);
+	}
+
 
 	my_free(r);
 	my_free(req);
