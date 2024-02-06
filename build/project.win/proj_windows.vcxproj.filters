@@ -68,6 +68,9 @@
     <Filter Include="lua_wrapper">
       <UniqueIdentifier>{2904b970-95cc-4f23-a91c-ab9d20dbbf95}</UniqueIdentifier>
     </Filter>
+    <Filter Include="script">
+      <UniqueIdentifier>{cfbfb545-7704-43a3-8da2-316f332c48ae}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\apps\test\main.cc">
