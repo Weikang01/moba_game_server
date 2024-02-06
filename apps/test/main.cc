@@ -6,6 +6,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <hiredis.h>
 
 #include "../../utils/logger.h"
 #include "../../utils/time_list.h"
@@ -14,6 +15,7 @@
 #include "../../netbus/netbus.h"
 #include "proto/pf_cmd_map.h"
 #include "../../database/mysql_wrapper.h"
+#include "../../database/redis_wrapper.h"
 
 
 
@@ -53,6 +55,49 @@ static void test_mysql() {
 	mysql_wrapper::connect("127.0.0.1", 3306, "root", "123", "test_database", test_on_mysql_connect);
 }
 
+static void test_on_redis_query(const char* erro, void* result, int result_type) {
+	printf("test_on_redis_query\n");
+	if (erro != NULL) {
+		log_error("test_on_redis_query error: %s", erro);
+		return;
+	}
+	redisReply* reply = (redisReply*)result;
+
+	if (result) {
+		if (result_type == REDIS_REPLY_STRING) {
+			log_debug("test_on_redis_query: %s", (char*)result);
+		}
+		else if (result_type == REDIS_REPLY_ARRAY) {
+			for (size_t i = 0; i < reply->elements; i++) {
+				log_debug("test_on_redis_query: %s", reply->element[i]->str);
+			}
+		}
+		else {
+			log_debug("test_on_redis_query: result_type: %d", result_type);
+		}
+	}
+	else {
+		log_debug("test_on_redis_query: result is NULL");
+	}
+}
+
+static void test_on_redis_connect(const char* erro, void* context) {
+	printf("test_on_redis_connect\n");
+	if (erro != NULL) {
+		log_error("test_on_redis_connect error: %s", erro);
+		return;
+	}
+
+	const char* name = "alex";
+	redis_wrapper::query(context, NULL, "set test32 %s", name);
+
+	redis_wrapper::query(context, test_on_redis_query, "get test32");
+}
+
+static void test_redis() {
+	redis_wrapper::connect("127.0.0.1", 6379, test_on_redis_connect);
+}
+
 int main(int argc, char** argv) {
 	proto_manager::init(PROTO_BUF);
 	pf_cmd_map_init();
@@ -60,7 +105,8 @@ int main(int argc, char** argv) {
 
 	log_debug("test log_debug");
 
-	test_mysql();
+	//test_mysql();
+	//test_redis();
 
 	netbus::instance()->init();
 
