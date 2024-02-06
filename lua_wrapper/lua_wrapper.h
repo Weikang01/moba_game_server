@@ -10,6 +10,8 @@ public:
 	static void exit();
 
 	static bool execute_script_file(const char* file_path);
+
+	static void register_function(const char* name, lua_CFunction func);
 };
 
 #endif // __LUA_WRAPPER_H__
