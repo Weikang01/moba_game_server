@@ -16,3 +16,6 @@
 [submodule "vendor/mysql_connector_debug"]
 	path = vendor/mysql_connector_debug
 	url = https://github.com/Weikang01/mysql-connector-c--8.3.0-winx64-debug.git
+[submodule "vendor/hiredis"]
+	path = vendor/hiredis
+	url = https://github.com/redis/hiredis.git

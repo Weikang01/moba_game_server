@@ -76,14 +76,14 @@
       <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)vendor\libuv\include;$(SolutionDir)vendor\http_parser;$(SolutionDir)vendor\crypto;$(SolutionDir)vendor\protobuf\src;$(SolutionDir)vendor\cJSON;$(SolutionDir)vendor\mysql_connector\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)vendor\libuv\include;$(SolutionDir)vendor\http_parser;$(SolutionDir)vendor\crypto;$(SolutionDir)vendor\protobuf\src;$(SolutionDir)vendor\cJSON;$(SolutionDir)vendor\mysql_connector\include;$(SolutionDir)vendor\hiredis</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalOptions>ws2_32.lib IPHLPAPI.lib Userenv.lib Psapi.lib libprotobufd.lib libprotocd.lib mysqlcppconn.lib</AdditionalOptions>
+      <AdditionalOptions>ws2_32.lib IPHLPAPI.lib Userenv.lib Psapi.lib libprotobufd.lib libprotocd.lib mysqlcppconn.lib hiredisd.lib</AdditionalOptions>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)protobuf;$(SolutionDir)vendor\mysql_connector_debug\lib64\vs14;$(SolutionDir)vendor\mysql_connector_debug\lib64\vs14\debug</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)protobuf;$(SolutionDir)vendor\mysql_connector_debug\lib64\vs14;$(SolutionDir)vendor\mysql_connector_debug\lib64\vs14\debug;$(ProjectDir)hiredis\Debug</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -94,16 +94,16 @@
       <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)vendor\libuv\include;$(SolutionDir)vendor\http_parser;$(SolutionDir)vendor\crypto;$(SolutionDir)vendor\protobuf\src;$(SolutionDir)vendor\cJSON;$(SolutionDir)vendor\mysql_connector\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)vendor\libuv\include;$(SolutionDir)vendor\http_parser;$(SolutionDir)vendor\crypto;$(SolutionDir)vendor\protobuf\src;$(SolutionDir)vendor\cJSON;$(SolutionDir)vendor\mysql_connector\include;$(SolutionDir)vendor\hiredis</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalOptions>ws2_32.lib IPHLPAPI.lib Userenv.lib Psapi.lib libprotobufd.lib libprotocd.lib mysqlcppconn.lib</AdditionalOptions>
+      <AdditionalOptions>ws2_32.lib IPHLPAPI.lib Userenv.lib Psapi.lib libprotobufd.lib libprotocd.lib mysqlcppconn.lib hiredis.lib</AdditionalOptions>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)protobuf;$(SolutionDir)vendor\mysql_connector\lib64\vs14</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)protobuf;$(SolutionDir)vendor\mysql_connector\lib64\vs14;$(ProjectDir)hiredis\Release</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -112,14 +112,14 @@
       <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)vendor\libuv\include;$(SolutionDir)vendor\http_parser;$(SolutionDir)vendor\crypto;$(SolutionDir)vendor\protobuf\src;$(SolutionDir)vendor\cJSON;$(SolutionDir)vendor\mysql_connector\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)vendor\libuv\include;$(SolutionDir)vendor\http_parser;$(SolutionDir)vendor\crypto;$(SolutionDir)vendor\protobuf\src;$(SolutionDir)vendor\cJSON;$(SolutionDir)vendor\mysql_connector\include;$(SolutionDir)vendor\hiredis</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalOptions>ws2_32.lib IPHLPAPI.lib Userenv.lib Psapi.lib libprotobufd.lib libprotocd.lib mysqlcppconn.lib</AdditionalOptions>
+      <AdditionalOptions>ws2_32.lib IPHLPAPI.lib Userenv.lib Psapi.lib libprotobufd.lib libprotocd.lib mysqlcppconn.lib hiredisd.lib</AdditionalOptions>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)protobuf;$(SolutionDir)vendor\mysql_connector_debug\lib64\vs14;$(SolutionDir)vendor\mysql_connector_debug\lib64\vs14\debug</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)protobuf;$(SolutionDir)vendor\mysql_connector_debug\lib64\vs14;$(SolutionDir)vendor\mysql_connector_debug\lib64\vs14\debug;$(ProjectDir)hiredis\Debug</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -130,16 +130,16 @@
       <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)vendor\libuv\include;$(SolutionDir)vendor\http_parser;$(SolutionDir)vendor\crypto;$(SolutionDir)vendor\protobuf\src;$(SolutionDir)vendor\cJSON;$(SolutionDir)vendor\mysql_connector\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)vendor\libuv\include;$(SolutionDir)vendor\http_parser;$(SolutionDir)vendor\crypto;$(SolutionDir)vendor\protobuf\src;$(SolutionDir)vendor\cJSON;$(SolutionDir)vendor\mysql_connector\include;$(SolutionDir)vendor\hiredis</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalOptions>ws2_32.lib IPHLPAPI.lib Userenv.lib Psapi.lib libprotobufd.lib libprotocd.lib mysqlcppconn.lib</AdditionalOptions>
+      <AdditionalOptions>ws2_32.lib IPHLPAPI.lib Userenv.lib Psapi.lib libprotobufd.lib libprotocd.lib mysqlcppconn.lib hiredis.lib</AdditionalOptions>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)protobuf;$(SolutionDir)vendor\mysql_connector\lib64\vs14</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)protobuf;$(SolutionDir)vendor\mysql_connector\lib64\vs14;$(ProjectDir)hiredis\Release</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -147,6 +147,7 @@
     <ClCompile Include="..\..\apps\test\proto\game.pb.cc" />
     <ClCompile Include="..\..\apps\test\proto\pf_cmd_map.cc" />
     <ClCompile Include="..\..\database\mysql_wrapper.cc" />
+    <ClCompile Include="..\..\database\redis_wrapper.cc" />
     <ClCompile Include="..\..\netbus\netbus.cc" />
     <ClCompile Include="..\..\netbus\proto_manager.cc" />
     <ClCompile Include="..\..\netbus\service.cc" />
@@ -201,6 +202,7 @@
     <ClInclude Include="..\..\apps\test\proto\game.pb.h" />
     <ClInclude Include="..\..\apps\test\proto\pf_cmd_map.h" />
     <ClInclude Include="..\..\database\mysql_wrapper.h" />
+    <ClInclude Include="..\..\database\redis_wrapper.h" />
     <ClInclude Include="..\..\netbus\netbus.h" />
     <ClInclude Include="..\..\netbus\proto_manager.h" />
     <ClInclude Include="..\..\netbus\service.h" />
@@ -219,6 +221,20 @@
     <ClInclude Include="..\..\vendor\crypto\base64_encoder.h" />
     <ClInclude Include="..\..\vendor\crypto\md5.h" />
     <ClInclude Include="..\..\vendor\crypto\sha1.h" />
+    <ClInclude Include="..\..\vendor\hiredis\adapters\libuv.h" />
+    <ClInclude Include="..\..\vendor\hiredis\alloc.h" />
+    <ClInclude Include="..\..\vendor\hiredis\async.h" />
+    <ClInclude Include="..\..\vendor\hiredis\async_private.h" />
+    <ClInclude Include="..\..\vendor\hiredis\dict.h" />
+    <ClInclude Include="..\..\vendor\hiredis\fmacros.h" />
+    <ClInclude Include="..\..\vendor\hiredis\hiredis.h" />
+    <ClInclude Include="..\..\vendor\hiredis\hiredis_ssl.h" />
+    <ClInclude Include="..\..\vendor\hiredis\net.h" />
+    <ClInclude Include="..\..\vendor\hiredis\read.h" />
+    <ClInclude Include="..\..\vendor\hiredis\sds.h" />
+    <ClInclude Include="..\..\vendor\hiredis\sdsalloc.h" />
+    <ClInclude Include="..\..\vendor\hiredis\sockcompat.h" />
+    <ClInclude Include="..\..\vendor\hiredis\win32.h" />
     <ClInclude Include="..\..\vendor\http_parser\http_parser.h" />
     <ClInclude Include="..\..\vendor\libuv\include\android-ifaddrs.h" />
     <ClInclude Include="..\..\vendor\libuv\include\pthread-barrier.h" />

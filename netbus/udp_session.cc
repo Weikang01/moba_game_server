@@ -30,7 +30,6 @@ void udp_session::send_data(unsigned char* data, int len)
 	uv_udp_send_t* send_req = (uv_udp_send_t*)malloc(sizeof(uv_udp_send_t));
 	uv_buf_t send_buf = uv_buf_init((char*)data, len);
 	int send_ret = uv_udp_send(send_req, this->udp_handler, &send_buf, 1, this->addr, on_uv_send_finished);
-
 }
 
 void udp_session::send_msg(cmd_msg* msg)

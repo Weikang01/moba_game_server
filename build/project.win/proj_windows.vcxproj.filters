@@ -56,6 +56,12 @@
     <Filter Include="vendor\mysql_connector\jdbc\cppconn">
       <UniqueIdentifier>{08718cb6-52a4-4b64-a6d7-0ce17b7f9729}</UniqueIdentifier>
     </Filter>
+    <Filter Include="vendor\hiredis">
+      <UniqueIdentifier>{bbf61fcf-52a7-490c-b75e-36a3937433df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vendor\hiredis\adapters">
+      <UniqueIdentifier>{06365a7d-a972-4903-87e6-a0781274691e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\apps\test\main.cc">
@@ -215,6 +221,9 @@
       <Filter>netbus</Filter>
     </ClCompile>
     <ClCompile Include="..\..\database\mysql_wrapper.cc">
+      <Filter>database</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\database\redis_wrapper.cc">
       <Filter>database</Filter>
     </ClCompile>
   </ItemGroup>
@@ -422,6 +431,51 @@
     </ClInclude>
     <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\connection.h">
       <Filter>vendor\mysql_connector\jdbc\cppconn</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vendor\hiredis\alloc.h">
+      <Filter>vendor\hiredis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vendor\hiredis\async.h">
+      <Filter>vendor\hiredis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vendor\hiredis\async_private.h">
+      <Filter>vendor\hiredis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vendor\hiredis\dict.h">
+      <Filter>vendor\hiredis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vendor\hiredis\fmacros.h">
+      <Filter>vendor\hiredis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vendor\hiredis\hiredis.h">
+      <Filter>vendor\hiredis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vendor\hiredis\hiredis_ssl.h">
+      <Filter>vendor\hiredis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vendor\hiredis\net.h">
+      <Filter>vendor\hiredis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vendor\hiredis\read.h">
+      <Filter>vendor\hiredis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vendor\hiredis\sds.h">
+      <Filter>vendor\hiredis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vendor\hiredis\sdsalloc.h">
+      <Filter>vendor\hiredis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vendor\hiredis\sockcompat.h">
+      <Filter>vendor\hiredis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vendor\hiredis\win32.h">
+      <Filter>vendor\hiredis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vendor\hiredis\adapters\libuv.h">
+      <Filter>vendor\hiredis\adapters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\database\redis_wrapper.h">
+      <Filter>database</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
