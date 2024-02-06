@@ -76,7 +76,7 @@
       <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)vendor\libuv\include;$(SolutionDir)vendor\http_parser;$(SolutionDir)vendor\crypto;$(SolutionDir)vendor\protobuf\src;$(SolutionDir)vendor\cJSON;$(SolutionDir)vendor\mysql_connector\include;$(SolutionDir)vendor\hiredis</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)vendor\libuv\include;$(SolutionDir)vendor\http_parser;$(SolutionDir)vendor\crypto;$(SolutionDir)vendor\protobuf\src;$(SolutionDir)vendor\cJSON;$(SolutionDir)vendor\mysql_connector\include;$(SolutionDir)vendor\hiredis;$(SolutionDir)vendor\lua\src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -94,7 +94,7 @@
       <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)vendor\libuv\include;$(SolutionDir)vendor\http_parser;$(SolutionDir)vendor\crypto;$(SolutionDir)vendor\protobuf\src;$(SolutionDir)vendor\cJSON;$(SolutionDir)vendor\mysql_connector\include;$(SolutionDir)vendor\hiredis</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)vendor\libuv\include;$(SolutionDir)vendor\http_parser;$(SolutionDir)vendor\crypto;$(SolutionDir)vendor\protobuf\src;$(SolutionDir)vendor\cJSON;$(SolutionDir)vendor\mysql_connector\include;$(SolutionDir)vendor\hiredis;$(SolutionDir)vendor\lua\src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -112,7 +112,7 @@
       <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)vendor\libuv\include;$(SolutionDir)vendor\http_parser;$(SolutionDir)vendor\crypto;$(SolutionDir)vendor\protobuf\src;$(SolutionDir)vendor\cJSON;$(SolutionDir)vendor\mysql_connector\include;$(SolutionDir)vendor\hiredis</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)vendor\libuv\include;$(SolutionDir)vendor\http_parser;$(SolutionDir)vendor\crypto;$(SolutionDir)vendor\protobuf\src;$(SolutionDir)vendor\cJSON;$(SolutionDir)vendor\mysql_connector\include;$(SolutionDir)vendor\hiredis;$(SolutionDir)vendor\lua\src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -130,7 +130,7 @@
       <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)vendor\libuv\include;$(SolutionDir)vendor\http_parser;$(SolutionDir)vendor\crypto;$(SolutionDir)vendor\protobuf\src;$(SolutionDir)vendor\cJSON;$(SolutionDir)vendor\mysql_connector\include;$(SolutionDir)vendor\hiredis</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)vendor\libuv\include;$(SolutionDir)vendor\http_parser;$(SolutionDir)vendor\crypto;$(SolutionDir)vendor\protobuf\src;$(SolutionDir)vendor\cJSON;$(SolutionDir)vendor\mysql_connector\include;$(SolutionDir)vendor\hiredis;$(SolutionDir)vendor\lua\src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -148,6 +148,7 @@
     <ClCompile Include="..\..\apps\test\proto\pf_cmd_map.cc" />
     <ClCompile Include="..\..\database\mysql_wrapper.cc" />
     <ClCompile Include="..\..\database\redis_wrapper.cc" />
+    <ClCompile Include="..\..\lua_wrapper\lua_wrapper.cc" />
     <ClCompile Include="..\..\netbus\netbus.cc" />
     <ClCompile Include="..\..\netbus\proto_manager.cc" />
     <ClCompile Include="..\..\netbus\service.cc" />
@@ -197,12 +198,45 @@
     <ClCompile Include="..\..\vendor\libuv\src\win\util.c" />
     <ClCompile Include="..\..\vendor\libuv\src\win\winapi.c" />
     <ClCompile Include="..\..\vendor\libuv\src\win\winsock.c" />
+    <ClCompile Include="..\..\vendor\lua\src\lapi.c" />
+    <ClCompile Include="..\..\vendor\lua\src\lauxlib.c" />
+    <ClCompile Include="..\..\vendor\lua\src\lbaselib.c" />
+    <ClCompile Include="..\..\vendor\lua\src\lcode.c" />
+    <ClCompile Include="..\..\vendor\lua\src\lcorolib.c" />
+    <ClCompile Include="..\..\vendor\lua\src\lctype.c" />
+    <ClCompile Include="..\..\vendor\lua\src\ldblib.c" />
+    <ClCompile Include="..\..\vendor\lua\src\ldebug.c" />
+    <ClCompile Include="..\..\vendor\lua\src\ldo.c" />
+    <ClCompile Include="..\..\vendor\lua\src\ldump.c" />
+    <ClCompile Include="..\..\vendor\lua\src\lfunc.c" />
+    <ClCompile Include="..\..\vendor\lua\src\lgc.c" />
+    <ClCompile Include="..\..\vendor\lua\src\linit.c" />
+    <ClCompile Include="..\..\vendor\lua\src\liolib.c" />
+    <ClCompile Include="..\..\vendor\lua\src\llex.c" />
+    <ClCompile Include="..\..\vendor\lua\src\lmathlib.c" />
+    <ClCompile Include="..\..\vendor\lua\src\lmem.c" />
+    <ClCompile Include="..\..\vendor\lua\src\loadlib.c" />
+    <ClCompile Include="..\..\vendor\lua\src\lobject.c" />
+    <ClCompile Include="..\..\vendor\lua\src\lopcodes.c" />
+    <ClCompile Include="..\..\vendor\lua\src\loslib.c" />
+    <ClCompile Include="..\..\vendor\lua\src\lparser.c" />
+    <ClCompile Include="..\..\vendor\lua\src\lstate.c" />
+    <ClCompile Include="..\..\vendor\lua\src\lstring.c" />
+    <ClCompile Include="..\..\vendor\lua\src\lstrlib.c" />
+    <ClCompile Include="..\..\vendor\lua\src\ltable.c" />
+    <ClCompile Include="..\..\vendor\lua\src\ltablib.c" />
+    <ClCompile Include="..\..\vendor\lua\src\ltm.c" />
+    <ClCompile Include="..\..\vendor\lua\src\lundump.c" />
+    <ClCompile Include="..\..\vendor\lua\src\lutf8lib.c" />
+    <ClCompile Include="..\..\vendor\lua\src\lvm.c" />
+    <ClCompile Include="..\..\vendor\lua\src\lzio.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\apps\test\proto\game.pb.h" />
     <ClInclude Include="..\..\apps\test\proto\pf_cmd_map.h" />
     <ClInclude Include="..\..\database\mysql_wrapper.h" />
     <ClInclude Include="..\..\database\redis_wrapper.h" />
+    <ClInclude Include="..\..\lua_wrapper\lua_wrapper.h" />
     <ClInclude Include="..\..\netbus\netbus.h" />
     <ClInclude Include="..\..\netbus\proto_manager.h" />
     <ClInclude Include="..\..\netbus\service.h" />
@@ -261,6 +295,34 @@
     <ClInclude Include="..\..\vendor\libuv\src\win\stream-inl.h" />
     <ClInclude Include="..\..\vendor\libuv\src\win\winapi.h" />
     <ClInclude Include="..\..\vendor\libuv\src\win\winsock.h" />
+    <ClInclude Include="..\..\vendor\lua\src\lapi.h" />
+    <ClInclude Include="..\..\vendor\lua\src\lauxlib.h" />
+    <ClInclude Include="..\..\vendor\lua\src\lcode.h" />
+    <ClInclude Include="..\..\vendor\lua\src\lctype.h" />
+    <ClInclude Include="..\..\vendor\lua\src\ldebug.h" />
+    <ClInclude Include="..\..\vendor\lua\src\ldo.h" />
+    <ClInclude Include="..\..\vendor\lua\src\lfunc.h" />
+    <ClInclude Include="..\..\vendor\lua\src\lgc.h" />
+    <ClInclude Include="..\..\vendor\lua\src\ljumptab.h" />
+    <ClInclude Include="..\..\vendor\lua\src\llex.h" />
+    <ClInclude Include="..\..\vendor\lua\src\llimits.h" />
+    <ClInclude Include="..\..\vendor\lua\src\lmem.h" />
+    <ClInclude Include="..\..\vendor\lua\src\lobject.h" />
+    <ClInclude Include="..\..\vendor\lua\src\lopcodes.h" />
+    <ClInclude Include="..\..\vendor\lua\src\lopnames.h" />
+    <ClInclude Include="..\..\vendor\lua\src\lparser.h" />
+    <ClInclude Include="..\..\vendor\lua\src\lprefix.h" />
+    <ClInclude Include="..\..\vendor\lua\src\lstate.h" />
+    <ClInclude Include="..\..\vendor\lua\src\lstring.h" />
+    <ClInclude Include="..\..\vendor\lua\src\ltable.h" />
+    <ClInclude Include="..\..\vendor\lua\src\ltm.h" />
+    <ClInclude Include="..\..\vendor\lua\src\lua.h" />
+    <ClInclude Include="..\..\vendor\lua\src\lua.hpp" />
+    <ClInclude Include="..\..\vendor\lua\src\luaconf.h" />
+    <ClInclude Include="..\..\vendor\lua\src\lualib.h" />
+    <ClInclude Include="..\..\vendor\lua\src\lundump.h" />
+    <ClInclude Include="..\..\vendor\lua\src\lvm.h" />
+    <ClInclude Include="..\..\vendor\lua\src\lzio.h" />
     <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\build_config.h" />
     <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\callback.h" />
     <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\config.h" />

@@ -16,6 +16,7 @@
 #include "proto/pf_cmd_map.h"
 #include "../../database/mysql_wrapper.h"
 #include "../../database/redis_wrapper.h"
+#include "../../lua_wrapper/lua_wrapper.h"
 
 
 
@@ -103,8 +104,6 @@ int main(int argc, char** argv) {
 	pf_cmd_map_init();
 	logger::init("log/test", "netbus_log", true, LOG_TIMEZONE_EST);
 
-	log_debug("test log_debug");
-
 	//test_mysql();
 	//test_redis();
 
@@ -114,6 +113,13 @@ int main(int argc, char** argv) {
 	//netbus::instance()->start_ws_server(8043);
 	//netbus::instance()->start_udp_server(8063);
 
+	// initiate script
+	lua_wrapper::init();
+	lua_wrapper::execute_script_file("./main.lua");
+
+
 	netbus::instance()->run();
+
+	lua_wrapper::exit();
   return 0;
 }

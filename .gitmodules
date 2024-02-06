@@ -19,3 +19,6 @@
 [submodule "vendor/hiredis"]
 	path = vendor/hiredis
 	url = https://github.com/redis/hiredis.git
+[submodule "vendor/lua"]
+	path = vendor/lua
+	url = https://github.com/Weikang01/lua-5.4.6.git
