@@ -10,6 +10,7 @@
 #include "../utils/logger.h"
 #include "mysql_export_to_lua.h"
 #include "redis_export_to_lua.h"
+#include "service_export_to_lua.h"
 
 
 lua_State* g_lua_state = NULL;
@@ -76,6 +77,7 @@ void lua_wrapper::init()
 
 	register_mysql_export(g_lua_state);
 	register_redis_export(g_lua_state);
+	register_service_export(g_lua_state);
 
 	// export log
 	lua_register(g_lua_state, "log_debug", lua_log_debug);
