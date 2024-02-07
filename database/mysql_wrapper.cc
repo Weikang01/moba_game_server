@@ -147,9 +147,10 @@ void mysql_wrapper::connect(const char* host, const int port, const char* user, 
 struct query_req {
 	void* context;
 	char* sql;
-	void(*query_cb)(const char* err, std::vector<std::vector<std::string>>* result);
-	std::vector<std::vector<std::string>>* result;
+	void(*query_cb)(const char* err, sql::ResultSet* result, void* udata);
+	sql::ResultSet* result;
 	char* err;
+	void* udata;
 };
 
 static void query_work(uv_work_t* req) {
@@ -164,24 +165,13 @@ static void query_work(uv_work_t* req) {
 		sql::Statement* stmt = context->createStatement();
 		sql::ResultSet* res = stmt->executeQuery(r->sql);
 
-		r->result = new std::vector<std::vector<std::string>>();
-
-		int r_size = 0;
-		while (res->next()) {
-			std::vector<std::string> row;
-			for (unsigned int i = 1; i <= res->getMetaData()->getColumnCount(); i++) {
-				row.push_back(res->getString(i));
-			}
-			((std::vector<std::vector<std::string>>*)(r->result))->push_back(row);
-			r_size = 1;
-		}
-		if (!r_size)
-		{
+		if (res->rowsCount() > 0)
+			r->result = res;
+		else
 			r->result = NULL;
-			r->err = NULL;
-		}
+		r->err = NULL;
 
-		delete res;
+		//delete res;
 		delete stmt;
 	}
 	catch (const std::exception& e)
@@ -205,7 +195,7 @@ static void query_work(uv_work_t* req) {
 
 static void on_query_work_complete(uv_work_t* req, int status) {
 	query_req* r = (query_req*)req->data;
-	r->query_cb(r->err, r->result);
+	r->query_cb(r->err, r->result, r->udata);
 
 	int has_result = 0;
 	
@@ -213,7 +203,7 @@ static void on_query_work_complete(uv_work_t* req, int status) {
 		free(r->sql);
 	if (r->result)
 	{
-		delete r->result;
+		//delete r->result;
 		has_result = 1;
 		//if (r->err)
 		//	free(r->err);
@@ -224,7 +214,7 @@ static void on_query_work_complete(uv_work_t* req, int status) {
 }
 
 
-void mysql_wrapper::query(void* context, const char* sql, void(*query_cb)(const char* err, std::vector<std::vector<std::string>>* result))
+void mysql_wrapper::query(void* context, const char* sql, void(*query_cb)(const char* err, sql::ResultSet* result, void* udata), void* udata)
 {
 	struct mysql_context* c = (struct mysql_context*)context;
 	if (c->is_closing) {
@@ -240,6 +230,7 @@ void mysql_wrapper::query(void* context, const char* sql, void(*query_cb)(const 
 	r->context = context;
 	r->sql = strdup(sql);
 	r->query_cb = query_cb;
+	r->udata = udata;
 
 	req->data = r;
 	uv_queue_work(uv_default_loop(), req, query_work, on_query_work_complete);

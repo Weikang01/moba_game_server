@@ -24,7 +24,7 @@ static void on_logger_timer(void* user_data) {
 	log_debug("on_logger_timer");
 }
 
-static void test_on_mysql_query(const char* erro, std::vector<std::vector<std::string>>* result) {
+static void test_on_mysql_query(const char* erro, sql::ResultSet* result, void* udata) {
 	printf("test_on_mysql_query\n");
 	if (erro != NULL) {
 		log_error("test_on_mysql_query error: %s", erro);
@@ -32,12 +32,12 @@ static void test_on_mysql_query(const char* erro, std::vector<std::vector<std::s
 	}
 
 	if (result) {
-		for (size_t i = 0; i < result->size(); i++) {
-			std::vector<std::string>& row = (*result)[i];
-			for (size_t j = 0; j < row.size(); j++) {
-				log_debug("test_on_mysql_query: %s", row[j].c_str());
-			}
+		while (result->next()) {
+			log_debug("test_on_mysql_query: %s, %d", result->getString("name").c_str(), result->getInt("family_size"));
 		}
+	}
+	else {
+		log_debug("test_on_mysql_query: no result");
 	}
 }
 
@@ -56,29 +56,18 @@ static void test_mysql() {
 	mysql_wrapper::connect("127.0.0.1", 3306, "root", "123", "test_database", test_on_mysql_connect);
 }
 
-static void test_on_redis_query(const char* erro, void* result, int result_type) {
+static void test_on_redis_query(const char* erro, redisReply* result) {
 	printf("test_on_redis_query\n");
 	if (erro != NULL) {
 		log_error("test_on_redis_query error: %s", erro);
 		return;
 	}
-	redisReply* reply = (redisReply*)result;
 
 	if (result) {
-		if (result_type == REDIS_REPLY_STRING) {
-			log_debug("test_on_redis_query: %s", (char*)result);
-		}
-		else if (result_type == REDIS_REPLY_ARRAY) {
-			for (size_t i = 0; i < reply->elements; i++) {
-				log_debug("test_on_redis_query: %s", reply->element[i]->str);
-			}
-		}
-		else {
-			log_debug("test_on_redis_query: result_type: %d", result_type);
-		}
+		log_debug("test_on_redis_query: %s", result->str);
 	}
 	else {
-		log_debug("test_on_redis_query: result is NULL");
+		log_debug("test_on_redis_query: no result");
 	}
 }
 

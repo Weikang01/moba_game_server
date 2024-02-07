@@ -76,8 +76,8 @@ void redis_wrapper::connect(const char* host, const int port, void(*open_cb)(con
 struct query_req {
 	void* redis_context;
 	char* sql;
-	void(*query_cb)(const char* err, void* result, int result_type);
-	void* result;
+	void(*query_cb)(const char* err, redisReply* result);
+	redisReply* result;
 	int type;
 	char* err;
 };
@@ -89,32 +89,15 @@ void getCallback(redisAsyncContext* c, void* r, void* privdata) {
 
 	if (reply == NULL) {
 		query_req->err = strdup(c->errstr);
-		query_req->query_cb(query_req->err, NULL, 0);
+		query_req->query_cb(query_req->err, NULL);
 		return;
 	}
 
-	if (reply->type == REDIS_REPLY_STRING) {
-		query_req->result = strdup(reply->str);
-		query_req->type = reply->type;
-		query_req->query_cb(NULL, query_req->result, reply->type);
-	}
-	else if (reply->type == REDIS_REPLY_INTEGER) {
-		query_req->result = (void*)reply->integer;
-		query_req->type = reply->type;
-		query_req->query_cb(NULL, query_req->result, reply->type);
-	}
-	else if (reply->type == REDIS_REPLY_ARRAY) {
-		query_req->result = (void*)reply->elements;
-		query_req->type = reply->type;
-		query_req->query_cb(NULL, query_req->result, reply->type);
-	}
-	else {
-		query_req->err = strdup("Unknown reply type");
-		query_req->query_cb(query_req->err, NULL, 0);
-	}
+	query_req->result = reply;
+	query_req->query_cb(NULL, query_req->result);
 }
 
-void redis_wrapper::query(void* context, void(*query_cb)(const char* err, void* result, int result_type), const char* sql, ...)
+void redis_wrapper::query(void* context, void(*query_cb)(const char* err, redisReply* result), const char* sql, ...)
 {
 	struct redis_context* redis_con = (struct redis_context*)context;
 	if (redis_con->is_closing) {
