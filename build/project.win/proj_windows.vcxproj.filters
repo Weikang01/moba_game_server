@@ -68,8 +68,8 @@
     <Filter Include="lua_wrapper">
       <UniqueIdentifier>{2904b970-95cc-4f23-a91c-ab9d20dbbf95}</UniqueIdentifier>
     </Filter>
-    <Filter Include="script">
-      <UniqueIdentifier>{cfbfb545-7704-43a3-8da2-316f332c48ae}</UniqueIdentifier>
+    <Filter Include="vendor\tolua">
+      <UniqueIdentifier>{e5ef8505-c489-4476-a86e-b17fb2e8a876}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -333,6 +333,27 @@
     </ClCompile>
     <ClCompile Include="..\..\lua_wrapper\lua_wrapper.cc">
       <Filter>lua_wrapper</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\vendor\tolua\tolua_event.c">
+      <Filter>vendor\tolua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\vendor\tolua\tolua_fix.cc">
+      <Filter>vendor\tolua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\vendor\tolua\tolua_is.c">
+      <Filter>vendor\tolua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\vendor\tolua\tolua_map.c">
+      <Filter>vendor\tolua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\vendor\tolua\tolua_push.c">
+      <Filter>vendor\tolua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\vendor\tolua\tolua_to.c">
+      <Filter>vendor\tolua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\database\mysql_export_to_lua.cc">
+      <Filter>database</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -671,6 +692,18 @@
     </ClInclude>
     <ClInclude Include="..\..\lua_wrapper\lua_wrapper.h">
       <Filter>lua_wrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vendor\tolua\tolua_event.h">
+      <Filter>vendor\tolua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vendor\tolua\tolua_fix.h">
+      <Filter>vendor\tolua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vendor\tolua\tolua++.h">
+      <Filter>vendor\tolua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\database\mysql_export_to_lua.h">
+      <Filter>database</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

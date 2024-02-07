@@ -10,8 +10,12 @@ public:
 	static void exit();
 
 	static bool execute_script_file(const char* file_path);
+	static lua_State* get_lua_state();
 
 	static void register_function(const char* name, lua_CFunction func);
+public:
+	static int execute_function_by_handler(int handler, int nargs);
+	static void remove_script_handler(int handler);
 };
 
 #endif // __LUA_WRAPPER_H__

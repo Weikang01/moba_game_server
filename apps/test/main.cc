@@ -41,7 +41,7 @@ static void test_on_mysql_query(const char* erro, std::vector<std::vector<std::s
 	}
 }
 
-static void test_on_mysql_connect(const char* erro, void* context) {
+static void test_on_mysql_connect(const char* erro, void* context, void* udata) {
 	printf("test_on_mysql_connect\n");
 
 	if (erro != NULL) {

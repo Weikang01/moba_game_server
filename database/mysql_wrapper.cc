@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include <iostream>
+#include <string>
 #include <mysql/jdbc.h>
 #include <uv.h>
 
@@ -21,9 +22,10 @@ struct connect_req {
 	char* user;
 	char* pass;
 	char* db_name;
-	void(*open_cb)(const char* err, void* context);
+	void(*open_cb)(const char* err, void* context, void* udata);
 	void* context;
 	char* err;
+	void* udata;
 };
 
 struct mysql_context {
@@ -36,15 +38,15 @@ static void connect_work(uv_work_t* req) {
 	struct connect_req* connect_req = (struct connect_req*)req->data;
 	sql::Driver* driver = get_driver_instance();
 
-	static const char* url_format = "tcp://%s:%d";
-	char url[128];
-	sprintf(url, url_format, connect_req->host, connect_req->port);
+	// concatenate host and port
+	char* host = (char*)my_malloc(strlen(connect_req->host) + 10);
+	sprintf(host, "%s:%d", connect_req->host, connect_req->port);
 
 	sql::Connection* con = NULL;
 
 	try
 	{
-		con = driver->connect("127.0.0.1", "root", "123");
+		con = driver->connect(host, connect_req->user, connect_req->pass);
 
 		if (!con || !con->isValid())
 		{
@@ -60,7 +62,19 @@ static void connect_work(uv_work_t* req) {
 		return;
 	}
 	
-	con->setSchema(connect_req->db_name);
+	// Attempt to set the schema
+	try
+	{
+		con->setSchema(connect_req->db_name);
+	}
+	catch (const sql::SQLException& e)
+	{
+		// Handle the error, e.g., by logging the exception message and setting an error flag
+		connect_req->context = NULL;
+		connect_req->err = (char*)"Failed to set schema";
+		// Optionally, log e.what() or e.getErrorCode() for more details
+		return;
+	}
 
 	struct mysql_context* c = (struct mysql_context*)my_malloc(sizeof(struct mysql_context));
 	c->context = con;
@@ -77,7 +91,7 @@ static void on_connect_work_complete(uv_work_t* req, int status) {
 	if (!connect_req) return;  // Add a check to ensure connect_req is not NULL
 
 	if (connect_req->open_cb) {
-		connect_req->open_cb(connect_req->err, connect_req->context);
+		connect_req->open_cb(connect_req->err, connect_req->context, connect_req->udata);
 	}
 
 	if (connect_req->host) {
@@ -108,7 +122,7 @@ static void on_connect_work_complete(uv_work_t* req, int status) {
 	free(req);
 }
 
-void mysql_wrapper::connect(const char* host, const int port, const char* user, const char* pass, const char* db_name, void(*open_cb)(const char* err, void* context))
+void mysql_wrapper::connect(const char* host, const int port, const char* user, const char* pass, const char* db_name, void (*open_cb)(const char* err, void* context, void* udata), void* udata)
 {
 	uv_work_t* req = (uv_work_t*)my_malloc(sizeof(uv_work_t));
 	memset(req, 0, sizeof(uv_work_t));
@@ -123,6 +137,7 @@ void mysql_wrapper::connect(const char* host, const int port, const char* user, 
 	connect_req->db_name = strdup(db_name);
 	connect_req->open_cb = open_cb;
 	connect_req->err = NULL;
+	connect_req->udata = udata;
 
 	req->data = (void*)connect_req;
 
@@ -154,7 +169,7 @@ static void query_work(uv_work_t* req) {
 		int r_size = 0;
 		while (res->next()) {
 			std::vector<std::string> row;
-			for (int i = 1; i <= res->getMetaData()->getColumnCount(); i++) {
+			for (unsigned int i = 1; i <= res->getMetaData()->getColumnCount(); i++) {
 				row.push_back(res->getString(i));
 			}
 			((std::vector<std::vector<std::string>>*)(r->result))->push_back(row);
@@ -203,7 +218,6 @@ static void on_query_work_complete(uv_work_t* req, int status) {
 		//if (r->err)
 		//	free(r->err);
 	}
-
 
 	my_free(r);
 	my_free(req);
