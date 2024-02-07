@@ -26,19 +26,36 @@ function PrintTable(table, level)
     print(indent .. "}")
 end
 
-mysql_wrapper.connect("127.0.0.1", 3306, "root", "123", "test_database", function(err, context)
+-- mysql_wrapper.connect("127.0.0.1", 3306, "root", "123", "test_database", function(err, context)
+--     if (err) then
+--         print(err)
+--         return
+--     end
+
+--     mysql_wrapper.query(context, "select * from families", function(err, result)
+--         if (err) then
+--             print(err)
+--             return
+--         end
+
+--         print("success")
+--         PrintTable(result)
+--     end)
+-- end);
+
+redis_wrapper.connect("127.0.0.1", 6379, function(err, context)
     if (err) then
         print(err)
         return
     end
 
-    mysql_wrapper.query(context, "select * from families", function(err, result)
+    redis_wrapper.query(context, "hgetall 002001", function(err, result)
         if (err) then
-            print(err)
+            print(error)
             return
         end
 
         print("success")
         PrintTable(result)
     end)
-end);
+end)

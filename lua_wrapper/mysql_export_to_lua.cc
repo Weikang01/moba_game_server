@@ -3,8 +3,6 @@
 #include <stdlib.h>
 
 #include "../lua_wrapper/lua_wrapper.h"
-#include "mysql_export_to_lua.h"
-
 
 #ifdef __cplusplus
 extern "C" {
@@ -16,6 +14,7 @@ extern "C" {
 
 #include <tolua_fix.h>
 
+#include "mysql_export_to_lua.h"
 #include "../database/mysql_wrapper.h"
 
 static void on_connect_cb(const char* erro, void* context, void* udata) {

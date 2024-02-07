@@ -56,7 +56,7 @@ static void test_mysql() {
 	mysql_wrapper::connect("127.0.0.1", 3306, "root", "123", "test_database", test_on_mysql_connect);
 }
 
-static void test_on_redis_query(const char* erro, redisReply* result) {
+static void test_on_redis_query(const char* erro, redisReply* result, void* udata) {
 	printf("test_on_redis_query\n");
 	if (erro != NULL) {
 		log_error("test_on_redis_query error: %s", erro);
@@ -71,7 +71,7 @@ static void test_on_redis_query(const char* erro, redisReply* result) {
 	}
 }
 
-static void test_on_redis_connect(const char* erro, void* context) {
+static void test_on_redis_connect(const char* erro, void* context, void* udata) {
 	printf("test_on_redis_connect\n");
 	if (erro != NULL) {
 		log_error("test_on_redis_connect error: %s", erro);
@@ -79,9 +79,13 @@ static void test_on_redis_connect(const char* erro, void* context) {
 	}
 
 	const char* name = "alex";
-	redis_wrapper::query(context, NULL, "set test32 %s", name);
+	const char* sql = "set test32 %s";
+	char* sql2 = (char*)malloc(strlen(name) + strlen(sql) + 1);
+	sprintf(sql2, sql, name);
 
-	redis_wrapper::query(context, test_on_redis_query, "get test32");
+	redis_wrapper::query(context, sql2, NULL);
+
+	redis_wrapper::query(context, "get test32", test_on_redis_query);
 }
 
 static void test_redis() {
@@ -105,7 +109,6 @@ int main(int argc, char** argv) {
 	// initiate script
 	lua_wrapper::init();
 	lua_wrapper::execute_script_file("./main.lua");
-
 
 	netbus::instance()->run();
 

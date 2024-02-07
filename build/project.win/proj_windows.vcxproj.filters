@@ -355,6 +355,9 @@
     <ClCompile Include="..\..\lua_wrapper\mysql_export_to_lua.cc">
       <Filter>lua_wrapper</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\lua_wrapper\redis_export_to_lua.cc">
+      <Filter>lua_wrapper</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\vendor\libuv\include\android-ifaddrs.h">
@@ -703,6 +706,9 @@
       <Filter>vendor\tolua</Filter>
     </ClInclude>
     <ClInclude Include="..\..\lua_wrapper\mysql_export_to_lua.h">
+      <Filter>lua_wrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua_wrapper\redis_export_to_lua.h">
       <Filter>lua_wrapper</Filter>
     </ClInclude>
   </ItemGroup>
