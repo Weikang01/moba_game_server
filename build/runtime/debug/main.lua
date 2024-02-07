@@ -26,6 +26,23 @@ function PrintTable(table, level)
     print(indent .. "}")
 end
 
+local my_service = {
+    on_session_recv_cmd = function(session, cmd_msg)
+    end,
+    on_session_disconnect = function(session)
+    end
+}
+
+local ret = service.register(100, my_service);
+print(ret)
+
+
+
+
+
+
+
+
 -- mysql_wrapper.connect("127.0.0.1", 3306, "root", "123", "test_database", function(err, context)
 --     if (err) then
 --         print(err)
@@ -43,19 +60,19 @@ end
 --     end)
 -- end);
 
-redis_wrapper.connect("127.0.0.1", 6379, function(err, context)
-    if (err) then
-        print(err)
-        return
-    end
+-- redis_wrapper.connect("127.0.0.1", 6379, function(err, context)
+--     if (err) then
+--         print(err)
+--         return
+--     end
 
-    redis_wrapper.query(context, "hgetall 002001", function(err, result)
-        if (err) then
-            print(error)
-            return
-        end
+--     redis_wrapper.query(context, "hgetall 001001", function(err, result)
+--         if (err) then
+--             print(error)
+--             return
+--         end
 
-        print("success")
-        PrintTable(result)
-    end)
-end)
+--         print("success")
+--         PrintTable(result)
+--     end)
+-- end)
