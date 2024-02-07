@@ -76,7 +76,7 @@
       <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)vendor\libuv\include;$(SolutionDir)vendor\http_parser;$(SolutionDir)vendor\crypto;$(SolutionDir)vendor\protobuf\src;$(SolutionDir)vendor\cJSON;$(SolutionDir)vendor\mysql_connector\include;$(SolutionDir)vendor\hiredis;$(SolutionDir)vendor\lua\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)vendor\libuv\include;$(SolutionDir)vendor\http_parser;$(SolutionDir)vendor\crypto;$(SolutionDir)vendor\protobuf\src;$(SolutionDir)vendor\cJSON;$(SolutionDir)vendor\mysql_connector\include;$(SolutionDir)vendor\hiredis;$(SolutionDir)vendor\lua\src;$(SolutionDir)vendor\tolua</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -94,7 +94,7 @@
       <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)vendor\libuv\include;$(SolutionDir)vendor\http_parser;$(SolutionDir)vendor\crypto;$(SolutionDir)vendor\protobuf\src;$(SolutionDir)vendor\cJSON;$(SolutionDir)vendor\mysql_connector\include;$(SolutionDir)vendor\hiredis;$(SolutionDir)vendor\lua\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)vendor\libuv\include;$(SolutionDir)vendor\http_parser;$(SolutionDir)vendor\crypto;$(SolutionDir)vendor\protobuf\src;$(SolutionDir)vendor\cJSON;$(SolutionDir)vendor\mysql_connector\include;$(SolutionDir)vendor\hiredis;$(SolutionDir)vendor\lua\src;$(SolutionDir)vendor\tolua</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -112,7 +112,7 @@
       <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)vendor\libuv\include;$(SolutionDir)vendor\http_parser;$(SolutionDir)vendor\crypto;$(SolutionDir)vendor\protobuf\src;$(SolutionDir)vendor\cJSON;$(SolutionDir)vendor\mysql_connector\include;$(SolutionDir)vendor\hiredis;$(SolutionDir)vendor\lua\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)vendor\libuv\include;$(SolutionDir)vendor\http_parser;$(SolutionDir)vendor\crypto;$(SolutionDir)vendor\protobuf\src;$(SolutionDir)vendor\cJSON;$(SolutionDir)vendor\mysql_connector\include;$(SolutionDir)vendor\hiredis;$(SolutionDir)vendor\lua\src;$(SolutionDir)vendor\tolua</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -130,7 +130,7 @@
       <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)vendor\libuv\include;$(SolutionDir)vendor\http_parser;$(SolutionDir)vendor\crypto;$(SolutionDir)vendor\protobuf\src;$(SolutionDir)vendor\cJSON;$(SolutionDir)vendor\mysql_connector\include;$(SolutionDir)vendor\hiredis;$(SolutionDir)vendor\lua\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)vendor\libuv\include;$(SolutionDir)vendor\http_parser;$(SolutionDir)vendor\crypto;$(SolutionDir)vendor\protobuf\src;$(SolutionDir)vendor\cJSON;$(SolutionDir)vendor\mysql_connector\include;$(SolutionDir)vendor\hiredis;$(SolutionDir)vendor\lua\src;$(SolutionDir)vendor\tolua</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -146,6 +146,7 @@
     <ClCompile Include="..\..\apps\test\main.cc" />
     <ClCompile Include="..\..\apps\test\proto\game.pb.cc" />
     <ClCompile Include="..\..\apps\test\proto\pf_cmd_map.cc" />
+    <ClCompile Include="..\..\database\mysql_export_to_lua.cc" />
     <ClCompile Include="..\..\database\mysql_wrapper.cc" />
     <ClCompile Include="..\..\database\redis_wrapper.cc" />
     <ClCompile Include="..\..\lua_wrapper\lua_wrapper.cc" />
@@ -230,10 +231,17 @@
     <ClCompile Include="..\..\vendor\lua\src\lutf8lib.c" />
     <ClCompile Include="..\..\vendor\lua\src\lvm.c" />
     <ClCompile Include="..\..\vendor\lua\src\lzio.c" />
+    <ClCompile Include="..\..\vendor\tolua\tolua_event.c" />
+    <ClCompile Include="..\..\vendor\tolua\tolua_fix.cc" />
+    <ClCompile Include="..\..\vendor\tolua\tolua_is.c" />
+    <ClCompile Include="..\..\vendor\tolua\tolua_map.c" />
+    <ClCompile Include="..\..\vendor\tolua\tolua_push.c" />
+    <ClCompile Include="..\..\vendor\tolua\tolua_to.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\apps\test\proto\game.pb.h" />
     <ClInclude Include="..\..\apps\test\proto\pf_cmd_map.h" />
+    <ClInclude Include="..\..\database\mysql_export_to_lua.h" />
     <ClInclude Include="..\..\database\mysql_wrapper.h" />
     <ClInclude Include="..\..\database\redis_wrapper.h" />
     <ClInclude Include="..\..\lua_wrapper\lua_wrapper.h" />
@@ -344,6 +352,9 @@
     <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\mysql_driver.h" />
     <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\mysql_error.h" />
     <ClInclude Include="..\..\vendor\mysql_connector\include\mysql\jdbc.h" />
+    <ClInclude Include="..\..\vendor\tolua\tolua++.h" />
+    <ClInclude Include="..\..\vendor\tolua\tolua_event.h" />
+    <ClInclude Include="..\..\vendor\tolua\tolua_fix.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\apps\test\proto\game.proto" />
