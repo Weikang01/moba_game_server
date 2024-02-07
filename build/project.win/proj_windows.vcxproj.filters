@@ -352,8 +352,8 @@
     <ClCompile Include="..\..\vendor\tolua\tolua_to.c">
       <Filter>vendor\tolua</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\database\mysql_export_to_lua.cc">
-      <Filter>database</Filter>
+    <ClCompile Include="..\..\lua_wrapper\mysql_export_to_lua.cc">
+      <Filter>lua_wrapper</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -702,8 +702,8 @@
     <ClInclude Include="..\..\vendor\tolua\tolua++.h">
       <Filter>vendor\tolua</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\database\mysql_export_to_lua.h">
-      <Filter>database</Filter>
+    <ClInclude Include="..\..\lua_wrapper\mysql_export_to_lua.h">
+      <Filter>lua_wrapper</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

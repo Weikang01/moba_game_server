@@ -8,7 +8,7 @@
 #include "lua_wrapper.h"
 
 #include "../utils/logger.h"
-#include "../database/mysql_export_to_lua.h"
+#include "mysql_export_to_lua.h"
 
 
 lua_State* g_lua_state = NULL;

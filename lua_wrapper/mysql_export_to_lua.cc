@@ -16,7 +16,7 @@ extern "C" {
 
 #include <tolua_fix.h>
 
-#include "mysql_wrapper.h"
+#include "../database/mysql_wrapper.h"
 
 static void on_connect_cb(const char* erro, void* context, void* udata) {
     if (erro) {
@@ -61,8 +61,50 @@ failed:
     return 0;
 }
 
+void on_query_cb(const char* erro, sql::ResultSet* result, void* udata) {
+    if (erro) {
+		lua_pushstring(lua_wrapper::get_lua_state(), erro);
+		lua_pushnil(lua_wrapper::get_lua_state());
+	} 
+    else {
+        lua_pushnil(lua_wrapper::get_lua_state());
+        if (result) {
+            lua_newtable(lua_wrapper::get_lua_state());
+            int index = 1;
+            int num = result->getMetaData()->getColumnCount();
+            sql::ResultSetMetaData* meta = result->getMetaData();
+
+            while (result->next()) {
+				lua_newtable(lua_wrapper::get_lua_state());
+                for (int i = 0; i < num; i++) {
+					lua_pushstring(lua_wrapper::get_lua_state(), meta->getColumnLabel(i + 1).c_str());
+					lua_pushstring(lua_wrapper::get_lua_state(), result->getString(i + 1).c_str());
+					lua_settable(lua_wrapper::get_lua_state(), -3);
+				}
+				lua_rawseti(lua_wrapper::get_lua_state(), -2, index);
+				++index;
+			}
+        }
+        else {
+            lua_pushnil(lua_wrapper::get_lua_state());
+        }
+	}
+	lua_wrapper::execute_function_by_handler((int)udata, 2);
+	lua_wrapper::remove_script_handler((int)udata);
+}
+
 int lua_mysql_query(lua_State* tolua_S)
 {
+    void* context = tolua_touserdata(tolua_S, 1, 0);
+    if (context == NULL)
+		return 0;
+    char* sql = (char*)tolua_tostring(tolua_S, 2, 0);
+    if (sql == NULL)
+        return 0;
+    int handler = toluafix_ref_function(tolua_S, 3, 0);
+
+    mysql_wrapper::query(context, sql, on_query_cb, (void*)handler);
+
     return 0;
 }
 
