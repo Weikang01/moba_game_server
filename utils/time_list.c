@@ -66,9 +66,9 @@ void unschedule(struct timer_data* timer)
 	free_timer(timer);
 }
 
-struct timer_data* schedule_once(void(*callback)(void*), void* data, unsigned int after_ms, unsigned int repeat_interval_ms)
+struct timer_data* schedule_once(void(*callback)(void*), void* data, unsigned int after_ms)
 {
-	return schedule(callback, data, after_ms, repeat_interval_ms, 1);
+	return schedule(callback, data, after_ms, 1000, 1);
 }
 
 

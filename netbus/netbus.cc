@@ -18,7 +18,6 @@ netbus* netbus::instance()
 	return _instance;
 }
 
-
 extern "C" {
 	static void on_uv_close(uv_handle_t* handle) {
 		uv_session* session = (uv_session*)handle->data;

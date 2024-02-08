@@ -11,7 +11,7 @@ extern "C" {
 
 	void unschedule(struct timer_data* timer);
 
-	struct timer_data* schedule_once(void(*callback)(void*), void* data, unsigned int after_ms, unsigned int repeat_interval_ms);
+	struct timer_data* schedule_once(void(*callback)(void*), void* data, unsigned int after_ms);
 
 #ifdef __cplusplus
 }
