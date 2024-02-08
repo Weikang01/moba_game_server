@@ -2,32 +2,28 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <google/protobuf/message.h>
+#include <string>
+#include <map>
+
 #include "proto_manager.h"
 
-#define MAX_PF_MAP_SIZE 1024
 #define CMD_HEADER_SIZE 8
 #define CMD_TRAILER_SIZE 1
 
 static int g_proto_type = PROTO_BUF;
-static char* g_pf_cmd_map[MAX_PF_MAP_SIZE] = {0};
-static int g_cmd_count = 0;
-
+static std::map<int, std::string> g_cmd_map;
 
 void proto_manager::init(int proto_type)
 {
 	g_proto_type = proto_type;
 }
 
-void proto_manager::reg_cmd_map(const char** cmd_map, int cmd_count)
+void proto_manager::reg_cmd_map(std::map<int, std::string>& map)
 {
-	cmd_count = cmd_count > MAX_PF_MAP_SIZE - g_cmd_count ? MAX_PF_MAP_SIZE - g_cmd_count : cmd_count;
-
-	for (int i = 0; i < cmd_count; i++) {
-		g_pf_cmd_map[g_cmd_count + i] = strdup(cmd_map[i]);
+	std::map<int, std::string>::iterator it;
+	for (it = map.begin(); it != map.end(); it++) {
+		g_cmd_map[it->first] = it->second;
 	}
-
-	g_cmd_count += cmd_count;
 }
 
 int proto_manager::proto_type()
@@ -35,8 +31,18 @@ int proto_manager::proto_type()
 	return g_proto_type;
 }
 
+const char* proto_manager::pb_type2name(int ctype)
+{
+	std::map<int, std::string>::iterator it = g_cmd_map.find(ctype);
+	if (it != g_cmd_map.end()) {
+		return it->second.c_str();
+	}
+	return NULL;
+}
 
-static google::protobuf::Message* createMessage(const std::string& typeName) {
+
+
+google::protobuf::Message* proto_manager::create_message(const std::string& typeName) {
 	google::protobuf::Message* message = NULL;
 	const google::protobuf::Descriptor* descriptor = google::protobuf::DescriptorPool::generated_pool()->FindMessageTypeByName(typeName);
 	if (descriptor) {
@@ -48,7 +54,7 @@ static google::protobuf::Message* createMessage(const std::string& typeName) {
 	return message;
 }
 
-static void free_protobuf_message(google::protobuf::Message* message) {
+void proto_manager::free_protobuf_message(google::protobuf::Message* message) {
 	if (message) {
 		delete message;
 	}
@@ -87,12 +93,7 @@ bool proto_manager::decode_cmd_msg(const char* in_data, int in_len, cmd_msg** ou
 		return true;
 	}
 	else if (g_proto_type == PROTO_BUF) {
-		if (msg->ctype < 0 || msg->ctype >= g_cmd_count || g_pf_cmd_map[msg->ctype] == NULL) {
-			free(msg);
-			*out_msg = NULL;
-			return false;
-		}
-		google::protobuf::Message* message = createMessage(g_pf_cmd_map[msg->ctype]);
+		google::protobuf::Message* message = create_message(g_cmd_map[msg->ctype].c_str());
 
 		if (message) {
 			if (message->ParseFromArray(in_data + CMD_HEADER_SIZE, in_len - CMD_HEADER_SIZE)) {
@@ -167,4 +168,9 @@ void proto_manager::cmd_msg_free(cmd_msg* msg)
 	}
 
 	free(msg);
+}
+
+void proto_manager::raw_msg_free(char* raw_msg)
+{
+	free(raw_msg);
 }

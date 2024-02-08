@@ -36,13 +36,6 @@ local my_service = {
 local ret = service.register(100, my_service);
 print(ret)
 
-
-
-
-
-
-
-
 -- mysql_wrapper.connect("127.0.0.1", 3306, "root", "123", "test_database", function(err, context)
 --     if (err) then
 --         print(err)
