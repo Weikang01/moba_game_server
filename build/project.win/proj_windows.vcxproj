@@ -143,13 +143,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\apps\test\main.cc" />
-    <ClCompile Include="..\..\apps\test\proto\game.pb.cc" />
-    <ClCompile Include="..\..\apps\test\proto\pf_cmd_map.cc" />
+    <ClCompile Include="..\..\apps\cpp_test\main.cc" />
+    <ClCompile Include="..\..\apps\cpp_test\proto\game.pb.cc" />
+    <ClCompile Include="..\..\apps\cpp_test\proto\pf_cmd_map.cc" />
+    <ClCompile Include="..\..\apps\lua_test\main.cc" />
+    <ClCompile Include="..\..\apps\lua_test\proto\game.pb.cc" />
     <ClCompile Include="..\..\database\mysql_wrapper.cc" />
     <ClCompile Include="..\..\database\redis_wrapper.cc" />
     <ClCompile Include="..\..\lua_wrapper\lua_wrapper.cc" />
     <ClCompile Include="..\..\lua_wrapper\mysql_export_to_lua.cc" />
+    <ClCompile Include="..\..\lua_wrapper\netbus_export_to_lua.cc" />
+    <ClCompile Include="..\..\lua_wrapper\proto_manager_export_to_lua.cc" />
     <ClCompile Include="..\..\lua_wrapper\redis_export_to_lua.cc" />
     <ClCompile Include="..\..\lua_wrapper\scheduler_export_to_lua.cc" />
     <ClCompile Include="..\..\lua_wrapper\service_export_to_lua.cc" />
@@ -243,12 +247,15 @@
     <ClCompile Include="..\..\vendor\tolua\tolua_to.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\apps\test\proto\game.pb.h" />
-    <ClInclude Include="..\..\apps\test\proto\pf_cmd_map.h" />
+    <ClInclude Include="..\..\apps\cpp_test\proto\game.pb.h" />
+    <ClInclude Include="..\..\apps\cpp_test\proto\pf_cmd_map.h" />
+    <ClInclude Include="..\..\apps\lua_test\proto\game.pb.h" />
     <ClInclude Include="..\..\database\mysql_wrapper.h" />
     <ClInclude Include="..\..\database\redis_wrapper.h" />
     <ClInclude Include="..\..\lua_wrapper\lua_wrapper.h" />
     <ClInclude Include="..\..\lua_wrapper\mysql_export_to_lua.h" />
+    <ClInclude Include="..\..\lua_wrapper\netbus_export_to_lua.h" />
+    <ClInclude Include="..\..\lua_wrapper\proto_manager_export_to_lua.h" />
     <ClInclude Include="..\..\lua_wrapper\redis_export_to_lua.h" />
     <ClInclude Include="..\..\lua_wrapper\scheduler_export_to_lua.h" />
     <ClInclude Include="..\..\lua_wrapper\service_export_to_lua.h" />
@@ -365,7 +372,8 @@
     <ClInclude Include="..\..\vendor\tolua\tolua_fix.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\apps\test\proto\game.proto" />
+    <None Include="..\..\apps\cpp_test\proto\game.proto" />
+    <None Include="..\..\apps\lua_test\proto\game.proto" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

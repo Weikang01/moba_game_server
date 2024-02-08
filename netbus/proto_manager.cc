@@ -18,7 +18,7 @@ void proto_manager::init(int proto_type)
 	g_proto_type = proto_type;
 }
 
-void proto_manager::reg_cmd_map(std::map<int, std::string>& map)
+void proto_manager::register_protobuf_cmd_map(std::map<int, std::string>& map)
 {
 	std::map<int, std::string>::iterator it;
 	for (it = map.begin(); it != map.end(); it++) {

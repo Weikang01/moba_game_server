@@ -15,6 +15,8 @@
 #include "service_export_to_lua.h"
 #include "session_export_to_lua.h"
 #include "scheduler_export_to_lua.h"
+#include "netbus_export_to_lua.h"
+#include "proto_manager_export_to_lua.h"
 
 
 lua_State* g_lua_state = NULL;
@@ -224,12 +226,21 @@ void lua_wrapper::register_function(const char* name, lua_CFunction func)
 	lua_setglobal(g_lua_state, name);
 }
 
+static int lua_add_search_path(lua_State* L) {
+	const char* path = luaL_checkstring(L, 1);
+	if (path) {
+		lua_wrapper::add_search_path(path);
+	}
+	return 0;
+}
+
 void lua_wrapper::init()
 {
 	g_lua_state = luaL_newstate();
 	lua_atpanic(g_lua_state, lua_panic);
 	luaL_openlibs(g_lua_state);
 	toluafix_open(g_lua_state);
+	lua_wrapper::register_function("add_search_path", lua_add_search_path);
 
 	register_logger_export(g_lua_state);
 	register_mysql_export(g_lua_state);
@@ -237,6 +248,8 @@ void lua_wrapper::init()
 	register_service_export(g_lua_state);
 	register_session_export(g_lua_state);
 	register_scheduler_export(g_lua_state);
+	register_netbus_export(g_lua_state);
+	register_proto_manager_export(g_lua_state);
 }
 
 void lua_wrapper::exit()
@@ -248,9 +261,9 @@ void lua_wrapper::exit()
 	}
 }
 
-bool lua_wrapper::execute_script_file(const char* file_path)
+bool lua_wrapper::execute_script_file(const std::string& file_path)
 {
-	if (luaL_dofile(g_lua_state, file_path))
+	if (luaL_dofile(g_lua_state, file_path.c_str()))
 	{
 		const char* error_string = lua_tostring(g_lua_state, -1);
 		log_error("execute_script_file error: %s", error_string);
@@ -354,4 +367,11 @@ int lua_wrapper::execute_function_by_handler(int handler, int nargs)
 void lua_wrapper::remove_script_handler(int handler)
 {
 	toluafix_remove_function_by_refid(g_lua_state, handler);
+}
+
+void lua_wrapper::add_search_path(const std::string& path)
+{
+	char script[1024] = { 0 };
+	sprintf(script, "local path = string.match([[%s]],[[(.*)/[^/]*$]])\n package.path = package.path .. [[;]] .. path .. [[/?.lua;]] .. path .. [[/?/init.lua]]\n", path.c_str());
+	luaL_dostring(g_lua_state, script);
 }

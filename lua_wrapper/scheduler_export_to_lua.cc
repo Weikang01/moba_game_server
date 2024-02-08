@@ -97,7 +97,6 @@ static void lua_scheduler_once_callback(void* data)
     my_free(timer);
 }
 
-
 static int lua_scheduler_schedule_once(lua_State* tolua_S)
 {
     int handle = toluafix_ref_function(tolua_S, 1, 0);
