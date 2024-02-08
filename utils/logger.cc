@@ -39,7 +39,7 @@ void logger::init(const char* path, const char* prefix, bool std_output, int tim
 	int result;
 
 	while (find != std::string::npos) {
-		result = uv_fs_mkdir(uv_default_loop(), &req, tmp_path.c_str(), 0755, NULL);
+		result = uv_fs_mkdir(uv_default_loop(), &req, tmp_path.substr(0, find).c_str(), 0755, NULL);
 		find = g_log_path.find("/", find + 1);
 	}
 	uv_fs_req_cleanup(&req);

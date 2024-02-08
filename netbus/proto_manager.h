@@ -19,7 +19,7 @@ struct cmd_msg {
 class proto_manager {
 public:
 	static void init(int proto_type);
-	static void reg_cmd_map(std::map<int, std::string>& map);
+	static void register_protobuf_cmd_map(std::map<int, std::string>& map);
 	static int proto_type();
 	static const char* pb_type2name(int ctype);
 

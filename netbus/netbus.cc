@@ -4,6 +4,7 @@
 
 #include <uv.h>
 
+#include "../utils/logger.h"
 #include "netbus.h"
 #include "session_uv.h"
 #include "udp_session.h"
@@ -92,7 +93,7 @@ extern "C" {
 
 		}
 		else {
-			//printf("decode cmd msg failed\n");
+			log_error("decode cmd msg failed");
 		}
 	}
 
@@ -210,7 +211,7 @@ extern "C" {
 
 	static void on_new_connection(uv_stream_t* server, int status) {
 		if (status < 0) {
-			//fprintf(stderr, "New connection error %s\n", uv_strerror(status));
+			log_error("New connection error %s", uv_strerror(status));
 			return;
 		}
 
@@ -224,8 +225,6 @@ extern "C" {
 		uv_ip4_name(&addr, session->client_address, 32);
 		session->client_port = ntohs(addr.sin_port);
 		session->socket_type = (int)(server->data);
-
-		//printf("New connection from %s:%d\tsocket type:%d\n", session->client_address, session->client_port, session->socket_type);
 
 		uv_tcp_init(uv_default_loop(), client);
 		client->data = (void*)session;
@@ -244,7 +243,7 @@ void netbus::init()
 	init_session_allocator();
 }
 
-void netbus::start_tcp_server(int port) {
+void netbus::tcp_listen(int port) {
 	uv_tcp_t* tcp_server = (uv_tcp_t*)malloc(sizeof(uv_tcp_t));
 	memset(tcp_server, 0, sizeof(uv_tcp_t));
 
@@ -256,7 +255,7 @@ void netbus::start_tcp_server(int port) {
 	int ret = uv_tcp_bind(tcp_server, (const struct sockaddr*)&addr, 0);
 
 	if (ret) {
-		//printf("Bind error %s\n", uv_strerror(ret));
+		log_error("Bind error %s\n", uv_strerror(ret));
 		return;
 	}
 	
@@ -265,7 +264,7 @@ void netbus::start_tcp_server(int port) {
 	uv_listen((uv_stream_t*)tcp_server, SOMAXCONN, on_new_connection);
 }
 
-void netbus::start_ws_server(int port)
+void netbus::ws_listen(int port)
 {
 	uv_tcp_t* tcp_server = (uv_tcp_t*)malloc(sizeof(uv_tcp_t));
 	memset(tcp_server, 0, sizeof(uv_tcp_t));
@@ -278,7 +277,7 @@ void netbus::start_ws_server(int port)
 	int ret = uv_tcp_bind(tcp_server, (const struct sockaddr*)&addr, 0);
 
 	if (ret) {
-		//printf("Bind error %s\n", uv_strerror(ret));
+		log_error("Bind error %s\n", uv_strerror(ret));
 		return;
 	}
 
@@ -287,7 +286,7 @@ void netbus::start_ws_server(int port)
 	uv_listen((uv_stream_t*)tcp_server, SOMAXCONN, on_new_connection);
 }
 
-void netbus::start_udp_server(int port)
+void netbus::udp_listen(int port)
 {
 	uv_udp_t* udp_server = (uv_udp_t*)malloc(sizeof(uv_udp_t));
 	memset(udp_server, 0, sizeof(uv_udp_t));
