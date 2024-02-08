@@ -95,7 +95,7 @@ static void test_redis() {
 int main(int argc, char** argv) {
 	proto_manager::init(PROTO_BUF);
 	pf_cmd_map_init();
-	logger::init("log/test", "netbus_log", true, LOG_TIMEZONE_EST);
+	//logger::init("log/test", "netbus_log", true, LOG_TIMEZONE_EST);
 
 	//test_mysql();
 	//test_redis();

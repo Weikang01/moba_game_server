@@ -1,3 +1,5 @@
+logger.init("log/test", "netbus_log", true, -5)
+
 local key = ""
 
 function PrintTable(table, level)
@@ -34,7 +36,17 @@ local my_service = {
 }
 
 local ret = service.register(100, my_service);
-print(ret)
+print("ret:", ret)
+
+
+local counter = 0
+local timer = scheduler.schedule(function()
+    print("scheduler called!")
+end, 0, 1000, -1)
+
+scheduler.once(function()
+    scheduler.cancel(timer);
+end, 5000)
 
 -- mysql_wrapper.connect("127.0.0.1", 3306, "root", "123", "test_database", function(err, context)
 --     if (err) then
