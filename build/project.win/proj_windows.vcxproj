@@ -74,7 +74,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>false</SDLCheck>
-      <PreprocessorDefinitions>_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>USE_LUA_MAIN;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)vendor\libuv\include;$(SolutionDir)vendor\http_parser;$(SolutionDir)vendor\crypto;$(SolutionDir)vendor\protobuf\src;$(SolutionDir)vendor\cJSON;$(SolutionDir)vendor\mysql_connector\include;$(SolutionDir)vendor\hiredis;$(SolutionDir)vendor\lua\src;$(SolutionDir)vendor\tolua</AdditionalIncludeDirectories>
     </ClCompile>
@@ -84,6 +84,8 @@
       <AdditionalOptions>ws2_32.lib IPHLPAPI.lib Userenv.lib Psapi.lib libprotobufd.lib libprotocd.lib mysqlcppconn.lib hiredisd.lib</AdditionalOptions>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir)protobuf;$(SolutionDir)vendor\mysql_connector_debug\lib64\vs14;$(SolutionDir)vendor\mysql_connector_debug\lib64\vs14\debug;$(ProjectDir)hiredis\Debug</AdditionalLibraryDirectories>
+      <EntryPointSymbol>
+      </EntryPointSymbol>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -92,7 +94,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
-      <PreprocessorDefinitions>_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>USE_LUA_MAIN;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)vendor\libuv\include;$(SolutionDir)vendor\http_parser;$(SolutionDir)vendor\crypto;$(SolutionDir)vendor\protobuf\src;$(SolutionDir)vendor\cJSON;$(SolutionDir)vendor\mysql_connector\include;$(SolutionDir)vendor\hiredis;$(SolutionDir)vendor\lua\src;$(SolutionDir)vendor\tolua</AdditionalIncludeDirectories>
     </ClCompile>
@@ -104,13 +106,15 @@
       <AdditionalOptions>ws2_32.lib IPHLPAPI.lib Userenv.lib Psapi.lib libprotobufd.lib libprotocd.lib mysqlcppconn.lib hiredis.lib</AdditionalOptions>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir)protobuf;$(SolutionDir)vendor\mysql_connector\lib64\vs14;$(ProjectDir)hiredis\Release</AdditionalLibraryDirectories>
+      <EntryPointSymbol>
+      </EntryPointSymbol>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>false</SDLCheck>
-      <PreprocessorDefinitions>_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>USE_LUA_MAIN;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)vendor\libuv\include;$(SolutionDir)vendor\http_parser;$(SolutionDir)vendor\crypto;$(SolutionDir)vendor\protobuf\src;$(SolutionDir)vendor\cJSON;$(SolutionDir)vendor\mysql_connector\include;$(SolutionDir)vendor\hiredis;$(SolutionDir)vendor\lua\src;$(SolutionDir)vendor\tolua</AdditionalIncludeDirectories>
     </ClCompile>
@@ -120,6 +124,8 @@
       <AdditionalOptions>ws2_32.lib IPHLPAPI.lib Userenv.lib Psapi.lib libprotobufd.lib libprotocd.lib mysqlcppconn.lib hiredisd.lib</AdditionalOptions>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir)protobuf;$(SolutionDir)vendor\mysql_connector_debug\lib64\vs14;$(SolutionDir)vendor\mysql_connector_debug\lib64\vs14\debug;$(ProjectDir)hiredis\Debug</AdditionalLibraryDirectories>
+      <EntryPointSymbol>
+      </EntryPointSymbol>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -128,7 +134,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
-      <PreprocessorDefinitions>_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>USE_LUA_MAIN;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)vendor\libuv\include;$(SolutionDir)vendor\http_parser;$(SolutionDir)vendor\crypto;$(SolutionDir)vendor\protobuf\src;$(SolutionDir)vendor\cJSON;$(SolutionDir)vendor\mysql_connector\include;$(SolutionDir)vendor\hiredis;$(SolutionDir)vendor\lua\src;$(SolutionDir)vendor\tolua</AdditionalIncludeDirectories>
     </ClCompile>
@@ -140,6 +146,8 @@
       <AdditionalOptions>ws2_32.lib IPHLPAPI.lib Userenv.lib Psapi.lib libprotobufd.lib libprotocd.lib mysqlcppconn.lib hiredis.lib</AdditionalOptions>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir)protobuf;$(SolutionDir)vendor\mysql_connector\lib64\vs14;$(ProjectDir)hiredis\Release</AdditionalLibraryDirectories>
+      <EntryPointSymbol>
+      </EntryPointSymbol>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -374,6 +382,9 @@
   <ItemGroup>
     <None Include="..\..\apps\cpp_test\proto\game.proto" />
     <None Include="..\..\apps\lua_test\proto\game.proto" />
+    <None Include="..\..\apps\lua_test\scripts\cmd_name_map.lua" />
+    <None Include="..\..\apps\lua_test\scripts\echo_server.lua" />
+    <None Include="..\..\apps\lua_test\scripts\main.lua" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

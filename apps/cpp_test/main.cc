@@ -1,3 +1,4 @@
+#ifdef USE_CPP_MAIN
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -107,3 +108,4 @@ int main(int argc, char** argv) {
 	netbus::instance()->run();
   return 0;
 }
+#endif

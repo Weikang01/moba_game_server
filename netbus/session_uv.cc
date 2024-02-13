@@ -144,10 +144,7 @@ void uv_session::send_msg(cmd_msg* msg)
 
 	if (encode_data != NULL) {
 		this->send_data(encode_data, encode_len);
-		proto_manager::cmd_msg_free(msg);
-	}
-	else {
-		//printf("encode_msg_to_raw failed\n");
+		proto_manager::raw_msg_free(encode_data);
 	}
 }
 
