@@ -156,21 +156,22 @@ unsigned char* proto_manager::encode_msg_to_raw(cmd_msg* msg, int* out_len)
 	return out_data;
 }
 
-void proto_manager::cmd_msg_free(cmd_msg* msg)
+void proto_manager::cmd_msg_free(struct cmd_msg* msg)
 {
 	if (msg->body) {
 		if (g_proto_type == PROTO_JSON) {
 			free(msg->body);
+			msg->body = NULL;
 		}
 		else if (g_proto_type == PROTO_BUF) {
 			free_protobuf_message((google::protobuf::Message*)msg->body);
+			msg->body = NULL;
 		}
 	}
-
 	free(msg);
 }
 
-void proto_manager::raw_msg_free(char* raw_msg)
+void proto_manager::raw_msg_free(unsigned char* raw_msg)
 {
 	free(raw_msg);
 }

@@ -77,6 +77,9 @@
     <Filter Include="apps\lua_test\proto">
       <UniqueIdentifier>{f86a9cc9-e128-4311-ace8-ab68a44287eb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="apps\lua_test\scripts">
+      <UniqueIdentifier>{c77a1f55-d2d5-4603-a1a1-f411492d8def}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\vendor\libuv\src\fs-poll.c">
@@ -370,9 +373,6 @@
     <ClCompile Include="..\..\lua_wrapper\proto_manager_export_to_lua.cc">
       <Filter>lua_wrapper</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\apps\cpp_test\main.cc">
-      <Filter>apps\cpp_test</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\apps\cpp_test\proto\game.pb.cc">
       <Filter>apps\cpp_test\proto</Filter>
     </ClCompile>
@@ -384,6 +384,9 @@
     </ClCompile>
     <ClCompile Include="..\..\apps\lua_test\proto\game.pb.cc">
       <Filter>apps\lua_test\proto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\apps\cpp_test\main.cc">
+      <Filter>apps\cpp_test</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -763,6 +766,15 @@
     </None>
     <None Include="..\..\apps\lua_test\proto\game.proto">
       <Filter>apps\lua_test\proto</Filter>
+    </None>
+    <None Include="..\..\apps\lua_test\scripts\cmd_name_map.lua">
+      <Filter>apps\lua_test\scripts</Filter>
+    </None>
+    <None Include="..\..\apps\lua_test\scripts\echo_server.lua">
+      <Filter>apps\lua_test\scripts</Filter>
+    </None>
+    <None Include="..\..\apps\lua_test\scripts\main.lua">
+      <Filter>apps\lua_test\scripts</Filter>
     </None>
   </ItemGroup>
 </Project>

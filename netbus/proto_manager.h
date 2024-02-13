@@ -30,6 +30,6 @@ public:
 	static unsigned char* encode_msg_to_raw(cmd_msg* msg, int* out_len);
 
 	static void cmd_msg_free(cmd_msg* msg);
-	static void raw_msg_free(char* raw_msg);
+	static void raw_msg_free(unsigned char* raw_msg);
 };
 #endif // ! __PROTO_MANAGER_H__

@@ -33,8 +33,6 @@ int main(int argc, char** argv) {
 		lua_wrapper::execute_script_file(lua_entry);
 	}
 
-
-
 	netbus::instance()->run();
 	lua_wrapper::exit();
   return 0;

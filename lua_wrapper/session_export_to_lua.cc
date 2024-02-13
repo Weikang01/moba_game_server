@@ -246,7 +246,6 @@ static google::protobuf::Message* lua_table_to_protobuf(lua_State* L, int stack_
 		lua_pop(L, 1);
 	}
 
-
     return message;
 }
 
@@ -267,7 +266,7 @@ int lua_session_send_msg(lua_State* tolua_S)
         goto failed;
 
     // stack: 1. session, 2. table
-    if (lua_istable(tolua_S, 2))
+    if (!lua_istable(tolua_S, 2))
         goto failed;
 
     lua_getfield(tolua_S, 2, "stype");
@@ -279,7 +278,7 @@ int lua_session_send_msg(lua_State* tolua_S)
 
     msg.stype = lua_tointeger(tolua_S, -4);
     msg.ctype = lua_tointeger(tolua_S, -3);
-    msg.utag = lua_tointeger(tolua_S, -2);
+    msg.utag  = lua_tointeger(tolua_S, -2);
 
     if (proto_manager::proto_type() == PROTO_JSON)
     {
@@ -288,11 +287,15 @@ int lua_session_send_msg(lua_State* tolua_S)
     }
     else if (proto_manager::proto_type() == PROTO_BUF)
     {
-        if (!lua_istable(tolua_S, -1))
+		if (!lua_istable(tolua_S, -1)) {
 			msg.body = NULL;
+			s->send_msg(&msg);
+		}
         else {
             const char* msg_name = proto_manager::pb_type2name(msg.ctype);
-            msg.body = lua_table_to_protobuf(tolua_S, -1, msg_name);
+            msg.body = lua_table_to_protobuf(tolua_S, lua_gettop(tolua_S), msg_name);
+			s->send_msg(&msg);
+			proto_manager::free_protobuf_message((Message*)msg.body);
         }
     }
 
@@ -326,8 +329,8 @@ int register_session_export(lua_State* tolua_S)
     {
         tolua_open(tolua_S);
 
-        tolua_module(tolua_S, "service", 0);
-        tolua_beginmodule(tolua_S, "service");
+        tolua_module(tolua_S, "session", 0);
+        tolua_beginmodule(tolua_S, "session");
 
         tolua_function(tolua_S, "close", lua_session_close);
         tolua_function(tolua_S, "send_msg", lua_session_send_msg);

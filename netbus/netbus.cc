@@ -66,12 +66,18 @@ extern "C" {
 					int head_size = 0;
 					ws_protocol::read_ws_header((unsigned char*)session->recv_buffer, session->recved, &head_size, &payload_size);
 					
+					session->long_pkg_len = head_size + payload_size;
 					session->long_pkg = (char*)malloc(head_size + payload_size);
 					memcpy(session->long_pkg, session->recv_buffer, session->recved);
-
-					session->long_pkg_len = head_size + payload_size;
 				}
 				else { // tcp package > receive length
+					int payload_size = 0;
+					int head_size = 0;
+					tcp_protocol::read_header((unsigned char*)session->recv_buffer, session->recved, &head_size, &payload_size);
+
+					session->long_pkg_len = payload_size + head_size;
+					session->long_pkg = (char*)malloc(payload_size + head_size);
+					memcpy(session->long_pkg, session->recv_buffer, session->recved);
 				}
 			}
 			*buf = uv_buf_init(session->long_pkg + session->recved, session->long_pkg_len - session->recved);
@@ -80,7 +86,6 @@ extern "C" {
 
 	static void on_recv_client_command(session* client_session, unsigned char* payload, int len) {
 		// print first "len" bytes of payload (string)
-		client_session->send_data(payload, len);
 
 		struct cmd_msg* msg = NULL;
 		if (proto_manager::decode_cmd_msg((const char*)payload, len, &msg)) {
@@ -97,33 +102,33 @@ extern "C" {
 		}
 	}
 
-	static void on_receive_tcp_data(uv_session* slient_session) {
-		unsigned char* package_data = (unsigned char*)((slient_session->long_pkg == NULL) ? slient_session->recv_buffer : slient_session->long_pkg);
+	static void on_receive_tcp_data(uv_session* client_session) {
+		unsigned char* package_data = (unsigned char*)((client_session->long_pkg == NULL) ? client_session->recv_buffer : client_session->long_pkg);
 
-		while (slient_session->recved > 0) {
+		while (client_session->recved > 0) {
 			int payload_size = 0;
 			int head_size = 0;
 
-			if (!tcp_protocol::read_header(package_data, slient_session->recved, &head_size, &payload_size)) {
+			if (!tcp_protocol::read_header(package_data, client_session->recved, &head_size, &payload_size)) {
 				break;
 			}
 
-			if (slient_session->recved < payload_size + head_size) {
+			if (client_session->recved < payload_size + head_size) {
 				break;
 			}
 
-			on_recv_client_command((session*)slient_session, package_data + head_size, payload_size);
+			on_recv_client_command((session*)client_session, package_data + head_size, payload_size);
 
-			if (slient_session->recved > payload_size + head_size) {
+			if (client_session->recved > payload_size + head_size) {
 				memmove(package_data, package_data + payload_size + head_size, payload_size + head_size);
 			}
 
-			slient_session->recved -= payload_size + head_size;
+			client_session->recved -= payload_size + head_size;
 
-			if (slient_session->recved == 0 && slient_session->long_pkg != NULL) {
-				free(slient_session->long_pkg);
-				slient_session->long_pkg = NULL;
-				slient_session->long_pkg_len = 0;
+			if (client_session->recved == 0 && client_session->long_pkg != NULL) {
+				free(client_session->long_pkg);
+				client_session->long_pkg = NULL;
+				client_session->long_pkg_len = 0;
 			}
 		}
 	}
