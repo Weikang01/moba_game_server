@@ -276,6 +276,8 @@ bool lua_service::on_session_recv_cmd(session* s, struct cmd_msg* msg) {
 
 	if (!msg->body) {
 		lua_pushnil(lua_wrapper::get_lua_state());
+        lua_rawseti(lua_wrapper::get_lua_state(), -2, index);          /* table[index] = value, L: table */
+        ++index;
 	}
 	else {
 		if (proto_manager::proto_type() == PROTO_JSON) {
