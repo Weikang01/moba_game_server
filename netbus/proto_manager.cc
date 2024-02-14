@@ -68,12 +68,27 @@ void ProtoManager::free_protobuf_message(google::protobuf::Message* message) {
 	}
 }
 
+bool ProtoManager::decode_raw_cmd(const unsigned char* in_data, int in_len, raw_cmd_msg* out_raw_cmd)
+{
+	if (in_len < CMD_HEADER_SIZE) {
+		return false;
+	}
+
+	out_raw_cmd->stype = in_data[0] | (in_data[1] << 8);
+	out_raw_cmd->ctype = in_data[2] | (in_data[3] << 8);
+	out_raw_cmd->utag = in_data[4] | (in_data[5] << 8) | (in_data[6] << 16) | (in_data[7] << 24);
+	out_raw_cmd->raw_data = (unsigned char*)in_data;
+	out_raw_cmd->raw_len = in_len;
+
+	return true;
+}
+
 // stype - 2 bytes
 // ctype - 2 bytes
-// utag - 4 bytes
-bool ProtoManager::decode_cmd_msg(const char* in_data, int in_len, cmd_msg** out_msg)
+// utag  - 4 bytes
+bool ProtoManager::decode_cmd_msg(const unsigned char* in_data, int in_len, cmd_msg** out_msg)
 {
-	if (in_len < 8) {
+	if (in_len < CMD_HEADER_SIZE) {
 		return false;
 	}
 

@@ -6,6 +6,16 @@
 #include "proto_manager.h"
 #include "service.h"
 
+Service::Service()
+{
+	this->use_raw_cmd = false;
+}
+
+bool Service::on_session_recv_raw(Session* s, raw_cmd_msg* raw)
+{
+	return false;
+}
+
 // return false if not valid
 bool Service::on_session_recv_cmd(Session* s, cmd_msg* msg)
 {

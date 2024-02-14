@@ -26,7 +26,7 @@ print("WS Server starts at " .. game_config.gateway_ws_port)
 local servers = game_config.servers
 local gateway_service = require("gateway/gateway_service")
 for k, v in pairs(servers) do
-    local ret = Service.register(v.stype, gateway_service)
+    local ret = Service.register_with_raw(v.stype, gateway_service)
     if ret then
         print("gateway service [" .. v.stype .. "] register success!")
     else

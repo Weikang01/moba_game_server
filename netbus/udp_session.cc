@@ -51,6 +51,11 @@ void UDPSession::send_msg(cmd_msg* msg)
 
 }
 
+void UDPSession::send_raw_cmd(raw_cmd_msg* raw)
+{
+	this->send_data(raw->raw_data, raw->raw_len);
+}
+
 const char* UDPSession::get_address(int* client_port)
 {
 	*client_port = this->client_port;

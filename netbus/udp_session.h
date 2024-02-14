@@ -5,6 +5,7 @@
 
 class Session;
 struct cmd_msg;
+struct raw_cmd_msg;
 
 class UDPSession : public Session
 {
@@ -18,6 +19,7 @@ public:
 	virtual void close() override;
 	virtual void send_data(unsigned char* data, int len) override;
 	virtual void send_msg(cmd_msg* msg) override;
+	void send_raw_cmd(raw_cmd_msg* raw) override;
 	virtual const char* get_address(int* client_port) override;
 };
 
