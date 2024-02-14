@@ -151,11 +151,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\apps\cpp_test\main.cc" />
-    <ClCompile Include="..\..\apps\cpp_test\proto\game.pb.cc" />
-    <ClCompile Include="..\..\apps\cpp_test\proto\pf_cmd_map.cc" />
-    <ClCompile Include="..\..\apps\lua_test\main.cc" />
-    <ClCompile Include="..\..\apps\lua_test\proto\game.pb.cc" />
+    <ClCompile Include="..\..\apps\lua\main.cc" />
+    <ClCompile Include="..\..\apps\lua\proto\game.pb.cc" />
     <ClCompile Include="..\..\database\mysql_wrapper.cc" />
     <ClCompile Include="..\..\database\redis_wrapper.cc" />
     <ClCompile Include="..\..\lua_wrapper\lua_wrapper.cc" />
@@ -256,9 +253,7 @@
     <ClCompile Include="..\..\vendor\tolua\tolua_to.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\apps\cpp_test\proto\game.pb.h" />
-    <ClInclude Include="..\..\apps\cpp_test\proto\pf_cmd_map.h" />
-    <ClInclude Include="..\..\apps\lua_test\proto\game.pb.h" />
+    <ClInclude Include="..\..\apps\lua\proto\game.pb.h" />
     <ClInclude Include="..\..\database\mysql_wrapper.h" />
     <ClInclude Include="..\..\database\redis_wrapper.h" />
     <ClInclude Include="..\..\lua_wrapper\lua_wrapper.h" />
@@ -382,12 +377,11 @@
     <ClInclude Include="..\..\vendor\tolua\tolua_fix.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\apps\cpp_test\proto\game.proto" />
-    <None Include="..\..\apps\lua_test\proto\game.proto" />
-    <None Include="..\..\apps\lua_test\scripts\chatroom_server.lua" />
-    <None Include="..\..\apps\lua_test\scripts\cmd_name_map.lua" />
-    <None Include="..\..\apps\lua_test\scripts\echo_server.lua" />
-    <None Include="..\..\apps\lua_test\scripts\main.lua" />
+    <None Include="..\..\apps\lua\proto\game.proto" />
+    <None Include="..\..\apps\lua\scripts\chatroom_server.lua" />
+    <None Include="..\..\apps\lua\scripts\cmd_name_map.lua" />
+    <None Include="..\..\apps\lua\scripts\echo_server.lua" />
+    <None Include="..\..\apps\lua\scripts\main.lua" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

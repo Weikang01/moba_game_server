@@ -65,19 +65,13 @@
     <Filter Include="vendor\tolua">
       <UniqueIdentifier>{e5ef8505-c489-4476-a86e-b17fb2e8a876}</UniqueIdentifier>
     </Filter>
-    <Filter Include="apps\cpp_test">
-      <UniqueIdentifier>{5b8077dc-5bae-4df6-961e-7de54bfa4651}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="apps\cpp_test\proto">
-      <UniqueIdentifier>{c83fd2d4-cf42-4081-aa63-cfadbba1ae3d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="apps\lua_test">
+    <Filter Include="apps\lua">
       <UniqueIdentifier>{24b75765-712d-4a50-b977-2466a25f4f59}</UniqueIdentifier>
     </Filter>
-    <Filter Include="apps\lua_test\proto">
+    <Filter Include="apps\lua\proto">
       <UniqueIdentifier>{f86a9cc9-e128-4311-ace8-ab68a44287eb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="apps\lua_test\scripts">
+    <Filter Include="apps\lua\scripts">
       <UniqueIdentifier>{c77a1f55-d2d5-4603-a1a1-f411492d8def}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -373,23 +367,14 @@
     <ClCompile Include="..\..\lua_wrapper\proto_manager_export_to_lua.cc">
       <Filter>lua_wrapper</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\apps\cpp_test\proto\game.pb.cc">
-      <Filter>apps\cpp_test\proto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\apps\cpp_test\proto\pf_cmd_map.cc">
-      <Filter>apps\cpp_test\proto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\apps\lua_test\main.cc">
-      <Filter>apps\lua_test</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\apps\lua_test\proto\game.pb.cc">
-      <Filter>apps\lua_test\proto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\apps\cpp_test\main.cc">
-      <Filter>apps\cpp_test</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\utils\small_alloc.c">
       <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\apps\lua\main.cc">
+      <Filter>apps\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\apps\lua\proto\game.pb.cc">
+      <Filter>apps\lua\proto</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -753,37 +738,28 @@
     <ClInclude Include="..\..\lua_wrapper\proto_manager_export_to_lua.h">
       <Filter>lua_wrapper</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\apps\cpp_test\proto\game.pb.h">
-      <Filter>apps\cpp_test\proto</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\apps\cpp_test\proto\pf_cmd_map.h">
-      <Filter>apps\cpp_test\proto</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\apps\lua_test\proto\game.pb.h">
-      <Filter>apps\lua_test\proto</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\utils\small_alloc.h">
       <Filter>utils</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\apps\lua\proto\game.pb.h">
+      <Filter>apps\lua\proto</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\apps\cpp_test\proto\game.proto">
-      <Filter>apps\cpp_test\proto</Filter>
+    <None Include="..\..\apps\lua\scripts\chatroom_server.lua">
+      <Filter>apps\lua\scripts</Filter>
     </None>
-    <None Include="..\..\apps\lua_test\proto\game.proto">
-      <Filter>apps\lua_test\proto</Filter>
+    <None Include="..\..\apps\lua\scripts\cmd_name_map.lua">
+      <Filter>apps\lua\scripts</Filter>
     </None>
-    <None Include="..\..\apps\lua_test\scripts\cmd_name_map.lua">
-      <Filter>apps\lua_test\scripts</Filter>
+    <None Include="..\..\apps\lua\scripts\echo_server.lua">
+      <Filter>apps\lua\scripts</Filter>
     </None>
-    <None Include="..\..\apps\lua_test\scripts\echo_server.lua">
-      <Filter>apps\lua_test\scripts</Filter>
+    <None Include="..\..\apps\lua\scripts\main.lua">
+      <Filter>apps\lua\scripts</Filter>
     </None>
-    <None Include="..\..\apps\lua_test\scripts\main.lua">
-      <Filter>apps\lua_test\scripts</Filter>
-    </None>
-    <None Include="..\..\apps\lua_test\scripts\chatroom_server.lua">
-      <Filter>apps\lua_test\scripts</Filter>
+    <None Include="..\..\apps\lua\proto\game.proto">
+      <Filter>apps\lua\proto</Filter>
     </None>
   </ItemGroup>
 </Project>

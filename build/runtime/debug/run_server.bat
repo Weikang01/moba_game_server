@@ -1,1 +1,0 @@
-proj_windows.exe ../../../apps/lua_test/scripts main.lua
