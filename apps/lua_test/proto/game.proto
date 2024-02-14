@@ -1,18 +1,49 @@
 syntax="proto3";
 
 enum Cmd {
-	INVALID_CMD = 0;
-	eLoginReq = 1;
-	eLoginRes = 2;
-}
+	INVALID_CMD  = 0;
+	eLoginReq    = 1;
+	eLoginRes    = 2;
 
-message LoginReq {
-	string username = 1;
-	int32 age = 2;
-	string email = 3;
-	int32 int_set = 4;
+	eExitReq     = 3;
+	eExitRes     = 4;
+
+	eSendMsgReq  = 5;
+	eSendMsgRes  = 6;
+
+	eOnUserLogin = 7;
+	eOnUserExit  = 8;
+	eOnSendMsg   = 9;
 }
 
 message LoginRes {
 	int32 status = 1;
+}
+
+message ExitRes {
+	int32 status = 1;
+}
+
+message SendMsgReq {
+	string content = 1;
+}
+
+message SendMsgRes {
+	int32 status = 1;
+}
+
+message OnUserLogin {
+	string ip = 1;
+	int32 port = 2;
+}
+
+message OnUserExit {
+	string ip = 1;
+	int32 port = 2;
+}
+
+message OnSendMsg {
+	string ip = 1;
+	int32 port = 2;
+	string content = 3;
 }

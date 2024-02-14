@@ -16,8 +16,14 @@ end
 
 -- register services
 
-local echo_server = require("echo_server")
-service.register(echo_server.stype, echo_server.service);
+local chatroom_server = require("chatroom_server")
+local ret = service.register(chatroom_server.stype, chatroom_server.service);
+
+if ret then
+	print("register chatroom service success")
+else
+	print("register chatroom service failed")
+end
 
 netbus.tcp_listen(8023)
 netbus.ws_listen(8043)
