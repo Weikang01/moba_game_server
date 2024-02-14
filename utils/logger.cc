@@ -21,9 +21,15 @@ static uint32_t g_last_second;
 static char g_format_time[64] = { 0 };
 static const char* g_log_level[] = { "[DEBUG]", "[WARN]", "[ERROR]" };
 static bool g_std_output = false;
+static bool g_init = false;
 
 void Logger::init(const char* path, const char* prefix, bool std_output, int time_zone)
 {
+	if (g_init) {
+		return;
+	}
+	g_init = true;
+	
 	g_log_path = path;
 	g_prefix = prefix;
 	g_std_output = std_output;

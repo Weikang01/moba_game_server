@@ -15,7 +15,7 @@ extern "C" {
 #include "../netbus/session.h"
 #include "../utils/logger.h"
 
-int lua_session_close(lua_State* tolua_S)
+static int lua_session_close(lua_State* tolua_S)
 {
     Session* s = (Session*)tolua_touserdata(tolua_S, 1, 0);
 
@@ -258,7 +258,7 @@ struct cmd_msg {
     void* body; // json string or binary buffer
 };
 */
-int lua_session_send_msg(lua_State* tolua_S)
+static int lua_session_send_msg(lua_State* tolua_S)
 {
     Session* s = (Session*)tolua_touserdata(tolua_S, 1, 0);
     int stype, ctype, utag;
@@ -299,11 +299,42 @@ int lua_session_send_msg(lua_State* tolua_S)
         }
     }
 
+	lua_pushinteger(tolua_S, 1);
+	return 1;
 failed:
+	lua_pushinteger(tolua_S, 0);
 	return 0;
 }
 
-int lua_session_get_address(lua_State* tolua_S)
+static int lua_set_utag(lua_State* tolua_S)
+{
+	Session* s = (Session*)tolua_touserdata(tolua_S, 1, 0);
+	int utag = lua_tointeger(tolua_S, 2);
+	if (!s)
+		goto failed;
+
+	s->utag = utag;
+	lua_pushinteger(tolua_S, 1);
+	return 1;
+failed:
+	lua_pushinteger(tolua_S, 0);
+	return 0;
+}
+
+static int lua_get_utag(lua_State* tolua_S)
+{
+	Session* s = (Session*)tolua_touserdata(tolua_S, 1, 0);
+	if (!s)
+		goto failed;
+	lua_pushinteger(tolua_S, s->utag);
+	return 1;
+failed:
+	lua_pushinteger(tolua_S, 0);
+	return 0;
+}
+
+
+static int lua_session_get_address(lua_State* tolua_S)
 {
     Session* s = (Session*)tolua_touserdata(tolua_S, 1, 0);
     int port;
@@ -317,8 +348,19 @@ int lua_session_get_address(lua_State* tolua_S)
     lua_pushinteger(tolua_S, port);
 
     return 2;
-
 failed:
+	return 0;
+}
+
+static int lua_as_client(lua_State* tolua_S)
+{
+	Session* s = (Session*)tolua_touserdata(tolua_S, 1, 0);
+	if (!s)
+		goto failed;
+	lua_pushinteger(tolua_S, s->as_client);
+	return 1;
+failed:
+	lua_pushnil(tolua_S);
 	return 0;
 }
 
@@ -335,6 +377,9 @@ int register_session_export(lua_State* tolua_S)
         tolua_function(tolua_S, "close", lua_session_close);
         tolua_function(tolua_S, "send_msg", lua_session_send_msg);
         tolua_function(tolua_S, "get_address", lua_session_get_address);
+		tolua_function(tolua_S, "set_utag", lua_set_utag);
+		tolua_function(tolua_S, "get_utag", lua_get_utag);
+		tolua_function(tolua_S, "as_client", lua_as_client);
 
         tolua_endmodule(tolua_S);
     }
