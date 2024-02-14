@@ -382,6 +382,7 @@
   <ItemGroup>
     <None Include="..\..\apps\cpp_test\proto\game.proto" />
     <None Include="..\..\apps\lua_test\proto\game.proto" />
+    <None Include="..\..\apps\lua_test\scripts\chatroom_server.lua" />
     <None Include="..\..\apps\lua_test\scripts\cmd_name_map.lua" />
     <None Include="..\..\apps\lua_test\scripts\echo_server.lua" />
     <None Include="..\..\apps\lua_test\scripts\main.lua" />

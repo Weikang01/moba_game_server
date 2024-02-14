@@ -776,5 +776,8 @@
     <None Include="..\..\apps\lua_test\scripts\main.lua">
       <Filter>apps\lua_test\scripts</Filter>
     </None>
+    <None Include="..\..\apps\lua_test\scripts\chatroom_server.lua">
+      <Filter>apps\lua_test\scripts</Filter>
+    </None>
   </ItemGroup>
 </Project>
