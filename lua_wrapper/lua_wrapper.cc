@@ -250,6 +250,7 @@ void LuaWrapper::init()
 	register_scheduler_export(g_lua_state);
 	register_netbus_export(g_lua_state);
 	register_proto_manager_export(g_lua_state);
+	register_raw_cmd_export(g_lua_state);
 }
 
 void LuaWrapper::exit()

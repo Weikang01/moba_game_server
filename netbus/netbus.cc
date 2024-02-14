@@ -87,18 +87,11 @@ extern "C" {
 	static void on_recv_client_command(Session* client_session, unsigned char* payload, int len) {
 		// print first "len" bytes of payload (string)
 
-		struct cmd_msg* msg = NULL;
-		if (ProtoManager::decode_cmd_msg((const char*)payload, len, &msg)) {
-
-			if (!ServiceManager::on_recv_cmd_msg((Session*)client_session, msg)) 
-			{
+		struct raw_cmd_msg raw;
+		if (ProtoManager::decode_raw_cmd(payload, len, &raw)) {
+			if (!ServiceManager::on_recv_raw_cmd((Session*)client_session, &raw)) {
 				client_session->close();
 			}
-			ProtoManager::cmd_msg_free(msg);
-
-		}
-		else {
-			log_error("decode cmd msg failed");
 		}
 	}
 

@@ -1,4 +1,12 @@
-local function session_recv_cmd(s, cmd_msg)
+--[[
+cmd_raw = {
+    stype = 1,
+    ctype = 2,
+    utag  = 3,
+    body  = raw
+}
+]]
+local function on_session_recv_raw(s, cmd_raw)
 
 end
 
@@ -8,7 +16,7 @@ end
 
 
 local gateway_service = {
-    on_session_recv_cmd = session_recv_cmd,
+    on_session_recv_raw = on_session_recv_raw,
     on_session_disconnect = session_disconnect
 }
 

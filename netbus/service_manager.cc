@@ -30,13 +30,24 @@ bool ServiceManager::register_service(int type, Service* s)
 	return true;
 }
 
-bool ServiceManager::on_recv_cmd_msg(Session* s, cmd_msg* msg)
+bool ServiceManager::on_recv_raw_cmd(Session* s, raw_cmd_msg* raw)
 {
-	if (g_service_set[msg->stype] == NULL) {
+	if (g_service_set[raw->stype] == NULL) {
 		return false;
 	}
 
-	return g_service_set[msg->stype]->on_session_recv_cmd(s, msg);
+	if (g_service_set[raw->stype]->use_raw_cmd) {
+		return g_service_set[raw->stype]->on_session_recv_raw(s, raw);
+	}
+
+	cmd_msg* msg = NULL;
+	bool ret = false;
+	if (ProtoManager::decode_cmd_msg(raw->raw_data, raw->raw_len, &msg)) {
+		ret = g_service_set[raw->stype]->on_session_recv_cmd(s, msg);
+		ProtoManager::cmd_msg_free(msg);
+	}
+
+	return ret;
 }
 
 void ServiceManager::on_session_disconnect(Session* s)
