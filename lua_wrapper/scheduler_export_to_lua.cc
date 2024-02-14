@@ -17,10 +17,10 @@ extern "C" {
 #include "scheduler_export_to_lua.h"
 
 #include "../utils/time_list.h"
+#include "../utils/small_alloc.h"
 
-
-#define my_malloc malloc
-#define my_free free
+#define my_malloc small_alloc
+#define my_free small_free
 
 
 struct lua_schedule_data {
@@ -31,7 +31,7 @@ struct lua_schedule_data {
 static void lua_scheduler_callback(void* data)
 {
     struct lua_schedule_data* timer = (struct lua_schedule_data*)data;
-    lua_wrapper::execute_function_by_handler(timer->handle, 0);
+    LuaWrapper::execute_function_by_handler(timer->handle, 0);
 
     if (timer->repeat == -1)
         return;
@@ -39,7 +39,7 @@ static void lua_scheduler_callback(void* data)
     timer->repeat--;
     if (timer->repeat == 0)
     {
-        lua_wrapper::remove_script_handler(timer->handle);
+        LuaWrapper::remove_script_handler(timer->handle);
         my_free(timer);
 	}
 }
@@ -75,7 +75,7 @@ static int lua_scheduler_schedule(lua_State* tolua_S)
     return 1;
 lua_failed:
     if (handle != 0)
-		lua_wrapper::remove_script_handler(handle);
+		LuaWrapper::remove_script_handler(handle);
     lua_pushnil(tolua_S);
 	return 0;
 }
@@ -92,8 +92,8 @@ static int lua_scheduler_unschedule(lua_State* tolua_S)
 static void lua_scheduler_once_callback(void* data)
 {
     struct lua_schedule_data* timer = (struct lua_schedule_data*)data;
-    lua_wrapper::execute_function_by_handler(timer->handle, 0);
-    lua_wrapper::remove_script_handler(timer->handle);
+    LuaWrapper::execute_function_by_handler(timer->handle, 0);
+    LuaWrapper::remove_script_handler(timer->handle);
     my_free(timer);
 }
 
@@ -124,7 +124,7 @@ static int lua_scheduler_schedule_once(lua_State* tolua_S)
     return 1;
 lua_failed:
     if (handle != 0)
-        lua_wrapper::remove_script_handler(handle);
+        LuaWrapper::remove_script_handler(handle);
 
     lua_pushnil(tolua_S);
     return 0;
@@ -137,8 +137,8 @@ int register_scheduler_export(lua_State* tolua_S)
     {
         tolua_open(tolua_S);
 
-        tolua_module(tolua_S, "scheduler", 0);
-        tolua_beginmodule(tolua_S, "scheduler");
+        tolua_module(tolua_S, "Scheduler", 0);
+        tolua_beginmodule(tolua_S, "Scheduler");
 
         tolua_function(tolua_S, "schedule", lua_scheduler_schedule);
         tolua_function(tolua_S, "cancel", lua_scheduler_unschedule);

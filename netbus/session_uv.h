@@ -12,7 +12,7 @@ enum {
 	SESSION_TYPE_WS,
 };
 
-class uv_session : session
+class UVSession : public Session
 {
 public:
 	uv_tcp_t client_handler;
@@ -34,8 +34,8 @@ private:
 	void exit();
 	
 public:
-	static uv_session* create();
-	static void destroy(uv_session* s);
+	static UVSession* create();
+	static void destroy(UVSession* s);
 
 public:
 	void close() override;

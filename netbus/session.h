@@ -3,8 +3,16 @@
 
 struct cmd_msg;
 
-class session
+class Session
 {
+public:
+	unsigned int as_client;
+	unsigned int utag;
+	Session()
+	{
+		as_client = 0;
+		utag = 0;
+	}
 public:
 	virtual void close() = 0;
 	virtual void send_data(unsigned char* data, int len) = 0;

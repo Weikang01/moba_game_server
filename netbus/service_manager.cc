@@ -8,14 +8,14 @@
 #include "service_manager.h"
 
 #define MAX_SERVICE 512
-static service* g_service_set[MAX_SERVICE];
+static Service* g_service_set[MAX_SERVICE];
 
-void service_manager::init()
+void ServiceManager::init()
 {
 	memset(g_service_set, 0, MAX_SERVICE);
 }
 
-bool service_manager::register_service(int type, service* s)
+bool ServiceManager::register_service(int type, Service* s)
 {
 	if (type < 0 || type >= MAX_SERVICE) {
 		return false;
@@ -30,7 +30,7 @@ bool service_manager::register_service(int type, service* s)
 	return true;
 }
 
-bool service_manager::on_recv_cmd_msg(session* s, cmd_msg* msg)
+bool ServiceManager::on_recv_cmd_msg(Session* s, cmd_msg* msg)
 {
 	if (g_service_set[msg->stype] == NULL) {
 		return false;
@@ -39,7 +39,7 @@ bool service_manager::on_recv_cmd_msg(session* s, cmd_msg* msg)
 	return g_service_set[msg->stype]->on_session_recv_cmd(s, msg);
 }
 
-void service_manager::on_session_disconnect(session* s)
+void ServiceManager::on_session_disconnect(Session* s)
 {
 	for (int i = 0; i < MAX_SERVICE; i++) {
 		if (g_service_set[i] != NULL) {

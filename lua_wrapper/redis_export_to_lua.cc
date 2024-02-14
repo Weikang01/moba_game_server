@@ -19,15 +19,15 @@ extern "C" {
 
 static void on_connect_cb(const char* erro, void* context, void* udata) {
     if (erro) {
-		lua_pushstring(lua_wrapper::get_lua_state(), erro);
-		lua_pushnil(lua_wrapper::get_lua_state());
+		lua_pushstring(LuaWrapper::get_lua_state(), erro);
+		lua_pushnil(LuaWrapper::get_lua_state());
 	} 
     else {
-		lua_pushnil(lua_wrapper::get_lua_state());
-		tolua_pushuserdata(lua_wrapper::get_lua_state(), context);
+		lua_pushnil(LuaWrapper::get_lua_state());
+		tolua_pushuserdata(LuaWrapper::get_lua_state(), context);
 	}
-	lua_wrapper::execute_function_by_handler((int)udata, 2);
-	lua_wrapper::remove_script_handler((int)udata);
+	LuaWrapper::execute_function_by_handler((int)udata, 2);
+	LuaWrapper::remove_script_handler((int)udata);
 }
 
 static int lua_redis_connect(lua_State* tolua_S)
@@ -41,53 +41,53 @@ static int lua_redis_connect(lua_State* tolua_S)
     if (port == NULL)
         return 0;
 	handler = toluafix_ref_function(tolua_S, 3, 0);
-	redis_wrapper::connect(host, port, on_connect_cb, (void*)handler);
+	RedisWrapper::connect(host, port, on_connect_cb, (void*)handler);
     return 0;
 }
 
 static void push_result_to_lua(redisReply* result) {
     switch (result->type) {
 	case REDIS_REPLY_INTEGER:
-		lua_pushinteger(lua_wrapper::get_lua_state(), result->integer);
+		lua_pushinteger(LuaWrapper::get_lua_state(), result->integer);
 		break;
 	case REDIS_REPLY_STATUS:
 	case REDIS_REPLY_STRING:
-		lua_pushstring(lua_wrapper::get_lua_state(), result->str);
+		lua_pushstring(LuaWrapper::get_lua_state(), result->str);
 		break;
 	case REDIS_REPLY_ARRAY:
-		lua_newtable(lua_wrapper::get_lua_state());
+		lua_newtable(LuaWrapper::get_lua_state());
         for (size_t i = 0; i < result->elements; i++) {
 			push_result_to_lua(result->element[i]);
-			lua_rawseti(lua_wrapper::get_lua_state(), -2, i + 1);
+			lua_rawseti(LuaWrapper::get_lua_state(), -2, i + 1);
 		}
 		break;
 	case REDIS_REPLY_NIL:
-		lua_pushnil(lua_wrapper::get_lua_state());
+		lua_pushnil(LuaWrapper::get_lua_state());
 		break;
 	case REDIS_REPLY_ERROR:
-		lua_pushstring(lua_wrapper::get_lua_state(), result->str);
+		lua_pushstring(LuaWrapper::get_lua_state(), result->str);
 		break;
 	default:
-		lua_pushnil(lua_wrapper::get_lua_state());
+		lua_pushnil(LuaWrapper::get_lua_state());
 		break;
 	}
 }
 
 static void on_query_cb(const char* erro, redisReply* result, void* udata) {
     if (erro) {
-		lua_pushstring(lua_wrapper::get_lua_state(), erro);
-		lua_pushnil(lua_wrapper::get_lua_state());
+		lua_pushstring(LuaWrapper::get_lua_state(), erro);
+		lua_pushnil(LuaWrapper::get_lua_state());
 	} 
     else {
-		lua_pushnil(lua_wrapper::get_lua_state());
+		lua_pushnil(LuaWrapper::get_lua_state());
         if (result) {
             push_result_to_lua(result);
         }
         else
-			lua_pushnil(lua_wrapper::get_lua_state());
+			lua_pushnil(LuaWrapper::get_lua_state());
 	}
-	lua_wrapper::execute_function_by_handler((int)udata, 2);
-	lua_wrapper::remove_script_handler((int)udata);
+	LuaWrapper::execute_function_by_handler((int)udata, 2);
+	LuaWrapper::remove_script_handler((int)udata);
 }
 
 static int lua_redis_query(lua_State* tolua_S)
@@ -102,7 +102,7 @@ static int lua_redis_query(lua_State* tolua_S)
     if (handler == NULL)
 		return 0;
 
-    redis_wrapper::query(context, sql, on_query_cb, (void*)handler);
+    RedisWrapper::query(context, sql, on_query_cb, (void*)handler);
 
     return 0;
 }
@@ -111,7 +111,7 @@ static int lua_redis_close(lua_State* tolua_S)
 {
     void* context = tolua_touserdata(tolua_S, 1, 0);
     if (context)
-        redis_wrapper::close(context);
+        RedisWrapper::close(context);
     return 0;
 }
 
@@ -122,8 +122,8 @@ int register_redis_export(lua_State* tolua_S)
     {
         tolua_open(tolua_S);
 
-        tolua_module(tolua_S, "redis_wrapper", 0);
-        tolua_beginmodule(tolua_S, "redis_wrapper");
+        tolua_module(tolua_S, "Redis", 0);
+        tolua_beginmodule(tolua_S, "Redis");
 
         tolua_function(tolua_S, "connect", lua_redis_connect);
         tolua_function(tolua_S, "query", lua_redis_query);

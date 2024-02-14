@@ -8,9 +8,21 @@
 #include <adapters/libuv.h>
 
 #include "redis_wrapper.h"
+#include "../utils/small_alloc.h"
 
-#define my_malloc malloc
-#define my_free free
+#define my_malloc small_alloc
+#define my_free small_free
+
+
+static char* my_strdup(const char* src) {
+	char* dst = (char*)my_malloc(strlen(src) + 1);
+	strcpy(dst, src);
+	return dst;
+}
+
+static void free_strdup(char* str) {
+	my_free(str);
+}
 
 
 struct connect_req {
@@ -32,7 +44,7 @@ void connectCallback(const redisAsyncContext* c, int status) {
 	struct connect_req* connect_req = (struct connect_req*)(c->data);
 
 	if (status != REDIS_OK) {
-		connect_req->err = strdup(c->errstr);
+		connect_req->err = my_strdup(c->errstr);
 		connect_req->open_cb(connect_req->err, NULL, connect_req->udata);
 		return;
 	}
@@ -46,9 +58,18 @@ void connectCallback(const redisAsyncContext* c, int status) {
 	connect_req->redis_context = (void*)redis_context;
 
 	connect_req->open_cb(NULL, (void*)redis_context, connect_req->udata);
+
+
+	if (connect_req->host) {
+		free_strdup(connect_req->host);
+	}
+	if (connect_req->err) {
+		free_strdup(connect_req->err);
+	}
+	my_free(connect_req);
 }
 
-void redis_wrapper::connect(const char* host, const int port, void(*open_cb)(const char* err, void* context, void* udata), void* udata)
+void RedisWrapper::connect(const char* host, const int port, void(*open_cb)(const char* err, void* context, void* udata), void* udata)
 {
 	redisAsyncContext* c = redisAsyncConnect(host, port);
 
@@ -61,7 +82,7 @@ void redis_wrapper::connect(const char* host, const int port, void(*open_cb)(con
 	struct connect_req* connect_req = (struct connect_req*)my_malloc(sizeof(struct connect_req));
 	memset(connect_req, 0, sizeof(struct connect_req));
 
-	connect_req->host = strdup(host);
+	connect_req->host = my_strdup(host);
 	connect_req->port = port;
 	connect_req->open_cb = open_cb;
 	connect_req->err = NULL;
@@ -90,16 +111,25 @@ void getCallback(redisAsyncContext* c, void* r, void* privdata) {
 	struct query_req* query_req = (struct query_req*)c->data;
 
 	if (reply == NULL) {
-		query_req->err = strdup(c->errstr);
+		query_req->err = my_strdup(c->errstr);
 		query_req->query_cb(query_req->err, NULL, query_req->udata);
 		return;
 	}
 
 	query_req->result = reply;
 	query_req->query_cb(NULL, query_req->result, query_req->udata);
+
+	if (query_req->sql) {
+		free_strdup(query_req->sql);
+	}
+	if (query_req->err) {
+		free_strdup(query_req->err);
+	}
+	my_free(query_req);
+	c->data = NULL;
 }
 
-void redis_wrapper::query(void* context, const char* sql, void(*query_cb)(const char* err, redisReply* result, void* udata), void* udata)
+void RedisWrapper::query(void* context, const char* sql, void(*query_cb)(const char* err, redisReply* result, void* udata), void* udata)
 {
 	struct redis_context* redis_con = (struct redis_context*)context;
 	if (redis_con->is_closing) {
@@ -112,7 +142,7 @@ void redis_wrapper::query(void* context, const char* sql, void(*query_cb)(const 
 	memset(query_req, 0, sizeof(struct query_req));
 
 	query_req->redis_context = context;
-	query_req->sql = strdup(sql);
+	query_req->sql = my_strdup(sql);
 	query_req->query_cb = query_cb;
 	query_req->result = NULL;
 	query_req->err = NULL;
@@ -123,7 +153,7 @@ void redis_wrapper::query(void* context, const char* sql, void(*query_cb)(const 
 	redisAsyncCommand(c, getCallback, NULL, sql);
 }
 
-void redis_wrapper::close(void* context)
+void RedisWrapper::close(void* context)
 {
 	struct redis_context* redis_con = (struct redis_context*)context;
 	if (redis_con->is_closing) {

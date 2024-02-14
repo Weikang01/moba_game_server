@@ -30,57 +30,57 @@ using google::protobuf::Reflection;
 static int exe_function(int numArgs)
 {
     int functionIndex = -(numArgs + 1);
-    if (!lua_isfunction(lua_wrapper::get_lua_state(), functionIndex))
+    if (!lua_isfunction(LuaWrapper::get_lua_state(), functionIndex))
     {
         log_error("value at stack [%d] is not function", functionIndex);
-        lua_pop(lua_wrapper::get_lua_state(), numArgs + 1); // remove function and arguments
+        lua_pop(LuaWrapper::get_lua_state(), numArgs + 1); // remove function and arguments
         return 0;
     }
 
     int traceback = 0;
-    lua_getglobal(lua_wrapper::get_lua_state(), "__G__TRACKBACK__");                         /* L: ... func arg1 arg2 ... G */
-    if (!lua_isfunction(lua_wrapper::get_lua_state(), -1))
+    lua_getglobal(LuaWrapper::get_lua_state(), "__G__TRACKBACK__");                         /* L: ... func arg1 arg2 ... G */
+    if (!lua_isfunction(LuaWrapper::get_lua_state(), -1))
     {
-        lua_pop(lua_wrapper::get_lua_state(), 1);                                            /* L: ... func arg1 arg2 ... */
+        lua_pop(LuaWrapper::get_lua_state(), 1);                                            /* L: ... func arg1 arg2 ... */
     }
     else
     {
-        lua_insert(lua_wrapper::get_lua_state(), functionIndex - 1);                         /* L: ... G func arg1 arg2 ... */
+        lua_insert(LuaWrapper::get_lua_state(), functionIndex - 1);                         /* L: ... G func arg1 arg2 ... */
         traceback = functionIndex - 1;
     }
 
     int error = 0;
-    error = lua_pcall(lua_wrapper::get_lua_state(), numArgs, 1, traceback);                  /* L: ... [G] ret */
+    error = lua_pcall(LuaWrapper::get_lua_state(), numArgs, 1, traceback);                  /* L: ... [G] ret */
     if (error)
     {
         if (traceback == 0)
         {
-            log_error("[LUA ERROR] %s", lua_tostring(lua_wrapper::get_lua_state(), -1));        /* L: ... error */
-            lua_pop(lua_wrapper::get_lua_state(), 1); // remove error message from stack
+            log_error("[LUA ERROR] %s", lua_tostring(LuaWrapper::get_lua_state(), -1));        /* L: ... error */
+            lua_pop(LuaWrapper::get_lua_state(), 1); // remove error message from stack
         }
         else                                                            /* L: ... G error */
         {
-            lua_pop(lua_wrapper::get_lua_state(), 2); // remove __G__TRACKBACK__ and error message from stack
+            lua_pop(LuaWrapper::get_lua_state(), 2); // remove __G__TRACKBACK__ and error message from stack
         }
         return 0;
     }
 
     // get return value
     int ret = 0;
-    if (lua_isnumber(lua_wrapper::get_lua_state(), -1))
+    if (lua_isnumber(LuaWrapper::get_lua_state(), -1))
     {
-        ret = (int)lua_tointeger(lua_wrapper::get_lua_state(), -1);
+        ret = (int)lua_tointeger(LuaWrapper::get_lua_state(), -1);
     }
-    else if (lua_isboolean(lua_wrapper::get_lua_state(), -1))
+    else if (lua_isboolean(LuaWrapper::get_lua_state(), -1))
     {
-        ret = (int)lua_toboolean(lua_wrapper::get_lua_state(), -1);
+        ret = (int)lua_toboolean(LuaWrapper::get_lua_state(), -1);
     }
     // remove return value from stack
-    lua_pop(lua_wrapper::get_lua_state(), 1);                                                /* L: ... [G] */
+    lua_pop(LuaWrapper::get_lua_state(), 1);                                                /* L: ... [G] */
 
     if (traceback)
     {
-        lua_pop(lua_wrapper::get_lua_state(), 1); // remove __G__TRACKBACK__ from stack      /* L: ... */
+        lua_pop(LuaWrapper::get_lua_state(), 1); // remove __G__TRACKBACK__ from stack      /* L: ... */
     }
 
     return ret;
@@ -97,11 +97,11 @@ static void get_service_function(lua_State* L, int refid)
 
 static bool push_service_function(int nHandler)
 {
-    get_service_function(lua_wrapper::get_lua_state(), nHandler);                  /* L: ... func */
-    if (!lua_isfunction(lua_wrapper::get_lua_state(), -1))
+    get_service_function(LuaWrapper::get_lua_state(), nHandler);                  /* L: ... func */
+    if (!lua_isfunction(LuaWrapper::get_lua_state(), -1))
     {
         log_error("[LUA ERROR] function refid '%d' does not reference a Lua function", nHandler);
-        lua_pop(lua_wrapper::get_lua_state(), 1);
+        lua_pop(LuaWrapper::get_lua_state(), 1);
         return false;
     }
     return true;
@@ -113,28 +113,28 @@ static int execute_service_function(int nHandler, int numArgs) {
     {
         if (numArgs > 0)
         {
-            lua_insert(lua_wrapper::get_lua_state(), -(numArgs + 1));                        /* L: ... func arg1 arg2 ... */
+            lua_insert(LuaWrapper::get_lua_state(), -(numArgs + 1));                        /* L: ... func arg1 arg2 ... */
         }
         ret = exe_function(numArgs);
     }
-    lua_settop(lua_wrapper::get_lua_state(), 0);
+    lua_settop(LuaWrapper::get_lua_state(), 0);
     return ret;
 }
 
-class lua_service : public service
+class lua_service : public Service
 {
 public:
     unsigned int lua_recv_cmd_handler;
     unsigned int lua_disconnect_handler;
 
 public:
-    virtual bool on_session_recv_cmd(session* s, cmd_msg* msg);
-    virtual void on_session_disconnect(session* s);
+    virtual bool on_session_recv_cmd(Session* s, cmd_msg* msg);
+    virtual void on_session_disconnect(Session* s);
 };
 
 static void push_proto_message_tolua(Message* message)
 {
-    lua_State* state = lua_wrapper::get_lua_state();
+    lua_State* state = LuaWrapper::get_lua_state();
     if (!message) {
         // printf("PushProtobuf2LuaTable failed, message is NULL");
         return;
@@ -257,36 +257,36 @@ static void push_proto_message_tolua(Message* message)
     }
 }
 
-bool lua_service::on_session_recv_cmd(session* s, struct cmd_msg* msg) {
-	tolua_pushuserdata(lua_wrapper::get_lua_state(), (void*)s);
+bool lua_service::on_session_recv_cmd(Session* s, struct cmd_msg* msg) {
+	tolua_pushuserdata(LuaWrapper::get_lua_state(), (void*)s);
 	int index = 1;
 
-	lua_newtable(lua_wrapper::get_lua_state());
-	lua_pushinteger(lua_wrapper::get_lua_state(), msg->stype);
-	lua_rawseti(lua_wrapper::get_lua_state(), -2, index);          /* table[index] = value, L: table */
+	lua_newtable(LuaWrapper::get_lua_state());
+	lua_pushinteger(LuaWrapper::get_lua_state(), msg->stype);
+	lua_rawseti(LuaWrapper::get_lua_state(), -2, index);          /* table[index] = value, L: table */
 	++index;
 
-	lua_pushinteger(lua_wrapper::get_lua_state(), msg->ctype);
-	lua_rawseti(lua_wrapper::get_lua_state(), -2, index);          /* table[index] = value, L: table */
+	lua_pushinteger(LuaWrapper::get_lua_state(), msg->ctype);
+	lua_rawseti(LuaWrapper::get_lua_state(), -2, index);          /* table[index] = value, L: table */
 	++index;
 
-	lua_pushinteger(lua_wrapper::get_lua_state(), msg->utag);
-	lua_rawseti(lua_wrapper::get_lua_state(), -2, index);          /* table[index] = value, L: table */
+	lua_pushinteger(LuaWrapper::get_lua_state(), msg->utag);
+	lua_rawseti(LuaWrapper::get_lua_state(), -2, index);          /* table[index] = value, L: table */
 	++index;
 
 	if (!msg->body) {
-		lua_pushnil(lua_wrapper::get_lua_state());
-        lua_rawseti(lua_wrapper::get_lua_state(), -2, index);          /* table[index] = value, L: table */
+		lua_pushnil(LuaWrapper::get_lua_state());
+        lua_rawseti(LuaWrapper::get_lua_state(), -2, index);          /* table[index] = value, L: table */
         ++index;
 	}
 	else {
-		if (proto_manager::proto_type() == PROTO_JSON) {
-			lua_pushstring(lua_wrapper::get_lua_state(), (char*) msg->body);
+		if (ProtoManager::proto_type() == PROTO_JSON) {
+			lua_pushstring(LuaWrapper::get_lua_state(), (char*) msg->body);
 		}
 		else { // protobuf
 			push_proto_message_tolua((Message*)msg->body);
 		}
-		lua_rawseti(lua_wrapper::get_lua_state(), -2, index);          /* table[index] = value, L: table */
+		lua_rawseti(LuaWrapper::get_lua_state(), -2, index);          /* table[index] = value, L: table */
 		++index;
 	}
 
@@ -294,8 +294,8 @@ bool lua_service::on_session_recv_cmd(session* s, struct cmd_msg* msg) {
 	return true;
 }
 
-void lua_service::on_session_disconnect(session* s) {
-    tolua_pushuserdata(lua_wrapper::get_lua_state(), (void*)s);
+void lua_service::on_session_disconnect(Session* s) {
+    tolua_pushuserdata(LuaWrapper::get_lua_state(), (void*)s);
     execute_service_function(this->lua_disconnect_handler, 1);
 }
 
@@ -356,7 +356,7 @@ static int lua_register_service(lua_State* tolua_S)
         goto lua_failed;
     }
 
-    ret = service_manager::register_service(stype, s);
+    ret = ServiceManager::register_service(stype, s);
 
 lua_failed:
     lua_pushboolean(tolua_S, ret ? 1 : 0);
@@ -371,8 +371,8 @@ int register_service_export(lua_State* tolua_S)
     {
         tolua_open(tolua_S);
 
-        tolua_module(tolua_S, "service", 0);
-        tolua_beginmodule(tolua_S, "service");
+        tolua_module(tolua_S, "Service", 0);
+        tolua_beginmodule(tolua_S, "Service");
 
         tolua_function(tolua_S, "register", lua_register_service);
 

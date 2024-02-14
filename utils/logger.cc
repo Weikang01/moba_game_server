@@ -22,7 +22,7 @@ static char g_format_time[64] = { 0 };
 static const char* g_log_level[] = { "[DEBUG]", "[WARN]", "[ERROR]" };
 static bool g_std_output = false;
 
-void logger::init(const char* path, const char* prefix, bool std_output, int time_zone)
+void Logger::init(const char* path, const char* prefix, bool std_output, int time_zone)
 {
 	g_log_path = path;
 	g_prefix = prefix;
@@ -93,7 +93,7 @@ static void format_time() {
 	}
 }
 
-void logger::log(const char* file_name, int line_num, int level, const char* msg, ...)
+void Logger::log(const char* file_name, int line_num, int level, const char* msg, ...)
 {
 	prepare_file();
 	format_time();

@@ -5,7 +5,7 @@
 #include <string>
 #include <mysql/jdbc.h>
 
-class mysql_wrapper
+class MySQLWrapper
 {
 public:
 	static void connect(const char* host, int port, const char* user, const char* pass, const char* db_name, void (*open_cb)(const char* err, void* context, void* udata), void* udata=NULL);

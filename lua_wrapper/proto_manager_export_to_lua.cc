@@ -28,14 +28,14 @@ static int lua_protomanager_init(lua_State* tolua_S)
     if (proto_type != PROTO_JSON && proto_type != PROTO_BUF)
         goto failed;
 
-    proto_manager::init(proto_type);
+    ProtoManager::init(proto_type);
 failed:
     return 1;
 }
 
 static int lua_proto_type(lua_State* tolua_S)
 {
-    lua_pushinteger(tolua_S, proto_manager::proto_type());
+    lua_pushinteger(tolua_S, ProtoManager::proto_type());
     return 1;
 }
 
@@ -63,7 +63,7 @@ static int lua_register_protobuf_cmd_map(lua_State* tolua_S)
 		lua_pop(tolua_S, 1);
 	}
 
-    proto_manager::register_protobuf_cmd_map(cmd_map);
+    ProtoManager::register_protobuf_cmd_map(cmd_map);
 
     lua_pushboolean(tolua_S, 1);
     return 1;
@@ -80,8 +80,8 @@ int register_proto_manager_export(lua_State* tolua_S)
     {
         tolua_open(tolua_S);
 
-        tolua_module(tolua_S, "proto_manager", 0);
-        tolua_beginmodule(tolua_S, "proto_manager");
+        tolua_module(tolua_S, "ProtoManager", 0);
+        tolua_beginmodule(tolua_S, "ProtoManager");
 
         tolua_function(tolua_S, "init", lua_protomanager_init);
         tolua_function(tolua_S, "proto_type", lua_proto_type);

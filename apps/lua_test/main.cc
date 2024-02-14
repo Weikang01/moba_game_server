@@ -10,17 +10,19 @@
 #include "../../netbus/netbus.h"
 #include "../../lua_wrapper/lua_wrapper.h"
 
-
+#undef main
 int main(int argc, char** argv) {
-	netbus::instance()->init();
-	lua_wrapper::init();
+	Netbus::instance()->init();
+	LuaWrapper::init();
+
+	Netbus::instance()->tcp_connect("127.0.0.1", 12312, NULL, NULL);
 
 	if (argc < 3) {
 		std::string search_path = "../../../apps/lua_test/scripts/";
-		lua_wrapper::add_search_path(search_path);
+		LuaWrapper::add_search_path(search_path);
 
 		std::string lua_entry = search_path + "main.lua";
-		lua_wrapper::execute_script_file(lua_entry);
+		LuaWrapper::execute_script_file(lua_entry);
 	}
 	else {
 		std::string search_path = argv[1];
@@ -28,12 +30,12 @@ int main(int argc, char** argv) {
 			search_path += "/";
 		}
 
-		lua_wrapper::add_search_path(search_path);
+		LuaWrapper::add_search_path(search_path);
 		std::string lua_entry = search_path + argv[2];
-		lua_wrapper::execute_script_file(lua_entry);
+		LuaWrapper::execute_script_file(lua_entry);
 	}
 
-	netbus::instance()->run();
-	lua_wrapper::exit();
+	Netbus::instance()->run();
+	LuaWrapper::exit();
   return 0;
 }

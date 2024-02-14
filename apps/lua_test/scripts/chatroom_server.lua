@@ -3,7 +3,7 @@ local session_set = {}  -- save all sessions
 function broadcast_except(msg, except)
 	for i = 1, #session_set do
 		if (session_set[i] ~= except) then
-			session.send_msg(session_set[i], msg)
+			Session.send_msg(session_set[i], msg)
 		end
 	end
 end
@@ -13,7 +13,7 @@ local function on_recv_login_cmd(s)
 	for i = 1, #session_set do
 		if (session_set[i] == s) then
 			-- send to client
-			session.send_msg(s, {
+			Session.send_msg(s, {
 				stype = 1,
 				ctype = 2,
 				utag  = 0,
@@ -28,7 +28,7 @@ local function on_recv_login_cmd(s)
 	-- add session
 	table.insert(session_set, s)
 	-- send to client
-	session.send_msg(s, {
+	Session.send_msg(s, {
 		stype = 1,
 		ctype = 2,
 		utag  = 0,
@@ -37,7 +37,7 @@ local function on_recv_login_cmd(s)
 		}
 	})
 
-	local s_ip, s_port = session.get_address(s)
+	local s_ip, s_port = Session.get_address(s)
 
 	-- broadcast to all
 	broadcast_except({
@@ -56,7 +56,7 @@ local function on_recv_exit_cmd(s)
 	for i = 1, #session_set do
 		if (session_set[i] == s) then
 			-- send to client
-			session.send_msg(s, {
+			Session.send_msg(s, {
 				stype = 1,
 				ctype = 4,
 				utag  = 0,
@@ -65,7 +65,7 @@ local function on_recv_exit_cmd(s)
 				}
 			})
 			
-			local s_ip, s_port = session.get_address(s)
+			local s_ip, s_port = Session.get_address(s)
 
 			-- broadcast to all
 			broadcast_except({
@@ -85,7 +85,7 @@ local function on_recv_exit_cmd(s)
 	end
 
 	-- send to client
-	session.send_msg(s, {
+	Session.send_msg(s, {
 		stype = 1,
 		ctype = 4,
 		utag  = 0,
@@ -99,7 +99,7 @@ local function on_recv_send_msg_cmd(s, str)
 	for i = 1, #session_set do
 		if (session_set[i] == s) then
 			-- send to client
-			session.send_msg(s, {
+			Session.send_msg(s, {
 				stype = 1,
 				ctype = 6,
 				utag  = 0,
@@ -108,7 +108,7 @@ local function on_recv_send_msg_cmd(s, str)
 				}
 			})
 
-			local s_ip, s_port = session.get_address(s)
+			local s_ip, s_port = Session.get_address(s)
 
 			-- broadcast to all
 			broadcast_except({
@@ -126,7 +126,7 @@ local function on_recv_send_msg_cmd(s, str)
 	end
 
 	-- send to client
-	session.send_msg(s, {
+	Session.send_msg(s, {
 		stype = 1,
 		ctype = 6,
 		utag  = 0,
@@ -158,7 +158,7 @@ local function session_recv_cmd(s, cmd_msg)
 end
 
 local function session_disconnect(s)
-    local s_ip, s_port = session.get_address(s)
+    local s_ip, s_port = Session.get_address(s)
     
 	-- remove session if exist
 	for i = 1, #session_set do
