@@ -19,7 +19,7 @@ static int has_sec_key = 0;
 static int is_shake_ended = 0;
 
 #include "../utils/cache_alloc.h"
-extern cache_allocator* wbuf_allocator;
+extern CacheAllocator* wbuf_allocator;
 
 extern "C" {
 	#include <base64_encoder.h>
@@ -53,7 +53,7 @@ extern "C" {
 	}
 }
 
-bool ws_protocol::ws_shakehand(session* s, const char* data, int len)
+bool WSProtocol::ws_shakehand(Session* s, const char* data, int len)
 {
 	http_parser_settings settings;
 	http_parser_settings_init(&settings);
@@ -109,7 +109,7 @@ bool ws_protocol::ws_shakehand(session* s, const char* data, int len)
 	}
 }
 
-bool ws_protocol::read_ws_header(unsigned char* data, int len, int* header_len, int* payload_len)
+bool WSProtocol::read_ws_header(unsigned char* data, int len, int* header_len, int* payload_len)
 {
 	if (data[0] != 0x81 && data[0] != 0x82)
 		return false;
@@ -142,7 +142,7 @@ bool ws_protocol::read_ws_header(unsigned char* data, int len, int* header_len, 
 	return true;
 }
 
-void ws_protocol::parse_ws_recv_data(unsigned char* data, int head_size, int payload_size)
+void WSProtocol::parse_ws_recv_data(unsigned char* data, int head_size, int payload_size)
 {
 	unsigned char* payload = data + head_size;
 	unsigned char* mask = payload - 4;
@@ -152,7 +152,7 @@ void ws_protocol::parse_ws_recv_data(unsigned char* data, int head_size, int pay
 	}
 }
 
-unsigned char* ws_protocol::package_ws_send_data(const unsigned char* data, int len, int* package_len)
+unsigned char* WSProtocol::package_ws_send_data(const unsigned char* data, int len, int* package_len)
 {
 	int head_len = 2;
 	if (len > 65535) {
@@ -191,7 +191,7 @@ unsigned char* ws_protocol::package_ws_send_data(const unsigned char* data, int 
 	return send_resp;
 }
 
-void ws_protocol::free_ws_package(unsigned char* package)
+void WSProtocol::free_ws_package(unsigned char* package)
 {
 	cache_free(wbuf_allocator, package);
 }

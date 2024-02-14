@@ -3,10 +3,10 @@
 
 #include "session.h"
 
-class session;
+class Session;
 struct cmd_msg;
 
-class udp_session :session
+class UDPSession : public Session
 {
 public:
 	uv_udp_t* udp_handler;

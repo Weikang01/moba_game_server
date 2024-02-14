@@ -4,7 +4,7 @@
 #include <string>
 #include <lua.hpp>
 
-class lua_wrapper
+class LuaWrapper
 {
 public:
 	static void init();

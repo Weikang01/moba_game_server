@@ -21,15 +21,15 @@
 #define WBUF_CACHE_CAPACITY 1024
 #define WBUF_CACHE_SIZE 1024
 
-struct cache_allocator* session_allocator = NULL;
-struct cache_allocator* wrt_req_allocator = NULL;
-cache_allocator* wbuf_allocator = NULL;
+struct CacheAllocator* session_allocator = NULL;
+struct CacheAllocator* wrt_req_allocator = NULL;
+CacheAllocator* wbuf_allocator = NULL;
 
 
 void init_session_allocator()
 {
 	if (session_allocator == NULL) {
-		session_allocator = create_cache_allocator(SESSION_CACHE_CAPACITY, sizeof(uv_session));
+		session_allocator = create_cache_allocator(SESSION_CACHE_CAPACITY, sizeof(UVSession));
 	}
 
 	if (wrt_req_allocator == NULL) {
@@ -44,8 +44,8 @@ void init_session_allocator()
 
 extern "C" {
 	static void on_uv_close(uv_handle_t* handle) {
-		uv_session* session = (uv_session*)handle->data;
-		uv_session::destroy(session);
+		UVSession* session = (UVSession*)handle->data;
+		UVSession::destroy(session);
 	}
 
 	static void on_uv_shutdown(uv_shutdown_t* req, int status) {
@@ -60,7 +60,7 @@ extern "C" {
 	}
 }
 
-void uv_session::init()
+void UVSession::init()
 {
 	memset(&client_handler, 0, sizeof(client_handler));
 	memset(client_address, 0, sizeof(client_address));
@@ -73,34 +73,34 @@ void uv_session::init()
 	this->long_pkg_len = 0;
 }
 
-void uv_session::exit()
+void UVSession::exit()
 {
 }
 
-uv_session* uv_session::create()
+UVSession* UVSession::create()
 {
-	uv_session* s = (uv_session*)cache_alloc(session_allocator, sizeof(uv_session));
-	s->uv_session::uv_session();
+	UVSession* s = (UVSession*)cache_alloc(session_allocator, sizeof(UVSession));
+	s->UVSession::UVSession();
 	s->init();
 	return s;
 }
 
-void uv_session::destroy(uv_session* s)
+void UVSession::destroy(UVSession* s)
 {
 	s->exit();
 
-	s->uv_session::~uv_session();
+	s->UVSession::~UVSession();
 	cache_free(session_allocator, s);
 }
 
-void uv_session::close()
+void UVSession::close()
 {
 	if (this->is_shutdown) {
 		return;
 	}
 
 	// broadcast to all service that the client is offline
-	service_manager::on_session_disconnect(this);
+	ServiceManager::on_session_disconnect(this);
 
 	this->is_shutdown = true;
 	uv_shutdown_t* req = &this->req_shutdown;
@@ -108,7 +108,7 @@ void uv_session::close()
 	uv_shutdown(req, (uv_stream_t*)&this->client_handler, on_uv_shutdown);
 }
 
-void uv_session::send_data(unsigned char* data, int len)
+void UVSession::send_data(unsigned char* data, int len)
 {
 	uv_write_t* write_req = (uv_write_t*)cache_alloc(wrt_req_allocator, sizeof(uv_write_t));
 	uv_buf_t wrbuf;
@@ -116,7 +116,7 @@ void uv_session::send_data(unsigned char* data, int len)
 	if (this->socket_type == SESSION_TYPE_WS) {
 		if (this->is_ws_shakehand) {
 			int ws_len = 0;
-			unsigned char* ws_data = ws_protocol::package_ws_send_data(data, len, &ws_len);
+			unsigned char* ws_data = WSProtocol::package_ws_send_data(data, len, &ws_len);
 
 			wrbuf = uv_buf_init((char*)ws_data, ws_len);
 		}
@@ -126,7 +126,7 @@ void uv_session::send_data(unsigned char* data, int len)
 	}
 	else if (this->socket_type == SESSION_TYPE_TCP) {
 		int tcp_len = 0;
-		unsigned char* tcp_data = tcp_protocol::package((const unsigned char*)data, len, &tcp_len);
+		unsigned char* tcp_data = TCPProtocol::package((const unsigned char*)data, len, &tcp_len);
 
 		wrbuf = uv_buf_init((char*)tcp_data, tcp_len);
 	}
@@ -137,18 +137,18 @@ void uv_session::send_data(unsigned char* data, int len)
 	uv_write(write_req, (uv_stream_t*)&this->client_handler, &wrbuf, 1, after_write);
 }
 
-void uv_session::send_msg(cmd_msg* msg)
+void UVSession::send_msg(cmd_msg* msg)
 {
 	int encode_len = 0;
-	unsigned char*  encode_data = proto_manager::encode_msg_to_raw(msg, &encode_len);
+	unsigned char*  encode_data = ProtoManager::encode_msg_to_raw(msg, &encode_len);
 
 	if (encode_data != NULL) {
 		this->send_data(encode_data, encode_len);
-		proto_manager::raw_msg_free(encode_data);
+		ProtoManager::raw_msg_free(encode_data);
 	}
 }
 
-const char* uv_session::get_address(int* client_port)
+const char* UVSession::get_address(int* client_port)
 {
 	*client_port = this->client_port;
 	return this->client_address;

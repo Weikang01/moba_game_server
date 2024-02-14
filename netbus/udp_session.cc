@@ -11,8 +11,12 @@
 #include "udp_session.h"
 #include "proto_manager.h"
 #include "service_manager.h"
+#include "../utils/small_alloc.h"
 
-void udp_session::close()
+#define my_malloc small_alloc
+#define my_free small_free
+
+void UDPSession::close()
 {
 }
 
@@ -22,24 +26,24 @@ static void on_uv_send_finished(uv_udp_send_t* req, int status)
 		//fprintf(stderr, "error on_uv_send_finished: %s\n", uv_strerror(status));
 		return;
 	}
-	free(req);
+	my_free(req);
 }
 
-void udp_session::send_data(unsigned char* data, int len)
+void UDPSession::send_data(unsigned char* data, int len)
 {
-	uv_udp_send_t* send_req = (uv_udp_send_t*)malloc(sizeof(uv_udp_send_t));
+	uv_udp_send_t* send_req = (uv_udp_send_t*)my_malloc(sizeof(uv_udp_send_t));
 	uv_buf_t send_buf = uv_buf_init((char*)data, len);
 	int send_ret = uv_udp_send(send_req, this->udp_handler, &send_buf, 1, this->addr, on_uv_send_finished);
 }
 
-void udp_session::send_msg(cmd_msg* msg)
+void UDPSession::send_msg(cmd_msg* msg)
 {
 	int encode_len = 0;
-	unsigned char* encode_data = proto_manager::encode_msg_to_raw(msg, &encode_len);
+	unsigned char* encode_data = ProtoManager::encode_msg_to_raw(msg, &encode_len);
 
 	if (encode_data != NULL) {
 		this->send_data(encode_data, encode_len);
-		proto_manager::cmd_msg_free(msg);
+		ProtoManager::cmd_msg_free(msg);
 	}
 	else {
 		printf("encode_msg_to_raw failed\n");
@@ -47,7 +51,7 @@ void udp_session::send_msg(cmd_msg* msg)
 
 }
 
-const char* udp_session::get_address(int* client_port)
+const char* UDPSession::get_address(int* client_port)
 {
 	*client_port = this->client_port;
 	return this->client_address;

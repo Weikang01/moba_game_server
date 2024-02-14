@@ -8,17 +8,17 @@ struct node {
 	struct node* next;
 };
 
-struct cache_allocator {
+struct CacheAllocator {
 	unsigned char* cache_mem;
 	int capacity;
 	struct node* free_list;
 	int element_size;
 };
 
-struct cache_allocator* create_cache_allocator(int capacity, int element_size)
+struct CacheAllocator* create_cache_allocator(int capacity, int element_size)
 {
-	struct cache_allocator* allocator = (struct cache_allocator*)malloc(sizeof(struct cache_allocator));
-	memset(allocator, 0, sizeof(struct cache_allocator));
+	struct CacheAllocator* allocator = (struct CacheAllocator*)malloc(sizeof(struct CacheAllocator));
+	memset(allocator, 0, sizeof(struct CacheAllocator));
 	element_size = (element_size < sizeof(struct node)) ? sizeof(struct node) : element_size;
 	allocator->capacity = capacity;
 	allocator->element_size = element_size;
@@ -36,7 +36,7 @@ struct cache_allocator* create_cache_allocator(int capacity, int element_size)
 	return allocator;
 }
 
-void destroy_cache_allocator(struct cache_allocator* allocator)
+void destroy_cache_allocator(struct CacheAllocator* allocator)
 {
 	if (allocator->cache_mem != NULL) {
 		free(allocator->cache_mem);
@@ -44,7 +44,7 @@ void destroy_cache_allocator(struct cache_allocator* allocator)
 	free(allocator);
 }
 
-void* cache_alloc(struct cache_allocator* allocator, int elem_size)
+void* cache_alloc(struct CacheAllocator* allocator, int elem_size)
 {
 	if (allocator->element_size < elem_size) {
 		return malloc(elem_size);
@@ -59,7 +59,7 @@ void* cache_alloc(struct cache_allocator* allocator, int elem_size)
 	return n;
 }
 
-void cache_free(struct cache_allocator* allocator, void* ptr)
+void cache_free(struct CacheAllocator* allocator, void* ptr)
 {
 	if (ptr == NULL) {
 		return;

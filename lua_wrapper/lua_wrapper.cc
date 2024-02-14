@@ -22,15 +22,15 @@
 lua_State* g_lua_state = NULL;
 
 static void print_error(const char* file_name, int line_num, const char* msg) {
-	logger::log(file_name, line_num, LOG_ERROR, msg);
+	Logger::log(file_name, line_num, LOG_ERROR, msg);
 }
 
 static void print_warn(const char* file_name, int line_num, const char* msg) {
-	logger::log(file_name, line_num, LOG_WARN, msg);
+	Logger::log(file_name, line_num, LOG_WARN, msg);
 }
 
 static void print_debug(const char* file_name, int line_num, const char* msg) {
-	logger::log(file_name, line_num, LOG_DEBUG, msg);
+	Logger::log(file_name, line_num, LOG_DEBUG, msg);
 }
 
 static void do_log_message(void(*log)(const char* file_name, int line_num, const char* msg), const char* msg) {
@@ -187,20 +187,20 @@ static int lua_logger_init(lua_State* tolua_S) {
 	std_out = lua_toboolean(tolua_S, 3);
 	time_zone = lua_tointeger(tolua_S, 4);
 
-	logger::init(path, prefix, std_out, time_zone);
+	Logger::init(path, prefix, std_out, time_zone);
 
 lua_failed:
 	return 0;
 }
 
 static int register_logger_export(lua_State* tolua_S) {
-	lua_wrapper::register_function("print", lua_log_debug);
+	LuaWrapper::register_function("print", lua_log_debug);
 
 	lua_getglobal(tolua_S, "_G");
 	if (lua_istable(tolua_S, -1)) {
 		tolua_open(tolua_S);
-		tolua_module(tolua_S, "logger", 0);
-		tolua_beginmodule(tolua_S, "logger");
+		tolua_module(tolua_S, "Logger", 0);
+		tolua_beginmodule(tolua_S, "Logger");
 
 		tolua_function(tolua_S, "debug", lua_log_debug);
 		tolua_function(tolua_S, "warn", lua_log_warn);
@@ -220,7 +220,7 @@ static int lua_panic(lua_State* L) {
 	return 0;
 }
 
-void lua_wrapper::register_function(const char* name, lua_CFunction func)
+void LuaWrapper::register_function(const char* name, lua_CFunction func)
 {
 	lua_pushcfunction(g_lua_state, func);
 	lua_setglobal(g_lua_state, name);
@@ -229,18 +229,18 @@ void lua_wrapper::register_function(const char* name, lua_CFunction func)
 static int lua_add_search_path(lua_State* L) {
 	const char* path = luaL_checkstring(L, 1);
 	if (path) {
-		lua_wrapper::add_search_path(path);
+		LuaWrapper::add_search_path(path);
 	}
 	return 0;
 }
 
-void lua_wrapper::init()
+void LuaWrapper::init()
 {
 	g_lua_state = luaL_newstate();
 	lua_atpanic(g_lua_state, lua_panic);
 	luaL_openlibs(g_lua_state);
 	toluafix_open(g_lua_state);
-	lua_wrapper::register_function("add_search_path", lua_add_search_path);
+	LuaWrapper::register_function("add_search_path", lua_add_search_path);
 
 	register_logger_export(g_lua_state);
 	register_mysql_export(g_lua_state);
@@ -252,7 +252,7 @@ void lua_wrapper::init()
 	register_proto_manager_export(g_lua_state);
 }
 
-void lua_wrapper::exit()
+void LuaWrapper::exit()
 {
 	if (g_lua_state)
 	{
@@ -261,7 +261,7 @@ void lua_wrapper::exit()
 	}
 }
 
-bool lua_wrapper::execute_script_file(const std::string& file_path)
+bool LuaWrapper::execute_script_file(const std::string& file_path)
 {
 	if (luaL_dofile(g_lua_state, file_path.c_str()))
 	{
@@ -273,7 +273,7 @@ bool lua_wrapper::execute_script_file(const std::string& file_path)
 	return true;
 }
 
-lua_State* lua_wrapper::get_lua_state()
+lua_State* LuaWrapper::get_lua_state()
 {
 	return g_lua_state;
 }
@@ -349,7 +349,7 @@ static int executeFunction(int numArgs)
 	return ret;
 }
 
-int lua_wrapper::execute_function_by_handler(int handler, int nargs)
+int LuaWrapper::execute_function_by_handler(int handler, int nargs)
 {
 	int ret = 0;
 	if (pushFunctionByHandler(handler))
@@ -364,12 +364,12 @@ int lua_wrapper::execute_function_by_handler(int handler, int nargs)
 	return ret;
 }
 
-void lua_wrapper::remove_script_handler(int handler)
+void LuaWrapper::remove_script_handler(int handler)
 {
 	toluafix_remove_function_by_refid(g_lua_state, handler);
 }
 
-void lua_wrapper::add_search_path(const std::string& path)
+void LuaWrapper::add_search_path(const std::string& path)
 {
 	char script[1024] = { 0 };
 	sprintf(script, "local path = string.match([[%s]],[[(.*)/[^/]*$]])\n package.path = package.path .. [[;]] .. path .. [[/?.lua;]] .. path .. [[/?/init.lua]]\n", path.c_str());

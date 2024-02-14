@@ -5,9 +5,9 @@
 #include "tcp_protocol.h"
 
 #include "../utils/cache_alloc.h"
-extern cache_allocator* wbuf_allocator;
+extern CacheAllocator* wbuf_allocator;
 
-bool tcp_protocol::read_header(const unsigned char* data, int data_len, int* header_len, int* package_len)
+bool TCPProtocol::read_header(const unsigned char* data, int data_len, int* header_len, int* package_len)
 {
 	if (data_len < 2) {
 		return false;
@@ -19,7 +19,7 @@ bool tcp_protocol::read_header(const unsigned char* data, int data_len, int* hea
 	return true;
 }
 
-unsigned char* tcp_protocol::package(const unsigned char* data, int data_len, int* package_len)
+unsigned char* TCPProtocol::package(const unsigned char* data, int data_len, int* package_len)
 {
 	unsigned char* package = (unsigned char*)cache_alloc(wbuf_allocator, data_len + 2);
 	package[0] = data_len & 0xff;
@@ -29,7 +29,7 @@ unsigned char* tcp_protocol::package(const unsigned char* data, int data_len, in
 	return package;
 }
 
-void tcp_protocol::free_package(unsigned char* package)
+void TCPProtocol::free_package(unsigned char* package)
 {
 	cache_free(wbuf_allocator, package);
 }

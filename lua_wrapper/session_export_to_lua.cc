@@ -17,7 +17,7 @@ extern "C" {
 
 int lua_session_close(lua_State* tolua_S)
 {
-    session* s = (session*)tolua_touserdata(tolua_S, 1, 0);
+    Session* s = (Session*)tolua_touserdata(tolua_S, 1, 0);
 
     if (s)
 		s->close();
@@ -34,7 +34,7 @@ using google::protobuf::EnumValueDescriptor;
 
 static google::protobuf::Message* lua_table_to_protobuf(lua_State* L, int stack_index, const char* msg_name)
 {
-    Message* message = proto_manager::create_message(msg_name);
+    Message* message = ProtoManager::create_message(msg_name);
     if (!message) {
         log_error("cant find message  %s from compiled poll \n", msg_name);
         return NULL;
@@ -63,7 +63,7 @@ static google::protobuf::Message* lua_table_to_protobuf(lua_State* L, int stack_
 				bool isTable = lua_istable(L, -1);
 				if (!isTable) {
 					log_error("can't find required repeated field %s\n", name.c_str());
-					proto_manager::free_protobuf_message(message);
+					ProtoManager::free_protobuf_message(message);
 					return NULL;
 				}
 			}
@@ -134,12 +134,12 @@ static google::protobuf::Message* lua_table_to_protobuf(lua_State* L, int stack_
 					Message* value = lua_table_to_protobuf(L, lua_gettop(L), fd->message_type()->name().c_str());
 					if (!value) {
 						log_error("convert to message %s failed whith value %s\n", fd->message_type()->name().c_str(), name.c_str());
-						proto_manager::free_protobuf_message(value);
+						ProtoManager::free_protobuf_message(value);
 						return NULL;
 					}
 					Message* msg = reflection->AddMessage(message, fd);
 					msg->CopyFrom(*value);
-					proto_manager::free_protobuf_message(value);
+					ProtoManager::free_protobuf_message(value);
 				}
 				break;
 				default:
@@ -155,7 +155,7 @@ static google::protobuf::Message* lua_table_to_protobuf(lua_State* L, int stack_
 			if (isRequired) {
 				if (isNil) {
 					log_error("cant find required field %s\n", name.c_str());
-					proto_manager::free_protobuf_message(message);
+					ProtoManager::free_protobuf_message(message);
 					return NULL;
 				}
 			}
@@ -229,12 +229,12 @@ static google::protobuf::Message* lua_table_to_protobuf(lua_State* L, int stack_
 				Message* value = lua_table_to_protobuf(L, lua_gettop(L), fd->message_type()->name().c_str());
 				if (!value) {
 					log_error("convert to message %s failed whith value %s \n", fd->message_type()->name().c_str(), name.c_str());
-					proto_manager::free_protobuf_message(message);
+					ProtoManager::free_protobuf_message(message);
 					return NULL;
 				}
 				Message* msg = reflection->MutableMessage(message, fd);
 				msg->CopyFrom(*value);
-				proto_manager::free_protobuf_message(value);
+				ProtoManager::free_protobuf_message(value);
 			}
 			break;
 			default:
@@ -260,7 +260,7 @@ struct cmd_msg {
 */
 int lua_session_send_msg(lua_State* tolua_S)
 {
-    session* s = (session*)tolua_touserdata(tolua_S, 1, 0);
+    Session* s = (Session*)tolua_touserdata(tolua_S, 1, 0);
     int stype, ctype, utag;
     if (!s)
         goto failed;
@@ -280,22 +280,22 @@ int lua_session_send_msg(lua_State* tolua_S)
     msg.ctype = lua_tointeger(tolua_S, -3);
     msg.utag  = lua_tointeger(tolua_S, -2);
 
-    if (proto_manager::proto_type() == PROTO_JSON)
+    if (ProtoManager::proto_type() == PROTO_JSON)
     {
         msg.body = (char*)lua_tostring(tolua_S, -1);
         s->send_msg(&msg);
     }
-    else if (proto_manager::proto_type() == PROTO_BUF)
+    else if (ProtoManager::proto_type() == PROTO_BUF)
     {
 		if (!lua_istable(tolua_S, -1)) {
 			msg.body = NULL;
 			s->send_msg(&msg);
 		}
         else {
-            const char* msg_name = proto_manager::pb_type2name(msg.ctype);
+            const char* msg_name = ProtoManager::pb_type2name(msg.ctype);
             msg.body = lua_table_to_protobuf(tolua_S, lua_gettop(tolua_S), msg_name);
 			s->send_msg(&msg);
-			proto_manager::free_protobuf_message((Message*)msg.body);
+			ProtoManager::free_protobuf_message((Message*)msg.body);
         }
     }
 
@@ -305,7 +305,7 @@ failed:
 
 int lua_session_get_address(lua_State* tolua_S)
 {
-    session* s = (session*)tolua_touserdata(tolua_S, 1, 0);
+    Session* s = (Session*)tolua_touserdata(tolua_S, 1, 0);
     int port;
     const char* addr;
 	if (!s)
@@ -329,8 +329,8 @@ int register_session_export(lua_State* tolua_S)
     {
         tolua_open(tolua_S);
 
-        tolua_module(tolua_S, "session", 0);
-        tolua_beginmodule(tolua_S, "session");
+        tolua_module(tolua_S, "Session", 0);
+        tolua_beginmodule(tolua_S, "Session");
 
         tolua_function(tolua_S, "close", lua_session_close);
         tolua_function(tolua_S, "send_msg", lua_session_send_msg);

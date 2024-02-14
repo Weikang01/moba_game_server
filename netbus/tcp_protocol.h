@@ -1,7 +1,7 @@
 #ifndef __TCP_PROTOCOL_H__
 #define __TCP_PROTOCOL_H__
 
-class tcp_protocol
+class TCPProtocol
 {
 public:
 	static bool read_header(const unsigned char* data, int data_len, int* header_len, int* package_len);

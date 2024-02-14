@@ -7,18 +7,26 @@
 
 #include "proto_manager.h"
 
+#include "../utils/cache_alloc.h"
+extern CacheAllocator* wbuf_allocator;
+
+#include "../utils/small_alloc.h"
+
+#define my_malloc small_alloc
+#define my_free small_free
+
 #define CMD_HEADER_SIZE 8
 #define CMD_TRAILER_SIZE 1
 
 static int g_proto_type = PROTO_BUF;
 static std::map<int, std::string> g_cmd_map;
 
-void proto_manager::init(int proto_type)
+void ProtoManager::init(int proto_type)
 {
 	g_proto_type = proto_type;
 }
 
-void proto_manager::register_protobuf_cmd_map(std::map<int, std::string>& map)
+void ProtoManager::register_protobuf_cmd_map(std::map<int, std::string>& map)
 {
 	std::map<int, std::string>::iterator it;
 	for (it = map.begin(); it != map.end(); it++) {
@@ -26,12 +34,12 @@ void proto_manager::register_protobuf_cmd_map(std::map<int, std::string>& map)
 	}
 }
 
-int proto_manager::proto_type()
+int ProtoManager::proto_type()
 {
 	return g_proto_type;
 }
 
-const char* proto_manager::pb_type2name(int ctype)
+const char* ProtoManager::pb_type2name(int ctype)
 {
 	std::map<int, std::string>::iterator it = g_cmd_map.find(ctype);
 	if (it != g_cmd_map.end()) {
@@ -42,7 +50,7 @@ const char* proto_manager::pb_type2name(int ctype)
 
 
 
-google::protobuf::Message* proto_manager::create_message(const std::string& typeName) {
+google::protobuf::Message* ProtoManager::create_message(const std::string& typeName) {
 	google::protobuf::Message* message = NULL;
 	const google::protobuf::Descriptor* descriptor = google::protobuf::DescriptorPool::generated_pool()->FindMessageTypeByName(typeName);
 	if (descriptor) {
@@ -54,7 +62,7 @@ google::protobuf::Message* proto_manager::create_message(const std::string& type
 	return message;
 }
 
-void proto_manager::free_protobuf_message(google::protobuf::Message* message) {
+void ProtoManager::free_protobuf_message(google::protobuf::Message* message) {
 	if (message) {
 		delete message;
 	}
@@ -63,13 +71,13 @@ void proto_manager::free_protobuf_message(google::protobuf::Message* message) {
 // stype - 2 bytes
 // ctype - 2 bytes
 // utag - 4 bytes
-bool proto_manager::decode_cmd_msg(const char* in_data, int in_len, cmd_msg** out_msg)
+bool ProtoManager::decode_cmd_msg(const char* in_data, int in_len, cmd_msg** out_msg)
 {
 	if (in_len < 8) {
 		return false;
 	}
 
-	struct cmd_msg* msg = (struct cmd_msg*)malloc(sizeof(struct cmd_msg));
+	struct cmd_msg* msg = (struct cmd_msg*)my_malloc(sizeof(struct cmd_msg));
 	memset(msg, 0, sizeof(struct cmd_msg));
 
 	msg->stype = in_data[0] | (in_data[1] << 8);
@@ -84,12 +92,11 @@ bool proto_manager::decode_cmd_msg(const char* in_data, int in_len, cmd_msg** ou
 	}
 
 	if (g_proto_type == PROTO_JSON) {
-		if (in_data[in_len - 1] != 0) {
-			free(msg);
-			*out_msg = NULL;
-			return false;
-		}
-		msg->body = strdup(in_data + CMD_HEADER_SIZE);
+		int json_len = in_len - CMD_HEADER_SIZE;
+		char* json_str = (char*)cache_alloc(wbuf_allocator, json_len + 1);
+		memcpy(json_str, in_data + CMD_HEADER_SIZE, json_len);
+		json_str[json_len] = 0;
+		msg->body = json_str;
 		return true;
 	}
 	else if (g_proto_type == PROTO_BUF) {
@@ -101,13 +108,13 @@ bool proto_manager::decode_cmd_msg(const char* in_data, int in_len, cmd_msg** ou
 			}
 			else {
 				free_protobuf_message(message);
-				free(msg);
+				my_free(msg);
 				*out_msg = NULL;
 				return false;
 			}
 		}
 		else {
-			free(msg);
+			my_free(msg);
 			*out_msg = NULL;
 			return false;
 		}
@@ -116,7 +123,7 @@ bool proto_manager::decode_cmd_msg(const char* in_data, int in_len, cmd_msg** ou
 	return true;
 }
 
-unsigned char* proto_manager::encode_msg_to_raw(cmd_msg* msg, int* out_len)
+unsigned char* ProtoManager::encode_msg_to_raw(cmd_msg* msg, int* out_len)
 {
 	int len = CMD_HEADER_SIZE;
 	if (msg->body) {
@@ -129,7 +136,7 @@ unsigned char* proto_manager::encode_msg_to_raw(cmd_msg* msg, int* out_len)
 		}
 	}
 
-	unsigned char* out_data = (unsigned char*)malloc(len);
+	unsigned char* out_data = (unsigned char*)cache_alloc(wbuf_allocator, len);
 	out_data[0] = msg->stype & 0xff;
 	out_data[1] = (msg->stype >> 8) & 0xff;
 	out_data[2] = msg->ctype & 0xff;
@@ -142,7 +149,7 @@ unsigned char* proto_manager::encode_msg_to_raw(cmd_msg* msg, int* out_len)
 		}
 		else if (g_proto_type == PROTO_BUF) {
 			if (!((google::protobuf::Message*)msg->body)->SerializeToArray(out_data + CMD_HEADER_SIZE, len - CMD_HEADER_SIZE)) {
-				free(out_data);
+				cache_free(wbuf_allocator, out_data);
 				*out_len = 0;
 				return NULL;
 			}
@@ -156,11 +163,11 @@ unsigned char* proto_manager::encode_msg_to_raw(cmd_msg* msg, int* out_len)
 	return out_data;
 }
 
-void proto_manager::cmd_msg_free(struct cmd_msg* msg)
+void ProtoManager::cmd_msg_free(struct cmd_msg* msg)
 {
 	if (msg->body) {
 		if (g_proto_type == PROTO_JSON) {
-			free(msg->body);
+			cache_free(wbuf_allocator, msg->body);
 			msg->body = NULL;
 		}
 		else if (g_proto_type == PROTO_BUF) {
@@ -168,10 +175,10 @@ void proto_manager::cmd_msg_free(struct cmd_msg* msg)
 			msg->body = NULL;
 		}
 	}
-	free(msg);
+	my_free(msg);
 }
 
-void proto_manager::raw_msg_free(unsigned char* raw_msg)
+void ProtoManager::raw_msg_free(unsigned char* raw_msg)
 {
-	free(raw_msg);
+	cache_free(wbuf_allocator, raw_msg);
 }

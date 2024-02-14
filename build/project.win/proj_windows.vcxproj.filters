@@ -388,6 +388,9 @@
     <ClCompile Include="..\..\apps\cpp_test\main.cc">
       <Filter>apps\cpp_test</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\utils\small_alloc.c">
+      <Filter>utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\vendor\libuv\include\android-ifaddrs.h">
@@ -758,6 +761,9 @@
     </ClInclude>
     <ClInclude Include="..\..\apps\lua_test\proto\game.pb.h">
       <Filter>apps\lua_test\proto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\utils\small_alloc.h">
+      <Filter>utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -16,7 +16,7 @@ struct cmd_msg {
 	void* body; // json string or binary buffer
 };
 
-class proto_manager {
+class ProtoManager {
 public:
 	static void init(int proto_type);
 	static void register_protobuf_cmd_map(std::map<int, std::string>& map);

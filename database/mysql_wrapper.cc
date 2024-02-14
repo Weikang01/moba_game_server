@@ -12,9 +12,10 @@
 #pragma comment(lib, "mysqlcppconn.lib")
 
 #include "mysql_wrapper.h"
+#include "../utils/small_alloc.h"
 
-#define my_malloc malloc
-#define my_free free
+#define my_malloc small_alloc
+#define my_free small_free
 
 struct connect_req {
 	char* host;
@@ -34,6 +35,17 @@ struct mysql_context {
 	int is_closing;
 };
 
+static char* my_strdup(const char* src) {
+	char* dst = (char*)my_malloc(strlen(src) + 1);
+	strcpy(dst, src);
+	return dst;
+}
+
+static void free_strdup(char* str) {
+	my_free(str);
+}
+
+
 static void connect_work(uv_work_t* req) {
 	struct connect_req* connect_req = (struct connect_req*)req->data;
 	sql::Driver* driver = get_driver_instance();
@@ -51,14 +63,14 @@ static void connect_work(uv_work_t* req) {
 		if (!con || !con->isValid())
 		{
 			connect_req->context = NULL;
-			connect_req->err = (char*)"connect failed";
+			connect_req->err = my_strdup("connect failed");
 			return;
 		}
 	}
 	catch (const std::exception&)
 	{
 		connect_req->context = NULL;
-		connect_req->err = (char*)"connect failed";
+		connect_req->err = my_strdup("connect failed");
 		return;
 	}
 	
@@ -71,7 +83,7 @@ static void connect_work(uv_work_t* req) {
 	{
 		// Handle the error, e.g., by logging the exception message and setting an error flag
 		connect_req->context = NULL;
-		connect_req->err = (char*)"Failed to set schema";
+		connect_req->err = my_strdup("Failed to set schema");
 		// Optionally, log e.what() or e.getErrorCode() for more details
 		return;
 	}
@@ -95,34 +107,34 @@ static void on_connect_work_complete(uv_work_t* req, int status) {
 	}
 
 	if (connect_req->host) {
-		free(connect_req->host);
+		free_strdup(connect_req->host);
 		connect_req->host = NULL;  // Nullify the pointer after freeing
 	}
 	if (connect_req->db_name) {
-		free(connect_req->db_name);
+		free_strdup(connect_req->db_name);
 		connect_req->db_name = NULL;
 	}
 	if (connect_req->user) {
-		free(connect_req->user);
+		free_strdup(connect_req->user);
 		connect_req->user = NULL;
 	}
 	if (connect_req->pass) {
-		free(connect_req->pass);
+		free_strdup(connect_req->pass);
 		connect_req->pass = NULL;
 	}
 	if (connect_req->err) {
-		free(connect_req->err);
+		free_strdup(connect_req->err);
 		connect_req->err = NULL;
 	}
 	if (req->data) {
-		free(req->data);
+		my_free(req->data);
 		req->data = NULL;  // Nullify req->data to prevent double free
 	}
 
-	free(req);
+	my_free(req);
 }
 
-void mysql_wrapper::connect(const char* host, const int port, const char* user, const char* pass, const char* db_name, void (*open_cb)(const char* err, void* context, void* udata), void* udata)
+void MySQLWrapper::connect(const char* host, const int port, const char* user, const char* pass, const char* db_name, void (*open_cb)(const char* err, void* context, void* udata), void* udata)
 {
 	uv_work_t* req = (uv_work_t*)my_malloc(sizeof(uv_work_t));
 	memset(req, 0, sizeof(uv_work_t));
@@ -130,11 +142,11 @@ void mysql_wrapper::connect(const char* host, const int port, const char* user, 
 	struct connect_req* connect_req = (struct connect_req*)my_malloc(sizeof(struct connect_req));
 	memset(connect_req, 0, sizeof(struct connect_req));
 
-	connect_req->host = strdup(host);
+	connect_req->host = my_strdup(host);
 	connect_req->port = port;
-	connect_req->user = strdup(user);
-	connect_req->pass = strdup(pass);
-	connect_req->db_name = strdup(db_name);
+	connect_req->user = my_strdup(user);
+	connect_req->pass = my_strdup(pass);
+	connect_req->db_name = my_strdup(db_name);
 	connect_req->open_cb = open_cb;
 	connect_req->err = NULL;
 	connect_req->udata = udata;
@@ -200,7 +212,7 @@ static void on_query_work_complete(uv_work_t* req, int status) {
 	int has_result = 0;
 	
 	if (r->sql)
-		free(r->sql);
+		free_strdup(r->sql);
 	if (r->result)
 	{
 		//delete r->result;
@@ -214,7 +226,7 @@ static void on_query_work_complete(uv_work_t* req, int status) {
 }
 
 
-void mysql_wrapper::query(void* context, const char* sql, void(*query_cb)(const char* err, sql::ResultSet* result, void* udata), void* udata)
+void MySQLWrapper::query(void* context, const char* sql, void(*query_cb)(const char* err, sql::ResultSet* result, void* udata), void* udata)
 {
 	struct mysql_context* c = (struct mysql_context*)context;
 	if (c->is_closing) {
@@ -228,7 +240,7 @@ void mysql_wrapper::query(void* context, const char* sql, void(*query_cb)(const 
 	memset(r, 0, sizeof(struct query_req));
 
 	r->context = context;
-	r->sql = strdup(sql);
+	r->sql = my_strdup(sql);
 	r->query_cb = query_cb;
 	r->udata = udata;
 
@@ -251,7 +263,7 @@ static void on_close_work_complete(uv_work_t* req, int status) {
 	my_free(req);
 }
 
-void mysql_wrapper::close(void* context)
+void MySQLWrapper::close(void* context)
 {
 	struct mysql_context* c = (struct mysql_context*)context;
 	if (c->is_closing)

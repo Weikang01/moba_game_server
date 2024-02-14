@@ -8,7 +8,7 @@ local function echo_recv_cmd(s, cmd_msg)
     print(body.email)
 
     -- send to client
-    session.send_msg(s, {
+    Session.send_msg(s, {
         stype = cmd_msg[1],
         ctype = 2,
         utag  = 0,
@@ -19,7 +19,7 @@ local function echo_recv_cmd(s, cmd_msg)
 end
 
 local function echo_session_disconnect(s)
-    local ip, port = session.get_address(s)
+    local ip, port = Session.get_address(s)
     print("session_disconnect: " .. ip .. ":" .. port)
 end
 

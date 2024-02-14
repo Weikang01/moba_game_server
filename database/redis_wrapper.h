@@ -5,7 +5,7 @@
 #include <string>
 #include <hiredis.h>
 
-class redis_wrapper
+class RedisWrapper
 {
 public:
 	static void connect(const char* host, int port, void (*open_cb)(const char* err, void* context, void* udata), void* udata=NULL);
