@@ -9,10 +9,12 @@ class Session
 public:
 	unsigned int as_client;
 	unsigned int utag;
+	unsigned int uid;
 	Session()
 	{
 		as_client = 0;
 		utag = 0;
+		uid = 0;
 	}
 public:
 	virtual void close() = 0;

@@ -82,8 +82,14 @@ int register_proto_manager_export(lua_State* tolua_S)
         tolua_module(tolua_S, "ProtoManager", 0);
         tolua_beginmodule(tolua_S, "ProtoManager");
 
+        // lua format: ProtoManager.init(PROTO_JSON or PROTO_BUF)
+        // lua return: true or false
         tolua_function(tolua_S, "init", lua_protomanager_init);
+        // lua format: ProtoManager.proto_type()
+        // lua return: PROTO_JSON (int) or PROTO_BUF (int)
         tolua_function(tolua_S, "proto_type", lua_proto_type);
+        // lua format: ProtoManager.register_protobuf_cmd_map({"cmd1", "cmd2", ...})
+        // lua return: true or false
         tolua_function(tolua_S, "register_protobuf_cmd_map", lua_register_protobuf_cmd_map);
 
         tolua_endmodule(tolua_S);
@@ -160,7 +166,11 @@ int register_raw_cmd_export(lua_State* tolua_S)
         tolua_module(tolua_S, "RawCmd", 0);
         tolua_beginmodule(tolua_S, "RawCmd");
 
+        // lua format: RawCmd.read_header(raw_cmd)
+        // lua return: stype, ctype, utag
         tolua_function(tolua_S, "read_header", lua_raw_read_header);
+        // lua format: RawCmd.set_utag(raw_cmd, utag)
+        // lua return: true or false
         tolua_function(tolua_S, "set_utag", lua_raw_set_utag);
 
         tolua_endmodule(tolua_S);
