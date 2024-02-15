@@ -160,7 +160,11 @@ int register_raw_cmd_export(lua_State* tolua_S)
         tolua_module(tolua_S, "RawCmd", 0);
         tolua_beginmodule(tolua_S, "RawCmd");
 
+        // lua format: RawCmd.read_header(raw_cmd)
+        // lua return: stype, ctype, utag
         tolua_function(tolua_S, "read_header", lua_raw_read_header);
+        // lua format: RawCmd.set_utag(raw_cmd, utag)
+        // lua return: true or false
         tolua_function(tolua_S, "set_utag", lua_raw_set_utag);
 
         tolua_endmodule(tolua_S);

@@ -140,8 +140,14 @@ int register_scheduler_export(lua_State* tolua_S)
         tolua_module(tolua_S, "Scheduler", 0);
         tolua_beginmodule(tolua_S, "Scheduler");
 
+        // lua format: Scheduler.schedule(function() end, after_ms, repeat_interval_ms, repeat)
+        // lua return: timer_data
         tolua_function(tolua_S, "schedule", lua_scheduler_schedule);
+        // lua format: Scheduler.cancel(timer_data)
+        // lua return: nil
         tolua_function(tolua_S, "cancel", lua_scheduler_unschedule);
+        // lua format: Scheduler.once(function() end, after_ms, repeat_interval_ms)
+        // lua return: timer_data
         tolua_function(tolua_S, "once", lua_scheduler_schedule_once);
 
         tolua_endmodule(tolua_S);

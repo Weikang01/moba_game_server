@@ -126,8 +126,14 @@ int register_mysql_export(lua_State* tolua_S)
         tolua_module(tolua_S, "MySQL", 0);
         tolua_beginmodule(tolua_S, "MySQL");
 
+        // lua format: MySQL.connect(host, port, user, pass, db_name, function(erro, context) end)
+        // lua return: nil
         tolua_function(tolua_S, "connect", lua_mysql_connect);
+        // lua format: MySQL.query(context, sql, function(erro, result) end)
+        // lua return: nil
         tolua_function(tolua_S, "query", lua_mysql_query);
+        // lua format: MySQL.close(context)
+        // lua return: nil
         tolua_function(tolua_S, "close", lua_mysql_close);
 
         tolua_endmodule(tolua_S);

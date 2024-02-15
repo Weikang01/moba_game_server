@@ -111,9 +111,17 @@ int register_netbus_export(lua_State* tolua_S)
         tolua_module(tolua_S, "Netbus", 0);
         tolua_beginmodule(tolua_S, "Netbus");
 
+        // lua format: Netbus.tcp_listen(port)
+        // lua return: nil
         tolua_function(tolua_S, "tcp_listen", lua_tcp_listen);
+        // lua format: Netbus.ws_listen(port)
+        // lua return: nil
         tolua_function(tolua_S, "ws_listen", lua_ws_listen);
+        // lua format: Netbus.udp_listen(port)
+        // lua return: nil
         tolua_function(tolua_S, "udp_listen", lua_udp_listen);
+        // lua format: Netbus.tcp_connect(ip, port, function(err, session) end)
+        // lua return: nil
         tolua_function(tolua_S, "tcp_connect", lua_tcp_connect);
 
         tolua_endmodule(tolua_S);

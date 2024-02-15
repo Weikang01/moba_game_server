@@ -374,11 +374,23 @@ int register_session_export(lua_State* tolua_S)
         tolua_module(tolua_S, "Session", 0);
         tolua_beginmodule(tolua_S, "Session");
 
+		// lua format: Session.close(session)
+		// lua return: 1 or 0
         tolua_function(tolua_S, "close", lua_session_close);
+		// lua format: Session.send_msg(session, {stype=1, ctype=2, utag=3, body={...}})
+		// lua return: 1 or 0
         tolua_function(tolua_S, "send_msg", lua_session_send_msg);
+		// lua format: Session.get_address(session)
+		// lua return: ip, port
         tolua_function(tolua_S, "get_address", lua_session_get_address);
+		// lua format: Session.set_utag(session, utag)
+		// lua return: 1 or 0
 		tolua_function(tolua_S, "set_utag", lua_set_utag);
+		// lua format: Session.get_utag(session)
+		// lua return: utag
 		tolua_function(tolua_S, "get_utag", lua_get_utag);
+		// lua format: Session.as_client(session)
+		// lua return: 1 or 0
 		tolua_function(tolua_S, "as_client", lua_as_client);
 
         tolua_endmodule(tolua_S);

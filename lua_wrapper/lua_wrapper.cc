@@ -202,9 +202,17 @@ static int register_logger_export(lua_State* tolua_S) {
 		tolua_module(tolua_S, "Logger", 0);
 		tolua_beginmodule(tolua_S, "Logger");
 
+		// lua format: Logger.debug("message")
+		// lua return: void
 		tolua_function(tolua_S, "debug", lua_log_debug);
+		// lua format: Logger.warn("message")
+		// lua return: void
 		tolua_function(tolua_S, "warn", lua_log_warn);
+		// lua format: Logger.error("message")
+		// lua return: void
 		tolua_function(tolua_S, "error", lua_log_error);
+		// lua format: Logger.init("path", "prefix", true, 8)
+		// lua return: void
 		tolua_function(tolua_S, "init", lua_logger_init);
 		tolua_endmodule(tolua_S);
 	}

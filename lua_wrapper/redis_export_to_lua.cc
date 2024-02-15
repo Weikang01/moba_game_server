@@ -125,8 +125,14 @@ int register_redis_export(lua_State* tolua_S)
         tolua_module(tolua_S, "Redis", 0);
         tolua_beginmodule(tolua_S, "Redis");
 
+		// lua format: Redis.connect(host, port, function(erro, context) end)
+		// lua return: nil
         tolua_function(tolua_S, "connect", lua_redis_connect);
+		// lua format: Redis.query(context, sql, function(erro, result) end)
+		// lua return: nil
         tolua_function(tolua_S, "query", lua_redis_query);
+		// lua format: Redis.close(context)
+		// lua return: nil
         tolua_function(tolua_S, "close", lua_redis_close);
 
         tolua_endmodule(tolua_S);

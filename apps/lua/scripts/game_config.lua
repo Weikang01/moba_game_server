@@ -4,13 +4,15 @@ local remote_servers = {}
 remote_servers[Stype.Auth] = {
     stype = Stype.Auth,
     ip = "127.0.0.1",
-    port = 8000
+    port = 8000,
+    desc = "Auth server"
 }
 --[[
 remote_servers[Stype.System] = {
     stype = Stype.System,
     ip = "127.0.0.1",
-    port = 8001
+    port = 8001,
+    desc = "System server"
 }
 ]]
 
