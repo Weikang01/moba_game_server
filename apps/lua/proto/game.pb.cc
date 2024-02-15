@@ -116,7 +116,7 @@ struct OnSendMsgDefaultTypeInternal {
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 OnSendMsgDefaultTypeInternal _OnSendMsg_default_instance_;
 static ::_pb::Metadata file_level_metadata_game_2eproto[7];
-static const ::_pb::EnumDescriptor* file_level_enum_descriptors_game_2eproto[1];
+static const ::_pb::EnumDescriptor* file_level_enum_descriptors_game_2eproto[2];
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_game_2eproto = nullptr;
 
 const uint32_t TableStruct_game_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
@@ -201,16 +201,17 @@ const char descriptor_table_protodef_game_2eproto[] PROTOBUF_SECTION_VARIABLE(pr
   "us\030\001 \001(\005\"\'\n\013OnUserLogin\022\n\n\002ip\030\001 \001(\t\022\014\n\004p"
   "ort\030\002 \001(\005\"&\n\nOnUserExit\022\n\n\002ip\030\001 \001(\t\022\014\n\004p"
   "ort\030\002 \001(\005\"6\n\tOnSendMsg\022\n\n\002ip\030\001 \001(\t\022\014\n\004po"
-  "rt\030\002 \001(\005\022\017\n\007content\030\003 \001(\t*\245\001\n\003Cmd\022\017\n\013INV"
-  "ALID_CMD\020\000\022\r\n\teLoginReq\020\001\022\r\n\teLoginRes\020\002"
-  "\022\014\n\010eExitReq\020\003\022\014\n\010eExitRes\020\004\022\017\n\013eSendMsg"
-  "Req\020\005\022\017\n\013eSendMsgRes\020\006\022\020\n\014eOnUserLogin\020\007"
-  "\022\017\n\013eOnUserExit\020\010\022\016\n\neOnSendMsg\020\tb\006proto"
-  "3"
+  "rt\030\002 \001(\005\022\017\n\007content\030\003 \001(\t*>\n\005Stype\022\021\n\rIN"
+  "VALID_STYPE\020\000\022\t\n\005eAuth\020\001\022\013\n\007eSystem\020\002\022\n\n"
+  "\006eLogic\020\003*\245\001\n\003Cmd\022\017\n\013INVALID_CMD\020\000\022\r\n\teL"
+  "oginReq\020\001\022\r\n\teLoginRes\020\002\022\014\n\010eExitReq\020\003\022\014"
+  "\n\010eExitRes\020\004\022\017\n\013eSendMsgReq\020\005\022\017\n\013eSendMs"
+  "gRes\020\006\022\020\n\014eOnUserLogin\020\007\022\017\n\013eOnUserExit\020"
+  "\010\022\016\n\neOnSendMsg\020\tb\006proto3"
   ;
 static ::_pbi::once_flag descriptor_table_game_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_game_2eproto = {
-    false, false, 441, descriptor_table_protodef_game_2eproto,
+    false, false, 505, descriptor_table_protodef_game_2eproto,
     "game.proto",
     &descriptor_table_game_2eproto_once, nullptr, 0, 7,
     schemas, file_default_instances, TableStruct_game_2eproto::offsets,
@@ -223,9 +224,25 @@ PROTOBUF_ATTRIBUTE_WEAK const ::_pbi::DescriptorTable* descriptor_table_game_2ep
 
 // Force running AddDescriptors() at dynamic initialization time.
 PROTOBUF_ATTRIBUTE_INIT_PRIORITY2 static ::_pbi::AddDescriptorsRunner dynamic_init_dummy_game_2eproto(&descriptor_table_game_2eproto);
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* Cmd_descriptor() {
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* Stype_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_game_2eproto);
   return file_level_enum_descriptors_game_2eproto[0];
+}
+bool Stype_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* Cmd_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_game_2eproto);
+  return file_level_enum_descriptors_game_2eproto[1];
 }
 bool Cmd_IsValid(int value) {
   switch (value) {

@@ -1,5 +1,12 @@
 syntax="proto3";
 
+enum Stype {
+	INVALID_STYPE = 0;
+	eAuth         = 1;
+	eSystem       = 2;
+	eLogic        = 3;
+}
+
 enum Cmd {
 	INVALID_CMD  = 0;
 	eLoginReq    = 1;

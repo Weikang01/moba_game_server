@@ -42,6 +42,43 @@ local function gateway_service_init()
     Scheduler.schedule(check_server_connect, 1000, 5000, -1)
 end
 
+
+local function send_to_client(session, cmd_raw)
+
+end
+
+-- get client session through temporary ukey
+local g_ukey               = 1
+local client_sessions_ukey = {}
+-- get client session through uid
+local client_sessions_uid  = {}
+
+local function send_to_server(client_session, raw_cmd)
+    local stype, ctype, utag = RawCmd.read_header(raw_cmd)
+    local server_session = map_server_session[stype]
+    if server_session == nil then -- server error
+        return
+    end
+
+    local uid = Session.get_uid(client_session)
+    if uid == 0 then      -- before login
+        utag = Session.get_utag(client_session)
+        if utag == 0 then -- no previous utag
+            utag = g_ukey -- assign an random ukey
+            g_ukey = g_ukey + 1
+            client_sessions_ukey[utag] = client_session
+            Session.set_utag(client_session, utag)
+        end
+    else -- after login
+        utag = uid
+        client_sessions_uid[utag] = client_session
+    end
+
+    -- set utag and send to server
+    RawCmd.set_utag(raw_cmd, utag)
+    Session.send_raw_msg(server_session, raw_cmd)
+end
+
 --[[
 cmd_raw = {
     stype = 1,
@@ -51,6 +88,11 @@ cmd_raw = {
 }
 ]]
 local function on_session_recv_raw(s, cmd_raw)
+    if (Session.as_client(s)) then -- sent from other servers to client
+        send_to_client(s, cmd_raw)
+    else
+        send_to_server(s, cmd_raw) -- sent from client dispatch to servers
+    end
 end
 
 local function session_disconnect(s)
@@ -67,6 +109,20 @@ local function session_disconnect(s)
     end
 
     -- session connect to client is disconnected
+    -- remove client session from client_sessions_ukey
+    local utag = Session.get_utag(s)
+    if client_sessions_ukey[utag] ~= nil then
+        client_sessions_ukey[utag] = nil
+        Session.set_utag(s, 0)
+        print("client [" .. utag .. "] removed from client_sessions_ukey")
+    end
+    -- remove client session from client_sessions_uid
+    local uid = Session.get_uid(s)
+    if client_sessions_uid[uid] ~= nil then
+        client_sessions_uid[uid] = nil
+        Session.set_uid(s, 0)
+        print("client [" .. utag .. "] removed from client_sessions_uid")
+    end
 end
 
 gateway_service_init()

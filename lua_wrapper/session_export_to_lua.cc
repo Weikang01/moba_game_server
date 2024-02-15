@@ -299,10 +299,30 @@ static int lua_session_send_msg(lua_State* tolua_S)
         }
     }
 
-	lua_pushinteger(tolua_S, 1);
+	lua_pushboolean(tolua_S, true);
 	return 1;
 failed:
-	lua_pushinteger(tolua_S, 0);
+	lua_pushboolean(tolua_S, false);
+	return 0;
+}
+
+static int lua_session_send_raw_msg(lua_State* tolua_S)
+{
+	Session* s = (Session*)tolua_touserdata(tolua_S, 1, 0);
+	raw_cmd_msg* raw= NULL;
+	if (!s)
+		goto failed;
+
+	raw = (raw_cmd_msg*)lua_touserdata(tolua_S, 2);
+	if (!raw)
+		goto failed;
+
+	s->send_raw_cmd(raw);
+
+	lua_pushboolean(tolua_S, true);
+	return 1;
+failed:
+	lua_pushboolean(tolua_S, false);
 	return 0;
 }
 
@@ -314,10 +334,10 @@ static int lua_set_utag(lua_State* tolua_S)
 		goto failed;
 
 	s->utag = utag;
-	lua_pushinteger(tolua_S, 1);
+	lua_pushboolean(tolua_S, true);
 	return 1;
 failed:
-	lua_pushinteger(tolua_S, 0);
+	lua_pushboolean(tolua_S, false);
 	return 0;
 }
 
@@ -327,6 +347,33 @@ static int lua_get_utag(lua_State* tolua_S)
 	if (!s)
 		goto failed;
 	lua_pushinteger(tolua_S, s->utag);
+	return 1;
+failed:
+	lua_pushinteger(tolua_S, 0);
+	return 0;
+}
+
+static int lua_set_uid(lua_State* tolua_S)
+{
+	Session* s = (Session*)tolua_touserdata(tolua_S, 1, 0);
+	int uid = lua_tointeger(tolua_S, 2);
+	if (!s)
+		goto failed;
+
+	s->uid = uid;
+	lua_pushboolean(tolua_S, true);
+	return 1;
+failed:
+	lua_pushboolean(tolua_S, false);
+	return 0;
+}
+
+static int lua_get_uid(lua_State* tolua_S)
+{
+	Session* s = (Session*)tolua_touserdata(tolua_S, 1, 0);
+	if (!s)
+		goto failed;
+	lua_pushinteger(tolua_S, s->uid);
 	return 1;
 failed:
 	lua_pushinteger(tolua_S, 0);
@@ -357,10 +404,10 @@ static int lua_as_client(lua_State* tolua_S)
 	Session* s = (Session*)tolua_touserdata(tolua_S, 1, 0);
 	if (!s)
 		goto failed;
-	lua_pushinteger(tolua_S, s->as_client);
+	lua_pushboolean(tolua_S, s->as_client);
 	return 1;
 failed:
-	lua_pushnil(tolua_S);
+	lua_pushboolean(tolua_S, false);
 	return 0;
 }
 
@@ -375,22 +422,31 @@ int register_session_export(lua_State* tolua_S)
         tolua_beginmodule(tolua_S, "Session");
 
 		// lua format: Session.close(session)
-		// lua return: 1 or 0
+		// lua return: void
         tolua_function(tolua_S, "close", lua_session_close);
 		// lua format: Session.send_msg(session, {stype=1, ctype=2, utag=3, body={...}})
-		// lua return: 1 or 0
+		// lua return: true or false
         tolua_function(tolua_S, "send_msg", lua_session_send_msg);
+		// lua format: Session.send_raw_msg(session, raw_msg)
+		// lua return: true or false
+		tolua_function(tolua_S, "send_raw_msg", lua_session_send_raw_msg);
 		// lua format: Session.get_address(session)
 		// lua return: ip, port
         tolua_function(tolua_S, "get_address", lua_session_get_address);
 		// lua format: Session.set_utag(session, utag)
-		// lua return: 1 or 0
+		// lua return: true or false
 		tolua_function(tolua_S, "set_utag", lua_set_utag);
 		// lua format: Session.get_utag(session)
 		// lua return: utag
 		tolua_function(tolua_S, "get_utag", lua_get_utag);
+		// lua format: Session.set_uid(session, uid)
+		// lua return: true or false
+		tolua_function(tolua_S, "set_uid", lua_set_uid);
+		// lua format: Session.get_uid(session)
+		// lua return: uid
+		tolua_function(tolua_S, "get_uid", lua_get_uid);
 		// lua format: Session.as_client(session)
-		// lua return: 1 or 0
+		// lua return: true or false
 		tolua_function(tolua_S, "as_client", lua_as_client);
 
         tolua_endmodule(tolua_S);

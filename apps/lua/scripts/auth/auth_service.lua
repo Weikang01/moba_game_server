@@ -1,5 +1,5 @@
 local function session_recv_cmd(s, cmd_msg)
-
+    print("stype: " .. cmd_msg[1] .. "\tctype: " .. cmd_msg[2] .. "\tutag: " .. cmd_msg[3])
 end
 
 local function session_disconnect(s)
