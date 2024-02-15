@@ -54,7 +54,7 @@ void ServiceManager::on_session_disconnect(Session* s)
 {
 	for (int i = 0; i < MAX_SERVICE; i++) {
 		if (g_service_set[i] != NULL) {
-			g_service_set[i]->on_session_disconnect(s);
+			g_service_set[i]->on_session_disconnect(s, i);
 		}
 	}
 }

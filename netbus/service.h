@@ -12,6 +12,6 @@ public:
 public:
 	virtual bool on_session_recv_raw(Session* s, raw_cmd_msg* raw);
 	virtual bool on_session_recv_cmd(Session* s, cmd_msg* msg);
-	virtual void on_session_disconnect(Session* s);
+	virtual void on_session_disconnect(Session* s, int stype);
 };
 #endif

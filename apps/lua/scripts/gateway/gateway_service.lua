@@ -42,16 +42,26 @@ local function gateway_service_init()
     Scheduler.schedule(check_server_connect, 1000, 5000, -1)
 end
 
-
-local function send_to_client(session, cmd_raw)
-
-end
-
 -- get client session through temporary ukey
 local g_ukey               = 1
 local client_sessions_ukey = {}
 -- get client session through uid
 local client_sessions_uid  = {}
+
+local function send_to_client(server_session, raw_cmd)
+    local stype, ctype, utag = RawCmd.read_header(raw_cmd)
+    local client_session = nil
+    if client_sessions_uid[utag] ~= nil then
+        client_session = client_sessions_uid[utag]
+    elseif client_sessions_ukey[utag] ~= nil then
+        client_session = client_sessions_ukey[utag]
+    else
+        Logger.error("unknown utag [" .. utag .. "]")
+        return
+    end
+    Session.send_raw_msg(client_session, raw_cmd)
+end
+
 
 local function send_to_server(client_session, raw_cmd)
     local stype, ctype, utag = RawCmd.read_header(raw_cmd)
@@ -95,7 +105,7 @@ local function on_session_recv_raw(s, cmd_raw)
     end
 end
 
-local function session_disconnect(s)
+local function session_disconnect(s, stype)
     -- session connected to server is disconnected
     if (Session.as_client(s)) then
         for key, value in pairs(map_server_session) do
@@ -120,8 +130,11 @@ local function session_disconnect(s)
     local uid = Session.get_uid(s)
     if client_sessions_uid[uid] ~= nil then
         client_sessions_uid[uid] = nil
-        Session.set_uid(s, 0)
         print("client [" .. utag .. "] removed from client_sessions_uid")
+    end
+
+    -- user dropped connection, send this event to other servers
+    if uid ~= 0 and servers[stype] ~= nil then
     end
 end
 

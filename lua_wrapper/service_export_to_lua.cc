@@ -131,7 +131,7 @@ public:
 public:
     virtual bool on_session_recv_cmd(Session* s, cmd_msg* msg);
     virtual bool on_session_recv_raw(Session* s, raw_cmd_msg* raw);
-    virtual void on_session_disconnect(Session* s);
+    virtual void on_session_disconnect(Session* s, int stype);
 };
 
 static void push_proto_message_tolua(Message* message)
@@ -313,9 +313,11 @@ bool lua_service::on_session_recv_raw(Session* s, raw_cmd_msg* raw) {
     return true;
 }
 
-void lua_service::on_session_disconnect(Session* s) {
+void lua_service::on_session_disconnect(Session* s, int stype) {
     tolua_pushuserdata(LuaWrapper::get_lua_state(), (void*)s);
-    execute_service_function(this->lua_disconnect_handler, 1);
+    lua_pushinteger(LuaWrapper::get_lua_state(), stype);
+
+    execute_service_function(this->lua_disconnect_handler, 2);
 }
 
 static void init_service_function_map(lua_State* L)

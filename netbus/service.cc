@@ -23,5 +23,5 @@ bool Service::on_session_recv_cmd(Session* s, cmd_msg* msg)
 }
 
 // call when client lost connection
-void Service::on_session_disconnect(Session* s)
+void Service::on_session_disconnect(Session* s, int stype)
 {}
