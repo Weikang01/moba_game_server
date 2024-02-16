@@ -100,7 +100,7 @@ static void lua_scheduler_once_callback(void* data)
 static int lua_scheduler_schedule_once(lua_State* tolua_S)
 {
     int handle = toluafix_ref_function(tolua_S, 1, 0);
-    int after_ms, repeat_interval_ms, repeat;
+    int after_ms, repeat_interval_ms;
     struct lua_schedule_data* timer;
     timer_data* td;
     if (handle == 0)
@@ -108,10 +108,6 @@ static int lua_scheduler_schedule_once(lua_State* tolua_S)
 
     after_ms = tolua_tonumber(tolua_S, 2, 0);
     if (after_ms <= 0)
-        goto lua_failed;
-
-    repeat_interval_ms = tolua_tonumber(tolua_S, 3, 0);
-    if (repeat_interval_ms < 0)
         goto lua_failed;
 
     timer = (struct lua_schedule_data*)my_malloc(sizeof(struct lua_schedule_data));
@@ -146,7 +142,7 @@ int register_scheduler_export(lua_State* tolua_S)
         // lua format: Scheduler.cancel(timer_data)
         // lua return: nil
         tolua_function(tolua_S, "cancel", lua_scheduler_unschedule);
-        // lua format: Scheduler.once(function() end, after_ms, repeat_interval_ms)
+        // lua format: Scheduler.once(function() end, after_ms)
         // lua return: timer_data
         tolua_function(tolua_S, "once", lua_scheduler_schedule_once);
 

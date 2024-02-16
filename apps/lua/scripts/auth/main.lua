@@ -1,6 +1,8 @@
 Logger.init("log/auth/", "auth", true, -5)
 local g_proto_type = require("proto_type")
 
+-- init auth center db
+require("db/mysql_auth_center")
 
 ProtoManager.init(g_proto_type)
 -- if it's proto_buf, register cmd map
