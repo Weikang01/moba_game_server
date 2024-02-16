@@ -3,16 +3,8 @@ local Cmd = require("cmd")
 local Json = require("json")
 
 local function session_recv_cmd(s, cmd_msg)
-    print("stype: " .. cmd_msg[1] .. "\tctype: " .. cmd_msg[2] .. "\tutag: " .. cmd_msg[3] .. "\tbody: " .. cmd_msg[4])
-    -- send to client
-    Session.send_msg(s, {
-        stype = Stype.Auth,
-        ctype = Cmd.eLoginRes,
-        utag  = cmd_msg[3],
-        body  = Json.encode({
-            status = 1
-        })
-    })
+    print("stype: " ..
+        cmd_msg[1] .. "\tctype: " .. cmd_msg[2] .. "\tutag: " .. cmd_msg[3] .. "\tbody: " .. cmd_msg[4].guest_key)
 end
 
 local function session_disconnect(s, stype)
