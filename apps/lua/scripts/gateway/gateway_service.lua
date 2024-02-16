@@ -1,6 +1,5 @@
 local game_config = require("game_config")
 
-
 -- stype -> session
 local map_server_session = {}
 -- stype -> bool
@@ -67,6 +66,7 @@ local function send_to_server(client_session, raw_cmd)
     local stype, ctype, utag = RawCmd.read_header(raw_cmd)
     local server_session = map_server_session[stype]
     if server_session == nil then -- server error
+        Logger.error("stype: " .. stype .. " server error!")
         return
     end
 

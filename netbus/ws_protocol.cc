@@ -163,7 +163,7 @@ unsigned char* WSProtocol::package_ws_send_data(const unsigned char* data, int l
 	}
 
 	unsigned char* send_resp = (unsigned char*)cache_alloc(wbuf_allocator, len + head_len);
-	send_resp[0] = 0x81;
+	send_resp[0] = 0x82;  // 0x81: text frame, 0x82: binary frame
 	if (len < 126) {
 		send_resp[1] = len;
 	}

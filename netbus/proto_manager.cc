@@ -16,7 +16,6 @@ extern CacheAllocator* wbuf_allocator;
 #define my_free small_free
 
 #define CMD_HEADER_SIZE 8
-#define CMD_TRAILER_SIZE 1
 
 static int g_proto_type = PROTO_BUF;
 static std::map<int, std::string> g_cmd_map;
@@ -144,7 +143,6 @@ unsigned char* ProtoManager::encode_msg_to_raw(cmd_msg* msg, int* out_len)
 	if (msg->body) {
 		if (g_proto_type == PROTO_JSON) {
 			len += strlen((char*)msg->body);
-			len += CMD_TRAILER_SIZE;
 		}
 		else if (g_proto_type == PROTO_BUF) {
 			len += ((google::protobuf::Message*)msg->body)->ByteSize();
@@ -159,8 +157,7 @@ unsigned char* ProtoManager::encode_msg_to_raw(cmd_msg* msg, int* out_len)
 	memcpy(out_data + 4, &msg->utag, 4);
 	if (msg->body) {
 		if (g_proto_type == PROTO_JSON) {
-			memcpy(out_data + CMD_HEADER_SIZE, msg->body, len - CMD_HEADER_SIZE - CMD_TRAILER_SIZE);
-			out_data[len - 1] = 0;
+			memcpy(out_data + CMD_HEADER_SIZE, msg->body, len - CMD_HEADER_SIZE);
 		}
 		else if (g_proto_type == PROTO_BUF) {
 			if (!((google::protobuf::Message*)msg->body)->SerializeToArray(out_data + CMD_HEADER_SIZE, len - CMD_HEADER_SIZE)) {
