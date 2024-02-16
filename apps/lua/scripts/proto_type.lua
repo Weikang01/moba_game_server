@@ -3,4 +3,4 @@ ProtoType = {
     PROTO_BUF = 1,
 }
 
-return ProtoType.PROTO_JSON
+return ProtoType.PROTO_BUF
