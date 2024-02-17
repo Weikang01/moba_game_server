@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <google/protobuf/message.h>
 
 #include "../lua_wrapper/lua_wrapper.h"
 
@@ -155,6 +156,37 @@ failed:
     return 0;
 }
 
+extern void push_proto_message_tolua(google::protobuf::Message* message);
+
+static int lua_read_body(lua_State* tolua_S)
+{
+	int argc = lua_gettop(tolua_S);
+	raw_cmd_msg* raw = NULL;
+    cmd_msg* msg = NULL;
+	if (argc != 1)
+		goto failed;
+	raw = (raw_cmd_msg*)tolua_touserdata(tolua_S, 1, NULL);
+	if (raw == NULL)
+		goto failed;
+
+
+    if (ProtoManager::decode_cmd_msg(raw->raw_data, raw->raw_len, &msg)) {
+        if (msg == NULL) {
+            lua_pushnil(tolua_S);
+        }
+        else if (ProtoManager::proto_type() == PROTO_JSON) {
+            lua_pushstring(tolua_S, (const char*)msg->body);
+        }
+        else if (ProtoManager::proto_type() == PROTO_BUF) {
+			push_proto_message_tolua((google::protobuf::Message*)msg->body);
+		}
+        
+        ProtoManager::cmd_msg_free(msg);
+    }
+    return 1;
+failed:
+	return 0;
+}
 
 int register_raw_cmd_export(lua_State* tolua_S)
 {
@@ -172,6 +204,9 @@ int register_raw_cmd_export(lua_State* tolua_S)
         // lua format: RawCmd.set_utag(raw_cmd, utag)
         // lua return: true or false
         tolua_function(tolua_S, "set_utag", lua_raw_set_utag);
+        // lua format: RawCmd.read_body(raw_cmd)
+        // lua return: body  (string or protobuf message)
+        tolua_function(tolua_S, "read_body", lua_read_body);
 
         tolua_endmodule(tolua_S);
     }

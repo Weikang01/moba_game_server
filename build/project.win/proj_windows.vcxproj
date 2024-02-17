@@ -155,6 +155,7 @@
     <ClCompile Include="..\..\apps\lua\proto\game.pb.cc" />
     <ClCompile Include="..\..\database\mysql_wrapper.cc" />
     <ClCompile Include="..\..\database\redis_wrapper.cc" />
+    <ClCompile Include="..\..\lua_wrapper\logger_export_to_lua.cc" />
     <ClCompile Include="..\..\lua_wrapper\lua_wrapper.cc" />
     <ClCompile Include="..\..\lua_wrapper\mysql_export_to_lua.cc" />
     <ClCompile Include="..\..\lua_wrapper\netbus_export_to_lua.cc" />
@@ -256,6 +257,7 @@
     <ClInclude Include="..\..\apps\lua\proto\game.pb.h" />
     <ClInclude Include="..\..\database\mysql_wrapper.h" />
     <ClInclude Include="..\..\database\redis_wrapper.h" />
+    <ClInclude Include="..\..\lua_wrapper\logger_export_to_lua.h" />
     <ClInclude Include="..\..\lua_wrapper\lua_wrapper.h" />
     <ClInclude Include="..\..\lua_wrapper\mysql_export_to_lua.h" />
     <ClInclude Include="..\..\lua_wrapper\netbus_export_to_lua.h" />

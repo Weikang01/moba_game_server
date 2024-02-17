@@ -119,12 +119,13 @@ const char descriptor_table_protodef_game_2eproto[] PROTOBUF_SECTION_VARIABLE(pr
   "\016\n\006status\030\001 \001(\005\022#\n\005uinfo\030\002 \001(\0132\017.UserCen"
   "terInfoH\000\210\001\001B\010\n\006_uinfo*>\n\005Stype\022\021\n\rINVAL"
   "ID_STYPE\020\000\022\t\n\005eAuth\020\001\022\013\n\007eSystem\020\002\022\n\n\006eL"
-  "ogic\020\003*>\n\003Cmd\022\017\n\013INVALID_CMD\020\000\022\022\n\016eGuest"
-  "LoginReq\020\001\022\022\n\016eGuestLoginRes\020\002b\006proto3"
+  "ogic\020\003*b\n\003Cmd\022\017\n\013INVALID_CMD\020\000\022\022\n\016eGuest"
+  "LoginReq\020\001\022\022\n\016eGuestLoginRes\020\002\022\017\n\013eRelog"
+  "inRes\020\003\022\021\n\reUserLostConn\020\004b\006proto3"
   ;
 static ::_pbi::once_flag descriptor_table_game_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_game_2eproto = {
-    false, false, 358, descriptor_table_protodef_game_2eproto,
+    false, false, 394, descriptor_table_protodef_game_2eproto,
     "game.proto",
     &descriptor_table_game_2eproto_once, nullptr, 0, 3,
     schemas, file_default_instances, TableStruct_game_2eproto::offsets,
@@ -162,6 +163,8 @@ bool Cmd_IsValid(int value) {
     case 0:
     case 1:
     case 2:
+    case 3:
+    case 4:
       return true;
     default:
       return false;

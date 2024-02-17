@@ -3,6 +3,9 @@ local Guest = require("auth/guest")
 
 local auth_service_handlers = {}
 auth_service_handlers[Cmd.eGuestLoginReq] = Guest.login
+auth_service_handlers[Cmd.eUserLostConn] = function(session, cmd_msg)
+    print("user [" .. cmd_msg[3] .. "] lost connection")
+end
 
 
 local function session_recv_cmd(s, cmd_msg)
