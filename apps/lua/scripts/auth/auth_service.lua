@@ -1,10 +1,14 @@
-local Stype = require("stype")
 local Cmd = require("cmd")
-local Json = require("json")
+local Guest = require("auth/guest")
+
+local auth_service_handlers = {}
+auth_service_handlers[Cmd.eGuestLoginReq] = Guest.login
+
 
 local function session_recv_cmd(s, cmd_msg)
-    print("stype: " ..
-        cmd_msg[1] .. "\tctype: " .. cmd_msg[2] .. "\tutag: " .. cmd_msg[3] .. "\tbody: " .. cmd_msg[4].guest_key)
+    if auth_service_handlers[cmd_msg[2]] then
+        auth_service_handlers[cmd_msg[2]](s, cmd_msg)
+    end
 end
 
 local function session_disconnect(s, stype)
