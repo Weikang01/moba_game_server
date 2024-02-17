@@ -1,1 +1,1 @@
-proj_windows.exe ../../../apps/lua/scripts gateway/main.lua
+server_windows.exe ../../../apps/lua/scripts gateway/main.lua

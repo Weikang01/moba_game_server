@@ -1,1 +1,1 @@
-proj_windows.exe ../../../apps/lua/scripts auth/main.lua
+server_windows.exe ../../../apps/lua/scripts auth/main.lua
