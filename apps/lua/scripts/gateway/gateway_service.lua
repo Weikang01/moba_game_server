@@ -124,13 +124,13 @@ local function session_disconnect(s, stype)
     if client_sessions_ukey[utag] ~= nil then
         client_sessions_ukey[utag] = nil
         Session.set_utag(s, 0)
-        print("client [" .. utag .. "] removed from client_sessions_ukey")
+        -- print("client [" .. utag .. "] removed from client_sessions_ukey")
     end
     -- remove client session from client_sessions_uid
     local uid = Session.get_uid(s)
     if client_sessions_uid[uid] ~= nil then
         client_sessions_uid[uid] = nil
-        print("client [" .. utag .. "] removed from client_sessions_uid")
+        -- print("client [" .. utag .. "] removed from client_sessions_uid")
     end
 
     -- user dropped connection, send this event to other servers
