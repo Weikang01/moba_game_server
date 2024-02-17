@@ -91,12 +91,14 @@ enum Cmd : int {
   INVALID_CMD = 0,
   eGuestLoginReq = 1,
   eGuestLoginRes = 2,
+  eReloginRes = 3,
+  eUserLostConn = 4,
   Cmd_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
   Cmd_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
 };
 bool Cmd_IsValid(int value);
 constexpr Cmd Cmd_MIN = INVALID_CMD;
-constexpr Cmd Cmd_MAX = eGuestLoginRes;
+constexpr Cmd Cmd_MAX = eUserLostConn;
 constexpr int Cmd_ARRAYSIZE = Cmd_MAX + 1;
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* Cmd_descriptor();

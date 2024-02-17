@@ -11,6 +11,8 @@ enum Cmd {
 	INVALID_CMD    = 0;
 	eGuestLoginReq = 1;
 	eGuestLoginRes = 2;
+	eReloginRes    = 3;
+	eUserLostConn  = 4;
 }
 
 message GuestLoginReq {
@@ -18,11 +20,11 @@ message GuestLoginReq {
 }
 
 message UserCenterInfo {
-	string unick = 1;
-	int32 usex = 2;
+	string unick     = 1;
+	int32 usex       = 2;
 	int32 usysavatar = 3;
-	int32 uvip = 4;
-	int32 uid = 5;
+	int32 uvip       = 4;
+	int32 uid        = 5;
 }
 
 message GuestLoginRes {
