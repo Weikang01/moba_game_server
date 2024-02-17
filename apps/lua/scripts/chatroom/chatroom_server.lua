@@ -1,6 +1,6 @@
 local session_set = {} -- save all sessions
 
-function broadcast_except(msg, except)
+local function broadcast_except(msg, except)
 	for i = 1, #session_set do
 		if (session_set[i] ~= except) then
 			Session.send_msg(session_set[i], msg)
