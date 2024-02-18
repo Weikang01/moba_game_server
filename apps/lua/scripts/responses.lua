@@ -3,7 +3,8 @@ local Responses = {
 
     SYSTEM_ERR = -100,
     USER_BLOCKED = -101,
-    USER_IS_NOT_GUEST = -102
+    USER_IS_NOT_GUEST = -102,
+    INVALID_PARAMS = -103,
 }
 
 return Responses

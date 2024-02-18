@@ -3,8 +3,27 @@ local Cmd = require("cmd")
 local Responses = require("responses")
 local mysql_auth_center = require("db/mysql_auth_center")
 
+local function is_valid_gkey(g_key)
+    if type(g_key) ~= "string" or string.len(g_key) ~= 32 then
+        return false
+    end
+    return true
+end
+
 local function login(session, cmd_msg)
     local g_key = cmd_msg[4].guest_key
+    if not (is_valid_gkey(g_key)) then
+        Session.send_msg(session, {
+            stype = Stype.Auth,
+            ctype = Cmd.eGuestLoginRes,
+            utag = cmd_msg[3],
+            body = {
+                status = Responses.INVALID_PARAMS
+            }
+        })
+        return
+    end
+
     mysql_auth_center.get_guest_uinfo(g_key, function(err, uinfo)
         if err then
             Session.send_msg(session, {

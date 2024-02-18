@@ -401,6 +401,6 @@ FodyWeavers.xsd
 # build
 x64/
 x86/
-[Bb]uild/*
+# [Bb]uild/*
 
 !*.keep

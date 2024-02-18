@@ -3,6 +3,8 @@ local cmd_name_map = {
     "GuestLoginRes",
     "ReloginRes",
     "UserLostConn",
+    "EditProfileReq",
+    "EditProfileRes",
 }
 
 return cmd_name_map;

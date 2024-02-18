@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="apps">
+      <UniqueIdentifier>{7b4c0dd5-a083-4b43-972e-b2ea5f8fbca4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="apps\proto">
+      <UniqueIdentifier>{f86a9cc9-e128-4311-ace8-ab68a44287eb}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\apps\lua\proto\game.pb.cc">
+      <Filter>apps\proto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\apps\lua\main.cc">
+      <Filter>apps</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\apps\lua\proto\game.pb.h">
+      <Filter>apps\proto</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\apps\lua\proto\game.proto">
+      <Filter>apps\proto</Filter>
+    </None>
+  </ItemGroup>
+</Project>

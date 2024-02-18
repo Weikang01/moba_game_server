@@ -1,11 +1,10 @@
 local Cmd = require("cmd")
 local Guest = require("auth/guest")
+local EditProfile = require("auth/edit_profile")
 
 local auth_service_handlers = {}
 auth_service_handlers[Cmd.eGuestLoginReq] = Guest.login
-auth_service_handlers[Cmd.eUserLostConn] = function(session, cmd_msg)
-    print("user [" .. cmd_msg[3] .. "] lost connection")
-end
+auth_service_handlers[Cmd.eEditProfileReq] = EditProfile.do_edit_profile
 
 
 local function session_recv_cmd(s, cmd_msg)

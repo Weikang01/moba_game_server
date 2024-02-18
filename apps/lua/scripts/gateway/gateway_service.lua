@@ -44,7 +44,7 @@ local function gateway_service_init()
     end
 
     -- start a scheduler
-    Scheduler.schedule(check_server_connect, 1000, 5000, -1)
+    Scheduler.schedule(check_server_connect, 0, 5000, -1)
 end
 
 -- get client session through temporary ukey
