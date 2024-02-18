@@ -88,11 +88,37 @@ local function insert_guest_user(guest_key, ret_handler)
 end
 
 
+local function edit_profile(uid, unick, usex, usysavatar, ret_handler)
+    if mysql_conn == nil then
+        if ret_handler then
+            ret_handler("mysql is not connected!", nil)
+        end
+        return
+    end
+
+    local sql =
+    "update user_info set `unick`=\"%s\", `usex`=%d, `usysavatar`=%d where (`uid`=%d)"
+    local cmd = string.format(sql, unick, usex, usysavatar, uid)
+    MySQL.query(mysql_conn, cmd, function(err, ret)
+        if err then
+            if ret_handler then
+                ret_handler(err, nil)
+            end
+        else
+            if ret_handler then
+                ret_handler(nil, nil)
+            end
+        end
+    end)
+end
+
+
 mysql_connect_to_auth_center()
 
 local mysql_auth_center = {
     get_guest_uinfo = get_guest_uinfo,
-    insert_guest_user = insert_guest_user
+    insert_guest_user = insert_guest_user,
+    edit_profile = edit_profile
 
 }
 

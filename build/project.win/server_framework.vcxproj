@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{E84B7924-40B5-476C-938A-3F83F1AC807A}</ProjectGuid>
+    <RootNamespace>serverframework</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <TargetName>$(ProjectName)_d</TargetName>
+    <OutDir>$(ProjectDir)$(ProjectName)\$(Platform)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <TargetName>$(ProjectName)_d</TargetName>
+    <OutDir>$(ProjectDir)$(ProjectName)\$(Platform)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(ProjectDir)$(ProjectName)\$(Platform)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(ProjectDir)$(ProjectName)\$(Platform)\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>false</SDLCheck>
+      <PreprocessorDefinitions>USE_LUA_MAIN;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)vendor\libuv\include;$(SolutionDir)vendor\http_parser;$(SolutionDir)vendor\crypto;$(SolutionDir)vendor\protobuf\src;$(SolutionDir)vendor\cJSON;$(SolutionDir)vendor\mysql_connector\include;$(SolutionDir)vendor\hiredis;$(SolutionDir)vendor\lua\src;$(SolutionDir)vendor\tolua</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalOptions>ws2_32.lib IPHLPAPI.lib Userenv.lib Psapi.lib libprotobufd.lib libprotocd.lib mysqlcppconn.lib hiredisd.lib</AdditionalOptions>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)protobuf;$(SolutionDir)vendor\mysql_connector_debug\lib64\vs14;$(SolutionDir)vendor\mysql_connector_debug\lib64\vs14\debug;$(ProjectDir)hiredis\Debug</AdditionalLibraryDirectories>
+      <EntryPointSymbol>
+      </EntryPointSymbol>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>false</SDLCheck>
+      <PreprocessorDefinitions>USE_LUA_MAIN;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)vendor\libuv\include;$(SolutionDir)vendor\http_parser;$(SolutionDir)vendor\crypto;$(SolutionDir)vendor\protobuf\src;$(SolutionDir)vendor\cJSON;$(SolutionDir)vendor\mysql_connector\include;$(SolutionDir)vendor\hiredis;$(SolutionDir)vendor\lua\src;$(SolutionDir)vendor\tolua</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalOptions>ws2_32.lib IPHLPAPI.lib Userenv.lib Psapi.lib libprotobufd.lib libprotocd.lib mysqlcppconn.lib hiredis.lib</AdditionalOptions>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)protobuf;$(SolutionDir)vendor\mysql_connector\lib64\vs14;$(ProjectDir)hiredis\Release</AdditionalLibraryDirectories>
+      <EntryPointSymbol>
+      </EntryPointSymbol>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>false</SDLCheck>
+      <PreprocessorDefinitions>USE_LUA_MAIN;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)vendor\libuv\include;$(SolutionDir)vendor\http_parser;$(SolutionDir)vendor\crypto;$(SolutionDir)vendor\protobuf\src;$(SolutionDir)vendor\cJSON;$(SolutionDir)vendor\mysql_connector\include;$(SolutionDir)vendor\hiredis;$(SolutionDir)vendor\lua\src;$(SolutionDir)vendor\tolua</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalOptions>ws2_32.lib IPHLPAPI.lib Userenv.lib Psapi.lib libprotobufd.lib libprotocd.lib mysqlcppconn.lib hiredisd.lib</AdditionalOptions>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)protobuf;$(SolutionDir)vendor\mysql_connector_debug\lib64\vs14;$(SolutionDir)vendor\mysql_connector_debug\lib64\vs14\debug;$(ProjectDir)hiredis\Debug</AdditionalLibraryDirectories>
+      <EntryPointSymbol>
+      </EntryPointSymbol>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>false</SDLCheck>
+      <PreprocessorDefinitions>USE_LUA_MAIN;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)vendor\libuv\include;$(SolutionDir)vendor\http_parser;$(SolutionDir)vendor\crypto;$(SolutionDir)vendor\protobuf\src;$(SolutionDir)vendor\cJSON;$(SolutionDir)vendor\mysql_connector\include;$(SolutionDir)vendor\hiredis;$(SolutionDir)vendor\lua\src;$(SolutionDir)vendor\tolua</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalOptions>ws2_32.lib IPHLPAPI.lib Userenv.lib Psapi.lib libprotobufd.lib libprotocd.lib mysqlcppconn.lib hiredis.lib</AdditionalOptions>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)protobuf;$(SolutionDir)vendor\mysql_connector\lib64\vs14;$(ProjectDir)hiredis\Release</AdditionalLibraryDirectories>
+      <EntryPointSymbol>
+      </EntryPointSymbol>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\database\mysql_wrapper.cc" />
+    <ClCompile Include="..\..\database\redis_wrapper.cc" />
+    <ClCompile Include="..\..\lua_wrapper\logger_export_to_lua.cc" />
+    <ClCompile Include="..\..\lua_wrapper\lua_wrapper.cc" />
+    <ClCompile Include="..\..\lua_wrapper\mysql_export_to_lua.cc" />
+    <ClCompile Include="..\..\lua_wrapper\netbus_export_to_lua.cc" />
+    <ClCompile Include="..\..\lua_wrapper\proto_manager_export_to_lua.cc" />
+    <ClCompile Include="..\..\lua_wrapper\redis_export_to_lua.cc" />
+    <ClCompile Include="..\..\lua_wrapper\scheduler_export_to_lua.cc" />
+    <ClCompile Include="..\..\lua_wrapper\service_export_to_lua.cc" />
+    <ClCompile Include="..\..\lua_wrapper\session_export_to_lua.cc" />
+    <ClCompile Include="..\..\netbus\netbus.cc" />
+    <ClCompile Include="..\..\netbus\proto_manager.cc" />
+    <ClCompile Include="..\..\netbus\service.cc" />
+    <ClCompile Include="..\..\netbus\service_manager.cc" />
+    <ClCompile Include="..\..\netbus\session_uv.cc" />
+    <ClCompile Include="..\..\netbus\tcp_protocol.cc" />
+    <ClCompile Include="..\..\netbus\udp_session.cc" />
+    <ClCompile Include="..\..\netbus\ws_protocol.cc" />
+    <ClCompile Include="..\..\utils\cache_alloc.c" />
+    <ClCompile Include="..\..\utils\logger.cc" />
+    <ClCompile Include="..\..\utils\small_alloc.c" />
+    <ClCompile Include="..\..\utils\timestamp.c" />
+    <ClCompile Include="..\..\utils\time_list.c" />
+    <ClCompile Include="..\..\vendor\cJSON\cJSON.c" />
+    <ClCompile Include="..\..\vendor\crypto\base64_decoder.c" />
+    <ClCompile Include="..\..\vendor\crypto\base64_encoder.c" />
+    <ClCompile Include="..\..\vendor\crypto\md5.c" />
+    <ClCompile Include="..\..\vendor\crypto\sha1.c" />
+    <ClCompile Include="..\..\vendor\http_parser\http_parser.c" />
+    <ClCompile Include="..\..\vendor\libuv\src\fs-poll.c" />
+    <ClCompile Include="..\..\vendor\libuv\src\inet.c" />
+    <ClCompile Include="..\..\vendor\libuv\src\threadpool.c" />
+    <ClCompile Include="..\..\vendor\libuv\src\uv-common.c" />
+    <ClCompile Include="..\..\vendor\libuv\src\version.c" />
+    <ClCompile Include="..\..\vendor\libuv\src\win\async.c" />
+    <ClCompile Include="..\..\vendor\libuv\src\win\core.c" />
+    <ClCompile Include="..\..\vendor\libuv\src\win\dl.c" />
+    <ClCompile Include="..\..\vendor\libuv\src\win\error.c" />
+    <ClCompile Include="..\..\vendor\libuv\src\win\fs-event.c" />
+    <ClCompile Include="..\..\vendor\libuv\src\win\fs.c" />
+    <ClCompile Include="..\..\vendor\libuv\src\win\getaddrinfo.c" />
+    <ClCompile Include="..\..\vendor\libuv\src\win\getnameinfo.c" />
+    <ClCompile Include="..\..\vendor\libuv\src\win\handle.c" />
+    <ClCompile Include="..\..\vendor\libuv\src\win\loop-watcher.c" />
+    <ClCompile Include="..\..\vendor\libuv\src\win\pipe.c" />
+    <ClCompile Include="..\..\vendor\libuv\src\win\poll.c" />
+    <ClCompile Include="..\..\vendor\libuv\src\win\process-stdio.c" />
+    <ClCompile Include="..\..\vendor\libuv\src\win\process.c" />
+    <ClCompile Include="..\..\vendor\libuv\src\win\req.c" />
+    <ClCompile Include="..\..\vendor\libuv\src\win\signal.c" />
+    <ClCompile Include="..\..\vendor\libuv\src\win\snprintf.c" />
+    <ClCompile Include="..\..\vendor\libuv\src\win\stream.c" />
+    <ClCompile Include="..\..\vendor\libuv\src\win\tcp.c" />
+    <ClCompile Include="..\..\vendor\libuv\src\win\thread.c" />
+    <ClCompile Include="..\..\vendor\libuv\src\win\timer.c" />
+    <ClCompile Include="..\..\vendor\libuv\src\win\tty.c" />
+    <ClCompile Include="..\..\vendor\libuv\src\win\udp.c" />
+    <ClCompile Include="..\..\vendor\libuv\src\win\util.c" />
+    <ClCompile Include="..\..\vendor\libuv\src\win\winapi.c" />
+    <ClCompile Include="..\..\vendor\libuv\src\win\winsock.c" />
+    <ClCompile Include="..\..\vendor\lua\src\lapi.c" />
+    <ClCompile Include="..\..\vendor\lua\src\lauxlib.c" />
+    <ClCompile Include="..\..\vendor\lua\src\lbaselib.c" />
+    <ClCompile Include="..\..\vendor\lua\src\lcode.c" />
+    <ClCompile Include="..\..\vendor\lua\src\lcorolib.c" />
+    <ClCompile Include="..\..\vendor\lua\src\lctype.c" />
+    <ClCompile Include="..\..\vendor\lua\src\ldblib.c" />
+    <ClCompile Include="..\..\vendor\lua\src\ldebug.c" />
+    <ClCompile Include="..\..\vendor\lua\src\ldo.c" />
+    <ClCompile Include="..\..\vendor\lua\src\ldump.c" />
+    <ClCompile Include="..\..\vendor\lua\src\lfunc.c" />
+    <ClCompile Include="..\..\vendor\lua\src\lgc.c" />
+    <ClCompile Include="..\..\vendor\lua\src\linit.c" />
+    <ClCompile Include="..\..\vendor\lua\src\liolib.c" />
+    <ClCompile Include="..\..\vendor\lua\src\llex.c" />
+    <ClCompile Include="..\..\vendor\lua\src\lmathlib.c" />
+    <ClCompile Include="..\..\vendor\lua\src\lmem.c" />
+    <ClCompile Include="..\..\vendor\lua\src\loadlib.c" />
+    <ClCompile Include="..\..\vendor\lua\src\lobject.c" />
+    <ClCompile Include="..\..\vendor\lua\src\lopcodes.c" />
+    <ClCompile Include="..\..\vendor\lua\src\loslib.c" />
+    <ClCompile Include="..\..\vendor\lua\src\lparser.c" />
+    <ClCompile Include="..\..\vendor\lua\src\lstate.c" />
+    <ClCompile Include="..\..\vendor\lua\src\lstring.c" />
+    <ClCompile Include="..\..\vendor\lua\src\lstrlib.c" />
+    <ClCompile Include="..\..\vendor\lua\src\ltable.c" />
+    <ClCompile Include="..\..\vendor\lua\src\ltablib.c" />
+    <ClCompile Include="..\..\vendor\lua\src\ltm.c" />
+    <ClCompile Include="..\..\vendor\lua\src\lundump.c" />
+    <ClCompile Include="..\..\vendor\lua\src\lutf8lib.c" />
+    <ClCompile Include="..\..\vendor\lua\src\lvm.c" />
+    <ClCompile Include="..\..\vendor\lua\src\lzio.c" />
+    <ClCompile Include="..\..\vendor\tolua\tolua_event.c" />
+    <ClCompile Include="..\..\vendor\tolua\tolua_fix.cc" />
+    <ClCompile Include="..\..\vendor\tolua\tolua_is.c" />
+    <ClCompile Include="..\..\vendor\tolua\tolua_map.c" />
+    <ClCompile Include="..\..\vendor\tolua\tolua_push.c" />
+    <ClCompile Include="..\..\vendor\tolua\tolua_to.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\database\mysql_wrapper.h" />
+    <ClInclude Include="..\..\database\redis_wrapper.h" />
+    <ClInclude Include="..\..\lua_wrapper\logger_export_to_lua.h" />
+    <ClInclude Include="..\..\lua_wrapper\lua_wrapper.h" />
+    <ClInclude Include="..\..\lua_wrapper\mysql_export_to_lua.h" />
+    <ClInclude Include="..\..\lua_wrapper\netbus_export_to_lua.h" />
+    <ClInclude Include="..\..\lua_wrapper\proto_manager_export_to_lua.h" />
+    <ClInclude Include="..\..\lua_wrapper\redis_export_to_lua.h" />
+    <ClInclude Include="..\..\lua_wrapper\scheduler_export_to_lua.h" />
+    <ClInclude Include="..\..\lua_wrapper\service_export_to_lua.h" />
+    <ClInclude Include="..\..\lua_wrapper\session_export_to_lua.h" />
+    <ClInclude Include="..\..\netbus\netbus.h" />
+    <ClInclude Include="..\..\netbus\proto_manager.h" />
+    <ClInclude Include="..\..\netbus\service.h" />
+    <ClInclude Include="..\..\netbus\service_manager.h" />
+    <ClInclude Include="..\..\netbus\session.h" />
+    <ClInclude Include="..\..\netbus\session_uv.h" />
+    <ClInclude Include="..\..\netbus\tcp_protocol.h" />
+    <ClInclude Include="..\..\netbus\udp_session.h" />
+    <ClInclude Include="..\..\netbus\ws_protocol.h" />
+    <ClInclude Include="..\..\utils\cache_alloc.h" />
+    <ClInclude Include="..\..\utils\logger.h" />
+    <ClInclude Include="..\..\utils\small_alloc.h" />
+    <ClInclude Include="..\..\utils\timestamp.h" />
+    <ClInclude Include="..\..\utils\time_list.h" />
+    <ClInclude Include="..\..\vendor\cJSON\cJSON.h" />
+    <ClInclude Include="..\..\vendor\crypto\base64_decoder.h" />
+    <ClInclude Include="..\..\vendor\crypto\base64_encoder.h" />
+    <ClInclude Include="..\..\vendor\crypto\md5.h" />
+    <ClInclude Include="..\..\vendor\crypto\sha1.h" />
+    <ClInclude Include="..\..\vendor\hiredis\adapters\libuv.h" />
+    <ClInclude Include="..\..\vendor\hiredis\alloc.h" />
+    <ClInclude Include="..\..\vendor\hiredis\async.h" />
+    <ClInclude Include="..\..\vendor\hiredis\async_private.h" />
+    <ClInclude Include="..\..\vendor\hiredis\dict.h" />
+    <ClInclude Include="..\..\vendor\hiredis\fmacros.h" />
+    <ClInclude Include="..\..\vendor\hiredis\hiredis.h" />
+    <ClInclude Include="..\..\vendor\hiredis\hiredis_ssl.h" />
+    <ClInclude Include="..\..\vendor\hiredis\net.h" />
+    <ClInclude Include="..\..\vendor\hiredis\read.h" />
+    <ClInclude Include="..\..\vendor\hiredis\sds.h" />
+    <ClInclude Include="..\..\vendor\hiredis\sdsalloc.h" />
+    <ClInclude Include="..\..\vendor\hiredis\sockcompat.h" />
+    <ClInclude Include="..\..\vendor\hiredis\win32.h" />
+    <ClInclude Include="..\..\vendor\http_parser\http_parser.h" />
+    <ClInclude Include="..\..\vendor\libuv\include\android-ifaddrs.h" />
+    <ClInclude Include="..\..\vendor\libuv\include\pthread-barrier.h" />
+    <ClInclude Include="..\..\vendor\libuv\include\stdint-msvc2008.h" />
+    <ClInclude Include="..\..\vendor\libuv\include\tree.h" />
+    <ClInclude Include="..\..\vendor\libuv\include\uv-aix.h" />
+    <ClInclude Include="..\..\vendor\libuv\include\uv-bsd.h" />
+    <ClInclude Include="..\..\vendor\libuv\include\uv-darwin.h" />
+    <ClInclude Include="..\..\vendor\libuv\include\uv-errno.h" />
+    <ClInclude Include="..\..\vendor\libuv\include\uv-linux.h" />
+    <ClInclude Include="..\..\vendor\libuv\include\uv-sunos.h" />
+    <ClInclude Include="..\..\vendor\libuv\include\uv-threadpool.h" />
+    <ClInclude Include="..\..\vendor\libuv\include\uv-unix.h" />
+    <ClInclude Include="..\..\vendor\libuv\include\uv-version.h" />
+    <ClInclude Include="..\..\vendor\libuv\include\uv-win.h" />
+    <ClInclude Include="..\..\vendor\libuv\include\uv.h" />
+    <ClInclude Include="..\..\vendor\libuv\src\heap-inl.h" />
+    <ClInclude Include="..\..\vendor\libuv\src\queue.h" />
+    <ClInclude Include="..\..\vendor\libuv\src\uv-common.h" />
+    <ClInclude Include="..\..\vendor\libuv\src\win\atomicops-inl.h" />
+    <ClInclude Include="..\..\vendor\libuv\src\win\handle-inl.h" />
+    <ClInclude Include="..\..\vendor\libuv\src\win\internal.h" />
+    <ClInclude Include="..\..\vendor\libuv\src\win\req-inl.h" />
+    <ClInclude Include="..\..\vendor\libuv\src\win\stream-inl.h" />
+    <ClInclude Include="..\..\vendor\libuv\src\win\winapi.h" />
+    <ClInclude Include="..\..\vendor\libuv\src\win\winsock.h" />
+    <ClInclude Include="..\..\vendor\lua\src\lapi.h" />
+    <ClInclude Include="..\..\vendor\lua\src\lauxlib.h" />
+    <ClInclude Include="..\..\vendor\lua\src\lcode.h" />
+    <ClInclude Include="..\..\vendor\lua\src\lctype.h" />
+    <ClInclude Include="..\..\vendor\lua\src\ldebug.h" />
+    <ClInclude Include="..\..\vendor\lua\src\ldo.h" />
+    <ClInclude Include="..\..\vendor\lua\src\lfunc.h" />
+    <ClInclude Include="..\..\vendor\lua\src\lgc.h" />
+    <ClInclude Include="..\..\vendor\lua\src\ljumptab.h" />
+    <ClInclude Include="..\..\vendor\lua\src\llex.h" />
+    <ClInclude Include="..\..\vendor\lua\src\llimits.h" />
+    <ClInclude Include="..\..\vendor\lua\src\lmem.h" />
+    <ClInclude Include="..\..\vendor\lua\src\lobject.h" />
+    <ClInclude Include="..\..\vendor\lua\src\lopcodes.h" />
+    <ClInclude Include="..\..\vendor\lua\src\lopnames.h" />
+    <ClInclude Include="..\..\vendor\lua\src\lparser.h" />
+    <ClInclude Include="..\..\vendor\lua\src\lprefix.h" />
+    <ClInclude Include="..\..\vendor\lua\src\lstate.h" />
+    <ClInclude Include="..\..\vendor\lua\src\lstring.h" />
+    <ClInclude Include="..\..\vendor\lua\src\ltable.h" />
+    <ClInclude Include="..\..\vendor\lua\src\ltm.h" />
+    <ClInclude Include="..\..\vendor\lua\src\lua.h" />
+    <ClInclude Include="..\..\vendor\lua\src\lua.hpp" />
+    <ClInclude Include="..\..\vendor\lua\src\luaconf.h" />
+    <ClInclude Include="..\..\vendor\lua\src\lualib.h" />
+    <ClInclude Include="..\..\vendor\lua\src\lundump.h" />
+    <ClInclude Include="..\..\vendor\lua\src\lvm.h" />
+    <ClInclude Include="..\..\vendor\lua\src\lzio.h" />
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\build_config.h" />
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\callback.h" />
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\config.h" />
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\connection.h" />
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\datatype.h" />
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\driver.h" />
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\exception.h" />
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\metadata.h" />
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\parameter_metadata.h" />
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\prepared_statement.h" />
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\resultset.h" />
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\resultset_metadata.h" />
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\sqlstring.h" />
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\statement.h" />
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\variant.h" />
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\version_info.h" />
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\cppconn\warning.h" />
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\mysql_connection.h" />
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\mysql_driver.h" />
+    <ClInclude Include="..\..\vendor\mysql_connector\include\jdbc\mysql_error.h" />
+    <ClInclude Include="..\..\vendor\mysql_connector\include\mysql\jdbc.h" />
+    <ClInclude Include="..\..\vendor\tolua\tolua++.h" />
+    <ClInclude Include="..\..\vendor\tolua\tolua_event.h" />
+    <ClInclude Include="..\..\vendor\tolua\tolua_fix.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
