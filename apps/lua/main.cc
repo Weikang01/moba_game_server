@@ -19,7 +19,7 @@ int main(int argc, char** argv) {
 		std::string search_path = "../../../apps/lua/scripts/";
 		LuaWrapper::add_search_path(search_path);
 
-		std::string lua_entry = search_path + "test/main.lua";
+		std::string lua_entry = search_path + "auth/main.lua";
 		LuaWrapper::execute_script_file(lua_entry);
 	}
 	else {

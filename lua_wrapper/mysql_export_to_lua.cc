@@ -40,19 +40,39 @@ int lua_mysql_connect(lua_State* tolua_S)
     int port, handler;
     host = (char*)tolua_tostring(tolua_S, 1, 0);
     if (host == NULL)
-        goto failed;
+    {
+        lua_pushstring(LuaWrapper::get_lua_state(), "host is nil");
+        lua_error(LuaWrapper::get_lua_state());
+        return 0;
+    }
     port = (int)tolua_tonumber(tolua_S, 2, 0);
     if (port == NULL)
-        goto failed;
+    {
+        lua_pushstring(LuaWrapper::get_lua_state(), "port is nil");
+        lua_error(LuaWrapper::get_lua_state());
+        return 0;
+    }
     user = (char*)tolua_tostring(tolua_S, 3, 0);
     if (user == NULL)
-		goto failed;
+    {
+        lua_pushstring(LuaWrapper::get_lua_state(), "user is nil");
+        lua_error(LuaWrapper::get_lua_state());
+        return 0;
+    }
     pass = (char*)tolua_tostring(tolua_S, 4, 0);
-	if (pass == NULL)
-        goto failed;
+    if (pass == NULL)
+    {
+        lua_pushstring(LuaWrapper::get_lua_state(), "pass is nil");
+        lua_error(LuaWrapper::get_lua_state());
+        return 0;
+    }
 	db_name = (char*)tolua_tostring(tolua_S, 5, 0);
     if (db_name == NULL)
-		goto failed;
+    {
+		lua_pushstring(LuaWrapper::get_lua_state(), "db_name is nil");
+		lua_error(LuaWrapper::get_lua_state());
+		return 0;
+	}
     handler = toluafix_ref_function(tolua_S, 6, 0);
     MySQLWrapper::connect(host, port, user, pass, db_name, on_connect_cb, (void*)handler);
 

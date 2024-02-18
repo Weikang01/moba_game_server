@@ -233,11 +233,19 @@ static int lua_register_service(lua_State* tolua_S)
     lua_service* s = new lua_service();
 
     if (stype == 0)
-        goto lua_failed;
+    {
+        lua_pushstring(tolua_S, "invalid stype 0");
+        lua_error(tolua_S);
+        return 0;
+    }
 
     // table
     if (!lua_istable(tolua_S, 2))
+    {
+        lua_pushstring(tolua_S, "invalid service function table");
+        lua_error(tolua_S);
         return 0;
+    }
 
     lua_getfield(tolua_S, 2, "on_session_recv_cmd");
     lua_getfield(tolua_S, 2, "on_session_disconnect");
@@ -245,21 +253,19 @@ static int lua_register_service(lua_State* tolua_S)
     lua_recv_cmd_handler = save_service_function(tolua_S, 3, 0);
     lua_disconnect_handler = save_service_function(tolua_S, 4, 0);
     if (lua_recv_cmd_handler == 0 || lua_disconnect_handler == 0) {
-        goto lua_failed;
+        lua_pushstring(tolua_S, "invalid service function");
+        lua_error(tolua_S);
+        return 0;
     }
 
     s->use_raw_cmd = false;
     s->lua_recv_cmd_handler = lua_recv_cmd_handler;
     s->lua_disconnect_handler = lua_disconnect_handler;
     s->lua_recv_raw_handler = 0;
-    if (lua_recv_cmd_handler == 0 || lua_disconnect_handler == 0) {
-        goto lua_failed;
-    }
 
     ret = ServiceManager::register_service(stype, s);
 
-lua_failed:
-    lua_pushboolean(tolua_S, ret ? 1 : 0);
+    lua_pushboolean(tolua_S, ret ? true : false);
     return 1;
 }
 
@@ -273,11 +279,19 @@ static int lua_register_service_with_raw(lua_State* tolua_S)
     lua_service* s = new lua_service();
 
     if (stype == 0)
-        goto lua_failed;
+    {
+        lua_pushstring(tolua_S, "invalid stype 0");
+        lua_error(tolua_S);
+        return 0;
+    }
 
     // table
     if (!lua_istable(tolua_S, 2))
+    {
+        lua_pushstring(tolua_S, "invalid service function table");
+        lua_error(tolua_S);
         return 0;
+    }
 
     lua_getfield(tolua_S, 2, "on_session_recv_raw");
     lua_getfield(tolua_S, 2, "on_session_disconnect");
@@ -286,7 +300,9 @@ static int lua_register_service_with_raw(lua_State* tolua_S)
     lua_disconnect_handler = save_service_function(tolua_S, 4, 0);
 
     if (lua_recv_raw_handler == 0 || lua_disconnect_handler == 0) {
-        goto lua_failed;
+        lua_pushstring(tolua_S, "invalid service function");
+		lua_error(tolua_S);
+		return 0;
     }
 
     s->use_raw_cmd = true;
@@ -296,7 +312,6 @@ static int lua_register_service_with_raw(lua_State* tolua_S)
 
     ret = ServiceManager::register_service(stype, s);
 
-lua_failed:
     lua_pushboolean(tolua_S, ret ? 1 : 0);
     return 1;
 }
