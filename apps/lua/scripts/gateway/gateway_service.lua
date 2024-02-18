@@ -54,7 +54,8 @@ local client_sessions_ukey = {}
 local client_sessions_uid  = {}
 
 local function is_login_return_cmd(ctype)
-    if ctype == Cmd.eGuestLoginRes then
+    if ctype == Cmd.eGuestLoginRes or
+        ctype == Cmd.eUserLoginRes then
         return true
     end
     return false
@@ -99,7 +100,7 @@ local function send_to_client(server_session, raw_cmd)
         body.uinfo.uid = 0
         Session.send_msg(client_session, {
             stype = Stype.Auth,
-            ctype = Cmd.eGuestLoginRes,
+            ctype = ctype,
             utag  = 0,
             body  = body
         })
@@ -112,7 +113,8 @@ local function send_to_client(server_session, raw_cmd)
 end
 
 local function is_login_request_cmd(ctype)
-    if ctype == Cmd.eGuestLoginReq then
+    if ctype == Cmd.eGuestLoginReq or
+        ctype == Cmd.eUserLoginReq then
         return true
     end
     return false
