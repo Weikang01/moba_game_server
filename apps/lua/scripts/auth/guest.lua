@@ -2,6 +2,7 @@ local Stype = require("stype")
 local Cmd = require("cmd")
 local Responses = require("responses")
 local mysql_auth_center = require("db/mysql_auth_center")
+local redis_center = require("db/redis_center")
 
 local function is_valid_gkey(g_key)
     if type(g_key) ~= "string" or string.len(g_key) ~= 32 then
@@ -77,6 +78,8 @@ local function login(session, cmd_msg)
             })
             return
         end
+
+        redis_center.set_uinfo_to_redis(uinfo.uid, uinfo)
 
         -- print("guest login success! uid: " .. uinfo.uid .. "\tunick: " .. uinfo.unick) -- login success, return to client
         Session.send_msg(session, {

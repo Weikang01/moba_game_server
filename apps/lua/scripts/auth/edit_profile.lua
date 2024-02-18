@@ -2,6 +2,7 @@ local Stype = require("stype")
 local Cmd = require("cmd")
 local Responses = require("responses")
 local mysql_auth_center = require("db/mysql_auth_center")
+local redis_center = require("db/redis_center")
 
 -- {stype, ctype, utag, body}
 local function do_edit_profile(session, cmd_msg)
@@ -37,6 +38,9 @@ local function do_edit_profile(session, cmd_msg)
                     }
                 })
             else
+                redis_center.edit_profile(uid, edit_profile_req.unick, edit_profile_req.usex, edit_profile_req
+                .usysavatar)
+
                 Session.send_msg(session, {
                     stype = Stype.Auth,
                     ctype = Cmd.eEditProfileRes,

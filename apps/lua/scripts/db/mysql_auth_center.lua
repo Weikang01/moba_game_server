@@ -116,10 +116,9 @@ end
 mysql_connect_to_auth_center()
 
 local mysql_auth_center = {
-    get_guest_uinfo = get_guest_uinfo,
+    get_guest_uinfo   = get_guest_uinfo,
     insert_guest_user = insert_guest_user,
-    edit_profile = edit_profile
-
+    edit_profile      = edit_profile
 }
 
 return mysql_auth_center
