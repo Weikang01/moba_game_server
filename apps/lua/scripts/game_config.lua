@@ -17,19 +17,25 @@ remote_servers[Stype.System] = {
 ]]
 
 local game_config = {
-    gateway_tcp_ip = "127.0.0.1",
+    gateway_tcp_ip   = "127.0.0.1",
     gateway_tcp_port = 6080,
-    gateway_ws_ip = "127.0.0.1",
-    gateway_ws_port = 6081,
+    gateway_ws_ip    = "127.0.0.1",
+    gateway_ws_port  = 6081,
 
-    servers = remote_servers,
+    servers          = remote_servers,
 
-    auth_mysql = {
-        host = "127.0.0.1",
-        port = 3306,
+    auth_mysql       = {
+        host    = "127.0.0.1",
+        port    = 3306,
         db_name = "auth_center",
-        uname = "root",
-        upwd = "123"
+        uname   = "root",
+        upwd    = "123"
+    },
+
+    center_redis     = {
+        host     = "127.0.0.1",
+        port     = 6379,
+        db_index = 1,
     }
 }
 
