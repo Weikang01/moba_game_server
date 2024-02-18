@@ -57,6 +57,12 @@ extern GuestLoginReqDefaultTypeInternal _GuestLoginReq_default_instance_;
 class GuestLoginRes;
 struct GuestLoginResDefaultTypeInternal;
 extern GuestLoginResDefaultTypeInternal _GuestLoginRes_default_instance_;
+class GuestUpgradeReq;
+struct GuestUpgradeReqDefaultTypeInternal;
+extern GuestUpgradeReqDefaultTypeInternal _GuestUpgradeReq_default_instance_;
+class GuestUpgradeRes;
+struct GuestUpgradeResDefaultTypeInternal;
+extern GuestUpgradeResDefaultTypeInternal _GuestUpgradeRes_default_instance_;
 class UserCenterInfo;
 struct UserCenterInfoDefaultTypeInternal;
 extern UserCenterInfoDefaultTypeInternal _UserCenterInfo_default_instance_;
@@ -65,6 +71,8 @@ template<> ::EditProfileReq* Arena::CreateMaybeMessage<::EditProfileReq>(Arena*)
 template<> ::EditProfileRes* Arena::CreateMaybeMessage<::EditProfileRes>(Arena*);
 template<> ::GuestLoginReq* Arena::CreateMaybeMessage<::GuestLoginReq>(Arena*);
 template<> ::GuestLoginRes* Arena::CreateMaybeMessage<::GuestLoginRes>(Arena*);
+template<> ::GuestUpgradeReq* Arena::CreateMaybeMessage<::GuestUpgradeReq>(Arena*);
+template<> ::GuestUpgradeRes* Arena::CreateMaybeMessage<::GuestUpgradeRes>(Arena*);
 template<> ::UserCenterInfo* Arena::CreateMaybeMessage<::UserCenterInfo>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 
@@ -103,12 +111,14 @@ enum Cmd : int {
   eUserLostConn = 4,
   eEditProfileReq = 5,
   eEditProfileRes = 6,
+  eGuestUpgradeReq = 7,
+  eGuestUpgradeRes = 8,
   Cmd_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
   Cmd_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
 };
 bool Cmd_IsValid(int value);
 constexpr Cmd Cmd_MIN = INVALID_CMD;
-constexpr Cmd Cmd_MAX = eEditProfileRes;
+constexpr Cmd Cmd_MAX = eGuestUpgradeRes;
 constexpr int Cmd_ARRAYSIZE = Cmd_MAX + 1;
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* Cmd_descriptor();
@@ -967,6 +977,323 @@ class EditProfileRes final :
   union { Impl_ _impl_; };
   friend struct ::TableStruct_game_2eproto;
 };
+// -------------------------------------------------------------------
+
+class GuestUpgradeReq final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:GuestUpgradeReq) */ {
+ public:
+  inline GuestUpgradeReq() : GuestUpgradeReq(nullptr) {}
+  ~GuestUpgradeReq() override;
+  explicit PROTOBUF_CONSTEXPR GuestUpgradeReq(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  GuestUpgradeReq(const GuestUpgradeReq& from);
+  GuestUpgradeReq(GuestUpgradeReq&& from) noexcept
+    : GuestUpgradeReq() {
+    *this = ::std::move(from);
+  }
+
+  inline GuestUpgradeReq& operator=(const GuestUpgradeReq& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline GuestUpgradeReq& operator=(GuestUpgradeReq&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const GuestUpgradeReq& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const GuestUpgradeReq* internal_default_instance() {
+    return reinterpret_cast<const GuestUpgradeReq*>(
+               &_GuestUpgradeReq_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    5;
+
+  friend void swap(GuestUpgradeReq& a, GuestUpgradeReq& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(GuestUpgradeReq* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(GuestUpgradeReq* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  GuestUpgradeReq* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<GuestUpgradeReq>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const GuestUpgradeReq& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const GuestUpgradeReq& from) {
+    GuestUpgradeReq::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(GuestUpgradeReq* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "GuestUpgradeReq";
+  }
+  protected:
+  explicit GuestUpgradeReq(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kUnameFieldNumber = 1,
+    kUpwdMd5FieldNumber = 2,
+  };
+  // string uname = 1;
+  void clear_uname();
+  const std::string& uname() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_uname(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_uname();
+  PROTOBUF_NODISCARD std::string* release_uname();
+  void set_allocated_uname(std::string* uname);
+  private:
+  const std::string& _internal_uname() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_uname(const std::string& value);
+  std::string* _internal_mutable_uname();
+  public:
+
+  // string upwd_md5 = 2;
+  void clear_upwd_md5();
+  const std::string& upwd_md5() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_upwd_md5(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_upwd_md5();
+  PROTOBUF_NODISCARD std::string* release_upwd_md5();
+  void set_allocated_upwd_md5(std::string* upwd_md5);
+  private:
+  const std::string& _internal_upwd_md5() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_upwd_md5(const std::string& value);
+  std::string* _internal_mutable_upwd_md5();
+  public:
+
+  // @@protoc_insertion_point(class_scope:GuestUpgradeReq)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr uname_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr upwd_md5_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_game_2eproto;
+};
+// -------------------------------------------------------------------
+
+class GuestUpgradeRes final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:GuestUpgradeRes) */ {
+ public:
+  inline GuestUpgradeRes() : GuestUpgradeRes(nullptr) {}
+  ~GuestUpgradeRes() override;
+  explicit PROTOBUF_CONSTEXPR GuestUpgradeRes(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  GuestUpgradeRes(const GuestUpgradeRes& from);
+  GuestUpgradeRes(GuestUpgradeRes&& from) noexcept
+    : GuestUpgradeRes() {
+    *this = ::std::move(from);
+  }
+
+  inline GuestUpgradeRes& operator=(const GuestUpgradeRes& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline GuestUpgradeRes& operator=(GuestUpgradeRes&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const GuestUpgradeRes& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const GuestUpgradeRes* internal_default_instance() {
+    return reinterpret_cast<const GuestUpgradeRes*>(
+               &_GuestUpgradeRes_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    6;
+
+  friend void swap(GuestUpgradeRes& a, GuestUpgradeRes& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(GuestUpgradeRes* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(GuestUpgradeRes* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  GuestUpgradeRes* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<GuestUpgradeRes>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const GuestUpgradeRes& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const GuestUpgradeRes& from) {
+    GuestUpgradeRes::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(GuestUpgradeRes* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "GuestUpgradeRes";
+  }
+  protected:
+  explicit GuestUpgradeRes(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kStatusFieldNumber = 1,
+  };
+  // int32 status = 1;
+  void clear_status();
+  int32_t status() const;
+  void set_status(int32_t value);
+  private:
+  int32_t _internal_status() const;
+  void _internal_set_status(int32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:GuestUpgradeRes)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    int32_t status_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_game_2eproto;
+};
 // ===================================================================
 
 
@@ -1394,9 +1721,141 @@ inline void EditProfileRes::set_status(int32_t value) {
   // @@protoc_insertion_point(field_set:EditProfileRes.status)
 }
 
+// -------------------------------------------------------------------
+
+// GuestUpgradeReq
+
+// string uname = 1;
+inline void GuestUpgradeReq::clear_uname() {
+  _impl_.uname_.ClearToEmpty();
+}
+inline const std::string& GuestUpgradeReq::uname() const {
+  // @@protoc_insertion_point(field_get:GuestUpgradeReq.uname)
+  return _internal_uname();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void GuestUpgradeReq::set_uname(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.uname_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:GuestUpgradeReq.uname)
+}
+inline std::string* GuestUpgradeReq::mutable_uname() {
+  std::string* _s = _internal_mutable_uname();
+  // @@protoc_insertion_point(field_mutable:GuestUpgradeReq.uname)
+  return _s;
+}
+inline const std::string& GuestUpgradeReq::_internal_uname() const {
+  return _impl_.uname_.Get();
+}
+inline void GuestUpgradeReq::_internal_set_uname(const std::string& value) {
+  
+  _impl_.uname_.Set(value, GetArenaForAllocation());
+}
+inline std::string* GuestUpgradeReq::_internal_mutable_uname() {
+  
+  return _impl_.uname_.Mutable(GetArenaForAllocation());
+}
+inline std::string* GuestUpgradeReq::release_uname() {
+  // @@protoc_insertion_point(field_release:GuestUpgradeReq.uname)
+  return _impl_.uname_.Release();
+}
+inline void GuestUpgradeReq::set_allocated_uname(std::string* uname) {
+  if (uname != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.uname_.SetAllocated(uname, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.uname_.IsDefault()) {
+    _impl_.uname_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:GuestUpgradeReq.uname)
+}
+
+// string upwd_md5 = 2;
+inline void GuestUpgradeReq::clear_upwd_md5() {
+  _impl_.upwd_md5_.ClearToEmpty();
+}
+inline const std::string& GuestUpgradeReq::upwd_md5() const {
+  // @@protoc_insertion_point(field_get:GuestUpgradeReq.upwd_md5)
+  return _internal_upwd_md5();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void GuestUpgradeReq::set_upwd_md5(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.upwd_md5_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:GuestUpgradeReq.upwd_md5)
+}
+inline std::string* GuestUpgradeReq::mutable_upwd_md5() {
+  std::string* _s = _internal_mutable_upwd_md5();
+  // @@protoc_insertion_point(field_mutable:GuestUpgradeReq.upwd_md5)
+  return _s;
+}
+inline const std::string& GuestUpgradeReq::_internal_upwd_md5() const {
+  return _impl_.upwd_md5_.Get();
+}
+inline void GuestUpgradeReq::_internal_set_upwd_md5(const std::string& value) {
+  
+  _impl_.upwd_md5_.Set(value, GetArenaForAllocation());
+}
+inline std::string* GuestUpgradeReq::_internal_mutable_upwd_md5() {
+  
+  return _impl_.upwd_md5_.Mutable(GetArenaForAllocation());
+}
+inline std::string* GuestUpgradeReq::release_upwd_md5() {
+  // @@protoc_insertion_point(field_release:GuestUpgradeReq.upwd_md5)
+  return _impl_.upwd_md5_.Release();
+}
+inline void GuestUpgradeReq::set_allocated_upwd_md5(std::string* upwd_md5) {
+  if (upwd_md5 != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.upwd_md5_.SetAllocated(upwd_md5, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.upwd_md5_.IsDefault()) {
+    _impl_.upwd_md5_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:GuestUpgradeReq.upwd_md5)
+}
+
+// -------------------------------------------------------------------
+
+// GuestUpgradeRes
+
+// int32 status = 1;
+inline void GuestUpgradeRes::clear_status() {
+  _impl_.status_ = 0;
+}
+inline int32_t GuestUpgradeRes::_internal_status() const {
+  return _impl_.status_;
+}
+inline int32_t GuestUpgradeRes::status() const {
+  // @@protoc_insertion_point(field_get:GuestUpgradeRes.status)
+  return _internal_status();
+}
+inline void GuestUpgradeRes::_internal_set_status(int32_t value) {
+  
+  _impl_.status_ = value;
+}
+inline void GuestUpgradeRes::set_status(int32_t value) {
+  _internal_set_status(value);
+  // @@protoc_insertion_point(field_set:GuestUpgradeRes.status)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

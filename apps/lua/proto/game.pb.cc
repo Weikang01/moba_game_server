@@ -93,7 +93,34 @@ struct EditProfileResDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 EditProfileResDefaultTypeInternal _EditProfileRes_default_instance_;
-static ::_pb::Metadata file_level_metadata_game_2eproto[5];
+PROTOBUF_CONSTEXPR GuestUpgradeReq::GuestUpgradeReq(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.uname_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.upwd_md5_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct GuestUpgradeReqDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR GuestUpgradeReqDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~GuestUpgradeReqDefaultTypeInternal() {}
+  union {
+    GuestUpgradeReq _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 GuestUpgradeReqDefaultTypeInternal _GuestUpgradeReq_default_instance_;
+PROTOBUF_CONSTEXPR GuestUpgradeRes::GuestUpgradeRes(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.status_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct GuestUpgradeResDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR GuestUpgradeResDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~GuestUpgradeResDefaultTypeInternal() {}
+  union {
+    GuestUpgradeRes _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 GuestUpgradeResDefaultTypeInternal _GuestUpgradeRes_default_instance_;
+static ::_pb::Metadata file_level_metadata_game_2eproto[7];
 static const ::_pb::EnumDescriptor* file_level_enum_descriptors_game_2eproto[2];
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_game_2eproto = nullptr;
 
@@ -142,6 +169,21 @@ const uint32_t TableStruct_game_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(pro
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::EditProfileRes, _impl_.status_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::GuestUpgradeReq, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::GuestUpgradeReq, _impl_.uname_),
+  PROTOBUF_FIELD_OFFSET(::GuestUpgradeReq, _impl_.upwd_md5_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::GuestUpgradeRes, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::GuestUpgradeRes, _impl_.status_),
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::GuestLoginReq)},
@@ -149,6 +191,8 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 18, 26, -1, sizeof(::GuestLoginRes)},
   { 28, -1, -1, sizeof(::EditProfileReq)},
   { 37, -1, -1, sizeof(::EditProfileRes)},
+  { 44, -1, -1, sizeof(::GuestUpgradeReq)},
+  { 52, -1, -1, sizeof(::GuestUpgradeRes)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -157,6 +201,8 @@ static const ::_pb::Message* const file_default_instances[] = {
   &::_GuestLoginRes_default_instance_._instance,
   &::_EditProfileReq_default_instance_._instance,
   &::_EditProfileRes_default_instance_._instance,
+  &::_GuestUpgradeReq_default_instance_._instance,
+  &::_GuestUpgradeRes_default_instance_._instance,
 };
 
 const char descriptor_table_protodef_game_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
@@ -168,18 +214,21 @@ const char descriptor_table_protodef_game_2eproto[] PROTOBUF_SECTION_VARIABLE(pr
   "terInfoH\000\210\001\001B\010\n\006_uinfo\"A\n\016EditProfileReq"
   "\022\r\n\005unick\030\001 \001(\t\022\014\n\004usex\030\002 \001(\005\022\022\n\nusysava"
   "tar\030\003 \001(\005\" \n\016EditProfileRes\022\016\n\006status\030\001 "
-  "\001(\005*>\n\005Stype\022\021\n\rINVALID_STYPE\020\000\022\t\n\005eAuth"
-  "\020\001\022\013\n\007eSystem\020\002\022\n\n\006eLogic\020\003*\214\001\n\003Cmd\022\017\n\013I"
-  "NVALID_CMD\020\000\022\022\n\016eGuestLoginReq\020\001\022\022\n\016eGue"
-  "stLoginRes\020\002\022\017\n\013eReloginRes\020\003\022\021\n\reUserLo"
-  "stConn\020\004\022\023\n\017eEditProfileReq\020\005\022\023\n\017eEditPr"
-  "ofileRes\020\006b\006proto3"
+  "\001(\005\"2\n\017GuestUpgradeReq\022\r\n\005uname\030\001 \001(\t\022\020\n"
+  "\010upwd_md5\030\002 \001(\t\"!\n\017GuestUpgradeRes\022\016\n\006st"
+  "atus\030\001 \001(\005*>\n\005Stype\022\021\n\rINVALID_STYPE\020\000\022\t"
+  "\n\005eAuth\020\001\022\013\n\007eSystem\020\002\022\n\n\006eLogic\020\003*\270\001\n\003C"
+  "md\022\017\n\013INVALID_CMD\020\000\022\022\n\016eGuestLoginReq\020\001\022"
+  "\022\n\016eGuestLoginRes\020\002\022\017\n\013eReloginRes\020\003\022\021\n\r"
+  "eUserLostConn\020\004\022\023\n\017eEditProfileReq\020\005\022\023\n\017"
+  "eEditProfileRes\020\006\022\024\n\020eGuestUpgradeReq\020\007\022"
+  "\024\n\020eGuestUpgradeRes\020\010b\006proto3"
   ;
 static ::_pbi::once_flag descriptor_table_game_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_game_2eproto = {
-    false, false, 538, descriptor_table_protodef_game_2eproto,
+    false, false, 669, descriptor_table_protodef_game_2eproto,
     "game.proto",
-    &descriptor_table_game_2eproto_once, nullptr, 0, 5,
+    &descriptor_table_game_2eproto_once, nullptr, 0, 7,
     schemas, file_default_instances, TableStruct_game_2eproto::offsets,
     file_level_metadata_game_2eproto, file_level_enum_descriptors_game_2eproto,
     file_level_service_descriptors_game_2eproto,
@@ -219,6 +268,8 @@ bool Cmd_IsValid(int value) {
     case 4:
     case 5:
     case 6:
+    case 7:
+    case 8:
       return true;
     default:
       return false;
@@ -1417,6 +1468,437 @@ void EditProfileRes::InternalSwap(EditProfileRes* other) {
       file_level_metadata_game_2eproto[4]);
 }
 
+// ===================================================================
+
+class GuestUpgradeReq::_Internal {
+ public:
+};
+
+GuestUpgradeReq::GuestUpgradeReq(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:GuestUpgradeReq)
+}
+GuestUpgradeReq::GuestUpgradeReq(const GuestUpgradeReq& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  GuestUpgradeReq* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.uname_){}
+    , decltype(_impl_.upwd_md5_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.uname_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.uname_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_uname().empty()) {
+    _this->_impl_.uname_.Set(from._internal_uname(), 
+      _this->GetArenaForAllocation());
+  }
+  _impl_.upwd_md5_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.upwd_md5_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_upwd_md5().empty()) {
+    _this->_impl_.upwd_md5_.Set(from._internal_upwd_md5(), 
+      _this->GetArenaForAllocation());
+  }
+  // @@protoc_insertion_point(copy_constructor:GuestUpgradeReq)
+}
+
+inline void GuestUpgradeReq::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.uname_){}
+    , decltype(_impl_.upwd_md5_){}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.uname_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.uname_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.upwd_md5_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.upwd_md5_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+GuestUpgradeReq::~GuestUpgradeReq() {
+  // @@protoc_insertion_point(destructor:GuestUpgradeReq)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void GuestUpgradeReq::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.uname_.Destroy();
+  _impl_.upwd_md5_.Destroy();
+}
+
+void GuestUpgradeReq::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void GuestUpgradeReq::Clear() {
+// @@protoc_insertion_point(message_clear_start:GuestUpgradeReq)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.uname_.ClearToEmpty();
+  _impl_.upwd_md5_.ClearToEmpty();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* GuestUpgradeReq::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // string uname = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          auto str = _internal_mutable_uname();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "GuestUpgradeReq.uname"));
+        } else
+          goto handle_unusual;
+        continue;
+      // string upwd_md5 = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          auto str = _internal_mutable_upwd_md5();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "GuestUpgradeReq.upwd_md5"));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* GuestUpgradeReq::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:GuestUpgradeReq)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string uname = 1;
+  if (!this->_internal_uname().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_uname().data(), static_cast<int>(this->_internal_uname().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "GuestUpgradeReq.uname");
+    target = stream->WriteStringMaybeAliased(
+        1, this->_internal_uname(), target);
+  }
+
+  // string upwd_md5 = 2;
+  if (!this->_internal_upwd_md5().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_upwd_md5().data(), static_cast<int>(this->_internal_upwd_md5().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "GuestUpgradeReq.upwd_md5");
+    target = stream->WriteStringMaybeAliased(
+        2, this->_internal_upwd_md5(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:GuestUpgradeReq)
+  return target;
+}
+
+size_t GuestUpgradeReq::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:GuestUpgradeReq)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string uname = 1;
+  if (!this->_internal_uname().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_uname());
+  }
+
+  // string upwd_md5 = 2;
+  if (!this->_internal_upwd_md5().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_upwd_md5());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData GuestUpgradeReq::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    GuestUpgradeReq::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GuestUpgradeReq::GetClassData() const { return &_class_data_; }
+
+
+void GuestUpgradeReq::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<GuestUpgradeReq*>(&to_msg);
+  auto& from = static_cast<const GuestUpgradeReq&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:GuestUpgradeReq)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_uname().empty()) {
+    _this->_internal_set_uname(from._internal_uname());
+  }
+  if (!from._internal_upwd_md5().empty()) {
+    _this->_internal_set_upwd_md5(from._internal_upwd_md5());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void GuestUpgradeReq::CopyFrom(const GuestUpgradeReq& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:GuestUpgradeReq)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool GuestUpgradeReq::IsInitialized() const {
+  return true;
+}
+
+void GuestUpgradeReq::InternalSwap(GuestUpgradeReq* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.uname_, lhs_arena,
+      &other->_impl_.uname_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.upwd_md5_, lhs_arena,
+      &other->_impl_.upwd_md5_, rhs_arena
+  );
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata GuestUpgradeReq::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_game_2eproto_getter, &descriptor_table_game_2eproto_once,
+      file_level_metadata_game_2eproto[5]);
+}
+
+// ===================================================================
+
+class GuestUpgradeRes::_Internal {
+ public:
+};
+
+GuestUpgradeRes::GuestUpgradeRes(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:GuestUpgradeRes)
+}
+GuestUpgradeRes::GuestUpgradeRes(const GuestUpgradeRes& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  GuestUpgradeRes* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.status_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _this->_impl_.status_ = from._impl_.status_;
+  // @@protoc_insertion_point(copy_constructor:GuestUpgradeRes)
+}
+
+inline void GuestUpgradeRes::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.status_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+}
+
+GuestUpgradeRes::~GuestUpgradeRes() {
+  // @@protoc_insertion_point(destructor:GuestUpgradeRes)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void GuestUpgradeRes::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+}
+
+void GuestUpgradeRes::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void GuestUpgradeRes::Clear() {
+// @@protoc_insertion_point(message_clear_start:GuestUpgradeRes)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.status_ = 0;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* GuestUpgradeRes::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // int32 status = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.status_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* GuestUpgradeRes::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:GuestUpgradeRes)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int32 status = 1;
+  if (this->_internal_status() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_status(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:GuestUpgradeRes)
+  return target;
+}
+
+size_t GuestUpgradeRes::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:GuestUpgradeRes)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // int32 status = 1;
+  if (this->_internal_status() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_status());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData GuestUpgradeRes::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    GuestUpgradeRes::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GuestUpgradeRes::GetClassData() const { return &_class_data_; }
+
+
+void GuestUpgradeRes::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<GuestUpgradeRes*>(&to_msg);
+  auto& from = static_cast<const GuestUpgradeRes&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:GuestUpgradeRes)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_status() != 0) {
+    _this->_internal_set_status(from._internal_status());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void GuestUpgradeRes::CopyFrom(const GuestUpgradeRes& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:GuestUpgradeRes)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool GuestUpgradeRes::IsInitialized() const {
+  return true;
+}
+
+void GuestUpgradeRes::InternalSwap(GuestUpgradeRes* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_.status_, other->_impl_.status_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata GuestUpgradeRes::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_game_2eproto_getter, &descriptor_table_game_2eproto_once,
+      file_level_metadata_game_2eproto[6]);
+}
+
 // @@protoc_insertion_point(namespace_scope)
 PROTOBUF_NAMESPACE_OPEN
 template<> PROTOBUF_NOINLINE ::GuestLoginReq*
@@ -1438,6 +1920,14 @@ Arena::CreateMaybeMessage< ::EditProfileReq >(Arena* arena) {
 template<> PROTOBUF_NOINLINE ::EditProfileRes*
 Arena::CreateMaybeMessage< ::EditProfileRes >(Arena* arena) {
   return Arena::CreateMessageInternal< ::EditProfileRes >(arena);
+}
+template<> PROTOBUF_NOINLINE ::GuestUpgradeReq*
+Arena::CreateMaybeMessage< ::GuestUpgradeReq >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::GuestUpgradeReq >(arena);
+}
+template<> PROTOBUF_NOINLINE ::GuestUpgradeRes*
+Arena::CreateMaybeMessage< ::GuestUpgradeRes >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::GuestUpgradeRes >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

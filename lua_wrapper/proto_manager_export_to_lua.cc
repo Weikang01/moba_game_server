@@ -108,11 +108,19 @@ static int lua_raw_read_header(lua_State* tolua_S)
     int argc = lua_gettop(tolua_S);
     raw_cmd_msg* msg = NULL;
     if (argc != 1)
-        goto failed;
+    {
+        lua_pushstring(tolua_S, "argument count not equal to 1");
+        lua_error(tolua_S);
+        return 0;
+    }
 
     msg = (raw_cmd_msg*)tolua_touserdata(tolua_S, 1, NULL);
     if (msg == NULL)
-        goto failed;
+    {
+        lua_pushstring(tolua_S, "argument is not a raw_cmd_msg");
+		lua_error(tolua_S);
+		return 0;
+    }
 
     lua_pushinteger(tolua_S, msg->stype);
     lua_pushinteger(tolua_S, msg->ctype);
@@ -132,12 +140,20 @@ static int lua_raw_set_utag(lua_State* tolua_S)
     unsigned int utag;
     unsigned char* utag_ptr = NULL;
     if (argc != 2)
-        goto failed;
+    {
+        lua_pushstring(tolua_S, "argument count not equal to 2");
+        lua_error(tolua_S);
+        return 0;
+    }
 
     raw = (raw_cmd_msg*)tolua_touserdata(tolua_S, 1, NULL);
 
     if (raw == NULL)
-		goto failed;
+    {
+        lua_pushstring(tolua_S, "argument is not a raw_cmd_msg");
+        lua_error(tolua_S);
+        return 0;
+    }
 
     utag = (unsigned int)luaL_checkinteger(tolua_S, 2);
 
@@ -151,9 +167,6 @@ static int lua_raw_set_utag(lua_State* tolua_S)
 
     lua_pushboolean(tolua_S, 1);
     return 0;
-failed:
-    lua_pushboolean(tolua_S, 0);
-    return 0;
 }
 
 extern void push_proto_message_tolua(google::protobuf::Message* message);
@@ -163,12 +176,19 @@ static int lua_read_body(lua_State* tolua_S)
 	int argc = lua_gettop(tolua_S);
 	raw_cmd_msg* raw = NULL;
     cmd_msg* msg = NULL;
-	if (argc != 1)
-		goto failed;
+    if (argc != 1)
+    {
+        lua_pushstring(tolua_S, "argument count not equal to 1");
+		lua_error(tolua_S);
+		return 0;
+    }
 	raw = (raw_cmd_msg*)tolua_touserdata(tolua_S, 1, NULL);
-	if (raw == NULL)
-		goto failed;
-
+    if (raw == NULL)
+    {
+        lua_pushstring(tolua_S, "argument is not a raw_cmd_msg");
+        lua_error(tolua_S);
+        return 0;
+    }
 
     if (ProtoManager::decode_cmd_msg(raw->raw_data, raw->raw_len, &msg)) {
         if (msg == NULL) {
@@ -184,8 +204,6 @@ static int lua_read_body(lua_State* tolua_S)
         ProtoManager::cmd_msg_free(msg);
     }
     return 1;
-failed:
-	return 0;
 }
 
 int register_raw_cmd_export(lua_State* tolua_S)

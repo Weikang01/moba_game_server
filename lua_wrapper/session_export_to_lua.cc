@@ -262,12 +262,20 @@ static int lua_session_send_msg(lua_State* tolua_S)
 {
     Session* s = (Session*)tolua_touserdata(tolua_S, 1, 0);
     int stype, ctype, utag;
-    if (!s)
-        goto failed;
+	if (!s)
+	{
+		lua_pushstring(tolua_S, "arg 1 is not a session");
+		lua_error(tolua_S);
+		goto failed;
+	}
 
     // stack: 1. session, 2. table
-    if (!lua_istable(tolua_S, 2))
-        goto failed;
+	if (!lua_istable(tolua_S, 2))
+	{
+		lua_pushstring(tolua_S, "arg 2 is not a table");
+		lua_error(tolua_S);
+		goto failed;
+	}
 
     lua_getfield(tolua_S, 2, "stype");
     lua_getfield(tolua_S, 2, "ctype");
@@ -293,16 +301,20 @@ static int lua_session_send_msg(lua_State* tolua_S)
 		}
         else {
             const char* msg_name = ProtoManager::pb_type2name(msg.ctype);
+			if (msg_name == NULL)  // not found
+			{
+				lua_pushstring(tolua_S, "Ctype not found");
+				lua_error(tolua_S);
+				goto failed;
+			}
+
             msg.body = lua_table_to_protobuf(tolua_S, lua_gettop(tolua_S), msg_name);
 			s->send_msg(&msg);
 			ProtoManager::free_protobuf_message((Message*)msg.body);
         }
     }
-
-	lua_pushboolean(tolua_S, true);
 	return 1;
 failed:
-	lua_pushboolean(tolua_S, false);
 	return 0;
 }
 
@@ -311,18 +323,23 @@ static int lua_session_send_raw_msg(lua_State* tolua_S)
 	Session* s = (Session*)tolua_touserdata(tolua_S, 1, 0);
 	raw_cmd_msg* raw= NULL;
 	if (!s)
+	{
+		lua_pushstring(tolua_S, "arg 1 is not a session");
+		lua_error(tolua_S);
 		goto failed;
+	}
 
 	raw = (raw_cmd_msg*)lua_touserdata(tolua_S, 2);
 	if (!raw)
+	{
+		lua_pushstring(tolua_S, "arg 2 is not a raw_cmd_msg");
+		lua_error(tolua_S);
 		goto failed;
+	}
 
 	s->send_raw_cmd(raw);
-
-	lua_pushboolean(tolua_S, true);
 	return 1;
 failed:
-	lua_pushboolean(tolua_S, false);
 	return 0;
 }
 
@@ -331,13 +348,15 @@ static int lua_set_utag(lua_State* tolua_S)
 	Session* s = (Session*)tolua_touserdata(tolua_S, 1, 0);
 	int utag = lua_tointeger(tolua_S, 2);
 	if (!s)
+	{
+		lua_pushstring(tolua_S, "arg 1 is not a session");
+		lua_error(tolua_S);
 		goto failed;
+	}
 
 	s->utag = utag;
-	lua_pushboolean(tolua_S, true);
 	return 1;
 failed:
-	lua_pushboolean(tolua_S, false);
 	return 0;
 }
 
@@ -345,11 +364,14 @@ static int lua_get_utag(lua_State* tolua_S)
 {
 	Session* s = (Session*)tolua_touserdata(tolua_S, 1, 0);
 	if (!s)
+	{
+		lua_pushstring(tolua_S, "arg 1 is not a session");
+		lua_error(tolua_S);
 		goto failed;
+	}
 	lua_pushinteger(tolua_S, s->utag);
 	return 1;
 failed:
-	lua_pushinteger(tolua_S, 0);
 	return 0;
 }
 
@@ -358,13 +380,15 @@ static int lua_set_uid(lua_State* tolua_S)
 	Session* s = (Session*)tolua_touserdata(tolua_S, 1, 0);
 	int uid = lua_tointeger(tolua_S, 2);
 	if (!s)
+	{
+		lua_pushstring(tolua_S, "arg 1 is not a session");
+		lua_error(tolua_S);
 		goto failed;
+	}
 
 	s->uid = uid;
-	lua_pushboolean(tolua_S, true);
 	return 1;
 failed:
-	lua_pushboolean(tolua_S, false);
 	return 0;
 }
 
@@ -372,11 +396,14 @@ static int lua_get_uid(lua_State* tolua_S)
 {
 	Session* s = (Session*)tolua_touserdata(tolua_S, 1, 0);
 	if (!s)
+	{
+		lua_pushstring(tolua_S, "arg 1 is not a session");
+		lua_error(tolua_S);
 		goto failed;
+	}
 	lua_pushinteger(tolua_S, s->uid);
 	return 1;
 failed:
-	lua_pushinteger(tolua_S, 0);
 	return 0;
 }
 
@@ -387,7 +414,11 @@ static int lua_session_get_address(lua_State* tolua_S)
     int port;
     const char* addr;
 	if (!s)
-        goto failed;
+	{
+		lua_pushstring(tolua_S, "arg 1 is not a session");
+		lua_error(tolua_S);
+		goto failed;
+	}
 
     addr = s->get_address(&port);
 
@@ -403,11 +434,14 @@ static int lua_as_client(lua_State* tolua_S)
 {
 	Session* s = (Session*)tolua_touserdata(tolua_S, 1, 0);
 	if (!s)
+	{
+		lua_pushstring(tolua_S, "arg 1 is not a session");
+		lua_error(tolua_S);
 		goto failed;
+	}
 	lua_pushboolean(tolua_S, s->as_client);
 	return 1;
 failed:
-	lua_pushboolean(tolua_S, false);
 	return 0;
 }
 
@@ -425,22 +459,22 @@ int register_session_export(lua_State* tolua_S)
 		// lua return: void
         tolua_function(tolua_S, "close", lua_session_close);
 		// lua format: Session.send_msg(session, {stype=1, ctype=2, utag=3, body={...}})
-		// lua return: true or false
+		// lua return: void
         tolua_function(tolua_S, "send_msg", lua_session_send_msg);
 		// lua format: Session.send_raw_msg(session, raw_msg)
-		// lua return: true or false
+		// lua return: void
 		tolua_function(tolua_S, "send_raw_msg", lua_session_send_raw_msg);
 		// lua format: Session.get_address(session)
 		// lua return: ip, port
         tolua_function(tolua_S, "get_address", lua_session_get_address);
 		// lua format: Session.set_utag(session, utag)
-		// lua return: true or false
+		// lua return: void
 		tolua_function(tolua_S, "set_utag", lua_set_utag);
 		// lua format: Session.get_utag(session)
 		// lua return: utag
 		tolua_function(tolua_S, "get_utag", lua_get_utag);
 		// lua format: Session.set_uid(session, uid)
-		// lua return: true or false
+		// lua return: void
 		tolua_function(tolua_S, "set_uid", lua_set_uid);
 		// lua format: Session.get_uid(session)
 		// lua return: uid
