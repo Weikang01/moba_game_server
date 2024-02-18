@@ -9,6 +9,8 @@ local cmd_name_map = {
     "GuestUpgradeRes",
     "UserLoginReq",
     "UserLoginRes",
+    "LogoutReq",
+    "LogoutRes",
 }
 
 return cmd_name_map;

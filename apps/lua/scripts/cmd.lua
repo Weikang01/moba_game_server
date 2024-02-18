@@ -9,6 +9,8 @@ Cmd = {
     eGuestUpgradeRes = 8,
     eUserLoginReq    = 9,
     eUserLoginRes    = 10,
+    eLogoutReq       = 11,
+    eLogoutRes       = 12,
 }
 
 return Cmd

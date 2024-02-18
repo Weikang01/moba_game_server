@@ -107,7 +107,13 @@ local function send_to_client(server_session, raw_cmd)
     else
         client_session = client_sessions_uid[utag]
         if client_session then
+            RawCmd.set_utag(raw_cmd, 0)
             Session.send_raw_msg(client_session, raw_cmd)
+
+            if ctype == Cmd.eLogoutRes then -- broadcast to other servers
+                Session.set_uid(client_session, 0)
+                client_sessions_uid[utag] = nil
+            end
         end
     end
 end

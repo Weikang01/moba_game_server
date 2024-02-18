@@ -149,7 +149,20 @@ struct GuestUpgradeResDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 GuestUpgradeResDefaultTypeInternal _GuestUpgradeRes_default_instance_;
-static ::_pb::Metadata file_level_metadata_game_2eproto[9];
+PROTOBUF_CONSTEXPR LogoutRes::LogoutRes(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.status_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct LogoutResDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR LogoutResDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~LogoutResDefaultTypeInternal() {}
+  union {
+    LogoutRes _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 LogoutResDefaultTypeInternal _LogoutRes_default_instance_;
+static ::_pb::Metadata file_level_metadata_game_2eproto[10];
 static const ::_pb::EnumDescriptor* file_level_enum_descriptors_game_2eproto[2];
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_game_2eproto = nullptr;
 
@@ -231,6 +244,13 @@ const uint32_t TableStruct_game_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(pro
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::GuestUpgradeRes, _impl_.status_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::LogoutRes, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::LogoutRes, _impl_.status_),
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::GuestLoginReq)},
@@ -242,6 +262,7 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 55, -1, -1, sizeof(::EditProfileRes)},
   { 62, -1, -1, sizeof(::GuestUpgradeReq)},
   { 70, -1, -1, sizeof(::GuestUpgradeRes)},
+  { 77, -1, -1, sizeof(::LogoutRes)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -254,6 +275,7 @@ static const ::_pb::Message* const file_default_instances[] = {
   &::_EditProfileRes_default_instance_._instance,
   &::_GuestUpgradeReq_default_instance_._instance,
   &::_GuestUpgradeRes_default_instance_._instance,
+  &::_LogoutRes_default_instance_._instance,
 };
 
 const char descriptor_table_protodef_game_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
@@ -270,20 +292,22 @@ const char descriptor_table_protodef_game_2eproto[] PROTOBUF_SECTION_VARIABLE(pr
   "\nusysavatar\030\003 \001(\005\" \n\016EditProfileRes\022\016\n\006s"
   "tatus\030\001 \001(\005\"2\n\017GuestUpgradeReq\022\r\n\005uname\030"
   "\001 \001(\t\022\020\n\010upwd_md5\030\002 \001(\t\"!\n\017GuestUpgradeR"
-  "es\022\016\n\006status\030\001 \001(\005*>\n\005Stype\022\021\n\rINVALID_S"
-  "TYPE\020\000\022\t\n\005eAuth\020\001\022\013\n\007eSystem\020\002\022\n\n\006eLogic"
-  "\020\003*\336\001\n\003Cmd\022\017\n\013INVALID_CMD\020\000\022\022\n\016eGuestLog"
-  "inReq\020\001\022\022\n\016eGuestLoginRes\020\002\022\017\n\013eReloginR"
-  "es\020\003\022\021\n\reUserLostConn\020\004\022\023\n\017eEditProfileR"
-  "eq\020\005\022\023\n\017eEditProfileRes\020\006\022\024\n\020eGuestUpgra"
-  "deReq\020\007\022\024\n\020eGuestUpgradeRes\020\010\022\021\n\reUserLo"
-  "ginReq\020\t\022\021\n\reUserLoginRes\020\nb\006proto3"
+  "es\022\016\n\006status\030\001 \001(\005\"\033\n\tLogoutRes\022\016\n\006statu"
+  "s\030\001 \001(\005*>\n\005Stype\022\021\n\rINVALID_STYPE\020\000\022\t\n\005e"
+  "Auth\020\001\022\013\n\007eSystem\020\002\022\n\n\006eLogic\020\003*\376\001\n\003Cmd\022"
+  "\017\n\013INVALID_CMD\020\000\022\022\n\016eGuestLoginReq\020\001\022\022\n\016"
+  "eGuestLoginRes\020\002\022\017\n\013eReloginRes\020\003\022\021\n\reUs"
+  "erLostConn\020\004\022\023\n\017eEditProfileReq\020\005\022\023\n\017eEd"
+  "itProfileRes\020\006\022\024\n\020eGuestUpgradeReq\020\007\022\024\n\020"
+  "eGuestUpgradeRes\020\010\022\021\n\reUserLoginReq\020\t\022\021\n"
+  "\reUserLoginRes\020\n\022\016\n\neLogoutReq\020\013\022\016\n\neLog"
+  "outRes\020\014b\006proto3"
   ;
 static ::_pbi::once_flag descriptor_table_game_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_game_2eproto = {
-    false, false, 835, descriptor_table_protodef_game_2eproto,
+    false, false, 896, descriptor_table_protodef_game_2eproto,
     "game.proto",
-    &descriptor_table_game_2eproto_once, nullptr, 0, 9,
+    &descriptor_table_game_2eproto_once, nullptr, 0, 10,
     schemas, file_default_instances, TableStruct_game_2eproto::offsets,
     file_level_metadata_game_2eproto, file_level_enum_descriptors_game_2eproto,
     file_level_service_descriptors_game_2eproto,
@@ -327,6 +351,8 @@ bool Cmd_IsValid(int value) {
     case 8:
     case 9:
     case 10:
+    case 11:
+    case 12:
       return true;
     default:
       return false;
@@ -2445,6 +2471,184 @@ void GuestUpgradeRes::InternalSwap(GuestUpgradeRes* other) {
       file_level_metadata_game_2eproto[8]);
 }
 
+// ===================================================================
+
+class LogoutRes::_Internal {
+ public:
+};
+
+LogoutRes::LogoutRes(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:LogoutRes)
+}
+LogoutRes::LogoutRes(const LogoutRes& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  LogoutRes* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.status_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _this->_impl_.status_ = from._impl_.status_;
+  // @@protoc_insertion_point(copy_constructor:LogoutRes)
+}
+
+inline void LogoutRes::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.status_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+}
+
+LogoutRes::~LogoutRes() {
+  // @@protoc_insertion_point(destructor:LogoutRes)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void LogoutRes::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+}
+
+void LogoutRes::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void LogoutRes::Clear() {
+// @@protoc_insertion_point(message_clear_start:LogoutRes)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.status_ = 0;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* LogoutRes::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // int32 status = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.status_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* LogoutRes::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:LogoutRes)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int32 status = 1;
+  if (this->_internal_status() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_status(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:LogoutRes)
+  return target;
+}
+
+size_t LogoutRes::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:LogoutRes)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // int32 status = 1;
+  if (this->_internal_status() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_status());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData LogoutRes::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    LogoutRes::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*LogoutRes::GetClassData() const { return &_class_data_; }
+
+
+void LogoutRes::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<LogoutRes*>(&to_msg);
+  auto& from = static_cast<const LogoutRes&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:LogoutRes)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_status() != 0) {
+    _this->_internal_set_status(from._internal_status());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void LogoutRes::CopyFrom(const LogoutRes& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:LogoutRes)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool LogoutRes::IsInitialized() const {
+  return true;
+}
+
+void LogoutRes::InternalSwap(LogoutRes* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_.status_, other->_impl_.status_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata LogoutRes::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_game_2eproto_getter, &descriptor_table_game_2eproto_once,
+      file_level_metadata_game_2eproto[9]);
+}
+
 // @@protoc_insertion_point(namespace_scope)
 PROTOBUF_NAMESPACE_OPEN
 template<> PROTOBUF_NOINLINE ::GuestLoginReq*
@@ -2482,6 +2686,10 @@ Arena::CreateMaybeMessage< ::GuestUpgradeReq >(Arena* arena) {
 template<> PROTOBUF_NOINLINE ::GuestUpgradeRes*
 Arena::CreateMaybeMessage< ::GuestUpgradeRes >(Arena* arena) {
   return Arena::CreateMessageInternal< ::GuestUpgradeRes >(arena);
+}
+template<> PROTOBUF_NOINLINE ::LogoutRes*
+Arena::CreateMaybeMessage< ::LogoutRes >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::LogoutRes >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

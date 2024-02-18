@@ -19,6 +19,8 @@ enum Cmd {
 	eGuestUpgradeRes = 8;
 	eUserLoginReq    = 9;
 	eUserLoginRes    = 10;
+	eLogoutReq       = 11;
+	eLogoutRes       = 12;
 }
 
 message GuestLoginReq {
@@ -67,3 +69,6 @@ message GuestUpgradeRes {
 	int32 status = 1;
 }
 
+message LogoutRes {
+	int32 status = 1;
+}
