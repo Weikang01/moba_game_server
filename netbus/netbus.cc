@@ -228,6 +228,8 @@ extern "C" {
 		client->data = (void*)session;
 		if (uv_accept(server, (uv_stream_t*)client) == 0) {
 			uv_read_start((uv_stream_t*)client, on_alloc_buffer, after_read);
+
+			ServiceManager::on_session_connect(session);
 		}
 		else {
 			session->close();

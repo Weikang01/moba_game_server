@@ -45,9 +45,35 @@ local function logic_login(session, cmd_msg)
     send_status(session, Stype.Logic, Cmd.eLogicLoginRes, uid, Responses.OK)
 end
 
+-- {stype, ctype, utag, body}
+local function on_user_lost_conn(session, cmd_msg)
+    local uid = cmd_msg[3]
+
+    if logic_server_players[uid] then
+        logic_server_players[uid] = nil
+        online_player_num = online_player_num - 1
+        print("user [" .. uid .. "] removed from logic server!")
+    end
+end
+
+local function on_gateway_session_connect(session)
+    for uid, player in pairs(logic_server_players) do
+        player:set_session(session)
+    end
+end
+
+local function on_gateway_session_disconnect(session)
+    for uid, player in pairs(logic_server_players) do
+        player:set_session(nil)
+    end
+end
+
 
 local game_manager = {
-    logic_login = logic_login
+    logic_login = logic_login,
+    on_user_lost_conn = on_user_lost_conn,
+    on_gateway_session_connect = on_gateway_session_connect,
+    on_gateway_session_disconnect = on_gateway_session_disconnect,
 }
 
 return game_manager

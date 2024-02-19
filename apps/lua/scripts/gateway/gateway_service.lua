@@ -219,7 +219,7 @@ end
 gateway_service_init()
 
 local gateway_service = {
-    on_session_recv_raw = on_session_recv_raw,
+    on_session_recv_raw   = on_session_recv_raw,
     on_session_disconnect = session_disconnect
 }
 

@@ -30,6 +30,15 @@ bool ServiceManager::register_service(int type, Service* s)
 	return true;
 }
 
+void ServiceManager::on_session_connect(Session* s)
+{
+	for (int i = 0; i < MAX_SERVICE; i++) {
+		if (g_service_set[i] != NULL) {
+			g_service_set[i]->on_session_connect(s, i);
+		}
+	}
+}
+
 bool ServiceManager::on_recv_raw_cmd(Session* s, raw_cmd_msg* raw)
 {
 	if (g_service_set[raw->stype] == NULL) {

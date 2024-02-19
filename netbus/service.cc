@@ -11,6 +11,9 @@ Service::Service()
 	this->use_raw_cmd = false;
 }
 
+void Service::on_session_connect(Session* s, int stype)
+{}
+
 bool Service::on_session_recv_raw(Session* s, raw_cmd_msg* raw)
 {
 	return false;
