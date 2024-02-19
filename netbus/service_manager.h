@@ -11,6 +11,8 @@ class ServiceManager
 public:
 	static void init();
 	static bool register_service(int type, Service* s);
+
+	static void on_session_connect(Session* s);
 	static bool on_recv_raw_cmd(Session* s, raw_cmd_msg* raw);
 	static void on_session_disconnect(Session* s);
 };
