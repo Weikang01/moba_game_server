@@ -7,6 +7,12 @@ local cmd_name_map = {
     "EditProfileRes",
     "GuestUpgradeReq",
     "GuestUpgradeRes",
+    "UserLoginReq",
+    "UserLoginRes",
+    "LogoutReq",
+    "LogoutRes",
+    "GetUGameInfoReq",
+    "GetUGameInfoRes",
 }
 
 return cmd_name_map;

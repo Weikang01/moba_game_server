@@ -31,7 +31,6 @@ local function check_server_connect()
     for key, value in pairs(servers_config) do
         if map_server_session[value.stype] == nil and map_is_connecting[value.stype] == false then
             map_is_connecting[value.stype] = true
-            print("connecting to server [" .. value.desc .. "] at " .. value.ip .. ":" .. value.port)
             connect_to_server(value.stype, value.ip, value.port)
         end
     end
@@ -54,7 +53,8 @@ local client_sessions_ukey = {}
 local client_sessions_uid  = {}
 
 local function is_login_return_cmd(ctype)
-    if ctype == Cmd.eGuestLoginRes then
+    if ctype == Cmd.eGuestLoginRes or
+        ctype == Cmd.eUserLoginRes then
         return true
     end
     return false
@@ -99,20 +99,27 @@ local function send_to_client(server_session, raw_cmd)
         body.uinfo.uid = 0
         Session.send_msg(client_session, {
             stype = Stype.Auth,
-            ctype = Cmd.eGuestLoginRes,
+            ctype = ctype,
             utag  = 0,
             body  = body
         })
     else
         client_session = client_sessions_uid[utag]
         if client_session then
+            RawCmd.set_utag(raw_cmd, 0)
             Session.send_raw_msg(client_session, raw_cmd)
+
+            if ctype == Cmd.eLogoutRes then -- broadcast to other servers
+                Session.set_uid(client_session, 0)
+                client_sessions_uid[utag] = nil
+            end
         end
     end
 end
 
 local function is_login_request_cmd(ctype)
-    if ctype == Cmd.eGuestLoginReq then
+    if ctype == Cmd.eGuestLoginReq or
+        ctype == Cmd.eUserLoginReq then
         return true
     end
     return false

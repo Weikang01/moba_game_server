@@ -1,12 +1,16 @@
 local Cmd = require("cmd")
-local Guest = require("auth/guest")
-local EditProfile = require("auth/edit_profile")
-local AccountUpgrade = require("auth/account_upgrade")
+local Guest = require("auth.guest")
+local EditProfile = require("auth.edit_profile")
+local AccountUpgrade = require("auth.account_upgrade")
+local UnameLogin = require("auth.uname_login")
+local Logout = require("auth.logout")
 
 local auth_service_handlers = {}
 auth_service_handlers[Cmd.eGuestLoginReq] = Guest.login
 auth_service_handlers[Cmd.eEditProfileReq] = EditProfile.do_edit_profile
 auth_service_handlers[Cmd.eGuestUpgradeReq] = AccountUpgrade.account_upgrade
+auth_service_handlers[Cmd.eUserLoginReq] = UnameLogin.login
+auth_service_handlers[Cmd.eLogoutReq] = Logout.logout
 
 
 local function session_recv_cmd(s, cmd_msg)

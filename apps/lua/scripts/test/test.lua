@@ -44,13 +44,13 @@ local function get_uinfo_from_uid(uid, ret_handler)
 
         if ret_handler then
             local uinfo = {
-                uid = tonumber(ret[1].uid),
-                unick = tostring(ret[1].unick),
-                usex = tonumber(ret[1].usex),
+                uid        = tonumber(ret[1].uid),
+                unick      = tostring(ret[1].unick),
+                usex       = tonumber(ret[1].usex),
                 usysavatar = tonumber(ret[1].usysavatar),
-                uvip = tonumber(ret[1].uvip),
-                status = tonumber(ret[1].status),
-                is_guest = tonumber(ret[1].is_guest)
+                uvip       = tonumber(ret[1].uvip),
+                status     = tonumber(ret[1].status),
+                is_guest   = tonumber(ret[1].is_guest)
             }
 
             ret_handler(nil, uinfo)
@@ -86,13 +86,13 @@ local function get_guest_uinfo(guest_key, ret_handler)
 
         if ret_handler then
             local uinfo = {
-                uid = tonumber(ret[1].uid),
-                unick = tostring(ret[1].unick),
-                usex = tonumber(ret[1].usex),
+                uid        = tonumber(ret[1].uid),
+                unick      = tostring(ret[1].unick),
+                usex       = tonumber(ret[1].usex),
                 usysavatar = tonumber(ret[1].usysavatar),
-                uvip = tonumber(ret[1].uvip),
-                status = tonumber(ret[1].status),
-                is_guest = tonumber(ret[1].is_guest)
+                uvip       = tonumber(ret[1].uvip),
+                status     = tonumber(ret[1].status),
+                is_guest   = tonumber(ret[1].is_guest)
             }
 
             ret_handler(nil, uinfo)

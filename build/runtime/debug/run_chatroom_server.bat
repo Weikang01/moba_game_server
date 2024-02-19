@@ -1,1 +1,0 @@
-server_windows.exe ../../../apps/lua/scripts chatroom/main.lua
