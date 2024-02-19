@@ -20,8 +20,8 @@ local Stype = require("stype")
 Netbus.tcp_listen(servers[Stype.Logic].port)
 print("Logic server starts at " .. servers[Stype.Logic].port)
 
-local logic_service = require("logic/logic_service")
-local ret = Service.register(Stype.Auth, logic_service)
+local logic_service = require("logic.logic_service")
+local ret = Service.register(Stype.Logic, logic_service)
 
 if ret then
     print("register logic service[" .. Stype.Logic .. "] success!")
