@@ -15,6 +15,12 @@ remote_servers[Stype.System] = {
     desc = "System server"
 }
 
+remote_servers[Stype.Logic] = {
+    stype = Stype.Logic,
+    ip = "127.0.0.1",
+    port = 8002,
+    desc = "Logic server"
+}
 
 local game_config = {
     gateway_tcp_ip   = "127.0.0.1",
@@ -45,6 +51,18 @@ local game_config = {
         uname   = "root",
         upwd    = "123"
     },
+
+    game_redis       = {
+        host     = "127.0.0.1",
+        port     = 6379,
+        db_index = 2,
+    },
+
+    rank_redis       = {
+        host     = "127.0.0.1",
+        port     = 6379,
+        db_index = 3,
+    }
 }
 
 return game_config
