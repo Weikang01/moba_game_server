@@ -13,6 +13,14 @@ local cmd_name_map = {
     "LogoutRes",
     "GetUGameInfoReq",
     "GetUGameInfoRes",
+    "RecvLoginBonusReq",
+    "RecvLoginBonusRes",
+    "GetWorldRankUchipReq",
+    "GetWorldRankUchipRes",
+    "GetSysMsgReq",
+    "GetSysMsgRes",
+    "LogicLoginReq",
+    "LogicLoginRes",
 }
 
 return cmd_name_map;

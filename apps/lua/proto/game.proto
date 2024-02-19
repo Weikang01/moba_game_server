@@ -8,21 +8,29 @@ enum Stype {
 }
 
 enum Cmd {
-	INVALID_CMD      = 0;
-	eGuestLoginReq   = 1;
-	eGuestLoginRes   = 2;
-	eReloginRes      = 3;
-	eUserLostConn    = 4;
-	eEditProfileReq  = 5;
-	eEditProfileRes  = 6;
-	eGuestUpgradeReq = 7;
-	eGuestUpgradeRes = 8;
-	eUserLoginReq    = 9;
-	eUserLoginRes    = 10;
-	eLogoutReq       = 11;
-	eLogoutRes       = 12;
-	eGetUGameInfoReq = 13;
-	eGetUGameInfoRes = 14;
+	INVALID_CMD           = 0;
+	eGuestLoginReq        = 1;
+	eGuestLoginRes        = 2;
+	eReloginRes           = 3;
+	eUserLostConn         = 4;
+	eEditProfileReq       = 5;
+	eEditProfileRes       = 6;
+	eGuestUpgradeReq      = 7;
+	eGuestUpgradeRes      = 8;
+	eUserLoginReq         = 9;
+	eUserLoginRes         = 10;
+	eLogoutReq            = 11;
+	eLogoutRes            = 12;
+	eGetUGameInfoReq      = 13;
+	eGetUGameInfoRes      = 14;
+	eRecvLoginBonusReq    = 15;
+	eRecvLoginBonusRes    = 16;
+	eGetWorldRankUchipReq = 17;
+	eGetWorldRankUchipRes = 18;
+	eGetSysMsgReq         = 19;
+	eGetSysMsgRes         = 20;
+	eLogicLoginReq        = 21;
+	eLogicLoginRes        = 22;
 }
 
 message GuestLoginReq {
@@ -89,4 +97,35 @@ message GetUGameInfo {
 message GetUGameInfoRes {
 	int32 status = 1;
 	optional GetUGameInfo uinfo = 2;
+}
+
+message RecvLoginBonusRes {
+	int32 status = 1;
+}
+
+message WorldRankUchip {
+	string unick     = 1;
+	int32 usex       = 2;
+	int32 usysavatar = 3;
+	int32 uvip       = 4;
+	int32 uchip      = 5;
+}
+
+message GetWorldRankUchipRes {
+	int32 status                      = 1;
+	repeated WorldRankUchip rank_info = 2;
+}
+
+message GetSysMsgReq {
+	int32 ver_num = 1;
+}
+
+message GetSysMsgRes {
+	int32 status = 1;
+	int32 ver_num = 2;
+	repeated string sys_msgs = 3;
+}
+
+message LogicLoginRes {
+	int32 status = 1;
 }

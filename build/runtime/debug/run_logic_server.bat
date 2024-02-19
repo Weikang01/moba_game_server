@@ -1,0 +1,1 @@
+server_windows.exe ../../../apps/lua/scripts logic/main.lua
