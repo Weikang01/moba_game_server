@@ -11,6 +11,8 @@ Cmd = {
     eUserLoginRes    = 10,
     eLogoutReq       = 11,
     eLogoutRes       = 12,
+    eGetUGameInfoReq = 13,
+    eGetUGameInfoRes = 14,
 }
 
 return Cmd

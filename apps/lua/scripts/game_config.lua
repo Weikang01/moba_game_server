@@ -7,14 +7,14 @@ remote_servers[Stype.Auth] = {
     port = 8000,
     desc = "Auth server"
 }
---[[
+
 remote_servers[Stype.System] = {
     stype = Stype.System,
     ip = "127.0.0.1",
     port = 8001,
     desc = "System server"
 }
-]]
+
 
 local game_config = {
     gateway_tcp_ip   = "127.0.0.1",
@@ -36,7 +36,15 @@ local game_config = {
         host     = "127.0.0.1",
         port     = 6379,
         db_index = 1,
-    }
+    },
+
+    moba_mysql       = {
+        host    = "127.0.0.1",
+        port    = 3306,
+        db_name = "moba_game",
+        uname   = "root",
+        upwd    = "123"
+    },
 }
 
 return game_config

@@ -11,6 +11,8 @@ local cmd_name_map = {
     "UserLoginRes",
     "LogoutReq",
     "LogoutRes",
+    "GetUGameInfoReq",
+    "GetUGameInfoRes",
 }
 
 return cmd_name_map;

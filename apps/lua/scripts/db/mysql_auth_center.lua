@@ -100,7 +100,6 @@ local function get_guest_uinfo(guest_key, ret_handler)
     end)
 end
 
-
 local function insert_guest_user(guest_key, ret_handler)
     if mysql_conn == nil then
         if ret_handler then
@@ -195,7 +194,6 @@ local function get_uinfo_by_uname_upwd(uname, upwd_md5, ret_handler)
         end
     end)
 end
-
 
 local function check_uname_exists(uname, ret_handler)
     if mysql_conn == nil then

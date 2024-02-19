@@ -31,7 +31,6 @@ local function check_server_connect()
     for key, value in pairs(servers_config) do
         if map_server_session[value.stype] == nil and map_is_connecting[value.stype] == false then
             map_is_connecting[value.stype] = true
-            print("connecting to server [" .. value.desc .. "] at " .. value.ip .. ":" .. value.port)
             connect_to_server(value.stype, value.ip, value.port)
         end
     end
