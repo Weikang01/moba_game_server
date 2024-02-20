@@ -1,6 +1,8 @@
 local Stype                = require("stype")
 local Cmd                  = require("cmd")
 local Responses            = require("responses")
+local mysql_auth_center    = require("db.mysql_auth_center")
+local redis_center         = require("db.redis_center")
 local mysql_moba_game      = require("db.mysql_moba_game")
 local redis_game           = require("db.redis_game")
 local Player               = require("logic.player")
@@ -13,10 +15,51 @@ local online_player_num    = 0
 local zone_wait_list       = {} -- zone_wait_list[zones.zone1] = {}
 local zone_match_list      = {} -- zone_match_list[zones.zone1] = {v: MatchManager}
 
+local function do_load_robot_uinfo(uid)
+    mysql_auth_center.get_uinfo_from_uid(uid, function(err, ret)
+        if err then
+            return
+        end
+
+        redis_center.set_uinfo_to_redis(uid, ret)
+        print("robot [" .. uid .. "] now added to redis!")
+    end)
+end
+
+local function do_load_robot_ugame_info()
+    mysql_moba_game.load_robot_ugame_info(function(err, ret)
+        if err then
+            return
+        end
+
+        if not ret or #ret <= 0 then
+            return
+        end
+
+        for _, ugameinfo in ipairs(ret) do
+            redis_game.set_ugameinfo(ugameinfo.uid, ugameinfo)
+            do_load_robot_uinfo(ugameinfo.uid)
+        end
+    end)
+end
+
+local function load_robots()
+    if not mysql_auth_center.is_connected()
+        or not mysql_moba_game.is_connected()
+        or not redis_center.is_connected()
+        or not redis_game.is_connected() then
+        Scheduler.once(load_robots, 5000)
+    end
+
+    -- load ugame info from mysql_moba_game
+    do_load_robot_ugame_info()
+end
+
+load_robots()
+
 for zone_name, zone_id in pairs(Zones) do
     zone_match_list[zone_id] = {}
 end
-
 
 local function send_status(session, stype, ctype, uid, status)
     Session.send_msg(session, {
@@ -126,7 +169,6 @@ local function on_user_lost_conn(session, cmd_msg)
     if logic_server_players[uid] then
         logic_server_players[uid] = nil
         online_player_num = online_player_num - 1
-        print("user [" .. uid .. "] removed from logic server!")
     end
 end
 

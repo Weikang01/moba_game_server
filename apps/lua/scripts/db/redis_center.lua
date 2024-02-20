@@ -1,6 +1,13 @@
 local game_config = require("game_config")
 
 local redis_conn = nil
+
+local function is_connected()
+    if not redis_conn then
+        return false
+    end
+    return true
+end
 local function redis_connect_to_center()
     local redis_config = game_config.center_redis
     Redis.connect(redis_config.host, redis_config.port, function(err, context)
@@ -104,6 +111,7 @@ end
 redis_connect_to_center()
 
 local redis_center = {
+    is_connected       = is_connected,
     set_uinfo_to_redis = set_uinfo_to_redis,
     get_uinfo_to_redis = get_uinfo_to_redis,
     edit_profile       = edit_profile

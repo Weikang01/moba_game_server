@@ -93,18 +93,29 @@ static void on_query_cb(const char* erro, redisReply* result, void* udata) {
 static int lua_redis_query(lua_State* tolua_S)
 {
     void* context = tolua_touserdata(tolua_S, 1, 0);
-    if (context == NULL)
-        return 0;
+	if (context == NULL)
+	{
+		lua_pushstring(LuaWrapper::get_lua_state(), "1st argument is not a valid redis context");
+		lua_error(LuaWrapper::get_lua_state());
+		return 0;
+	}
     const char* sql = tolua_tostring(tolua_S, 2, 0);
-    if (sql == NULL)
+	if (sql == NULL)
+	{
+		lua_pushstring(LuaWrapper::get_lua_state(), "2nd argument is not a valid sql");
+		lua_error(LuaWrapper::get_lua_state());
 		return 0;
+	}
     int handler = toluafix_ref_function(tolua_S, 3, 0);
-    if (handler == NULL)
+	if (handler == NULL)
+	{
+		lua_pushstring(LuaWrapper::get_lua_state(), "3rd argument is not a valid handler");
+		lua_error(LuaWrapper::get_lua_state());
 		return 0;
+	}
 
     RedisWrapper::query(context, sql, on_query_cb, (void*)handler);
-
-    return 0;
+    return 1;
 }
 
 static int lua_redis_close(lua_State* tolua_S)

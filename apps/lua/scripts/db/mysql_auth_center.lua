@@ -1,6 +1,14 @@
 local game_config = require("game_config")
 
 local mysql_conn = nil
+
+local function is_connected()
+    if not mysql_conn then
+        return false
+    end
+    return true
+end
+
 local function mysql_connect_to_auth_center()
     local auth_config = game_config.auth_mysql
     MySQL.connect(auth_config.host, auth_config.port, auth_config.uname, auth_config.upwd, auth_config.db_name,
@@ -256,6 +264,7 @@ end
 mysql_connect_to_auth_center()
 
 local mysql_auth_center = {
+    is_connected            = is_connected,
     get_guest_uinfo         = get_guest_uinfo,
     insert_guest_user       = insert_guest_user,
     edit_profile            = edit_profile,
