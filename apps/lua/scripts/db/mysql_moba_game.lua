@@ -131,7 +131,7 @@ local function load_robot_ugame_info(ret_handler)
         end
 
         local uinfos = {}
-        for _, uinfo in ipairs(ret) do
+        for _, uinfo in pairs(ret) do
             local c_uinfo = {
                 uid          = tonumber(uinfo.uid),
                 uchip        = tonumber(uinfo.uchip),

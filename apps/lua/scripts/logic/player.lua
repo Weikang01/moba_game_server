@@ -15,12 +15,17 @@ function player:new(instance)
     return instance
 end
 
-function player:init(uid, session, ret_handler)
+function player:init(uid, session, ret_handler, is_robot)
     self.uid      = uid
     self.session  = session
-    self.zid      = -1    -- current zone of player
-    self.match_id = -1    -- id of the match
+    self.zid      = -1 -- current zone of player
+    self.match_id = -1 -- id of the match
     self.state    = State.inView
+    self.is_robot = is_robot or false
+
+    if self.is_robot then
+        return
+    end
 
     -- read player's data from databases
     mysql_moba_game.get_ugame_info(uid, function(err, ugame_info)
@@ -42,7 +47,9 @@ function player:init(uid, session, ret_handler)
             end
 
             self.uinfo = uinfo
-            ret_handler(Responses.OK)
+            if ret_handler then
+                ret_handler(Responses.OK)
+            end
         end)
     end)
 end
@@ -52,7 +59,7 @@ function player:set_session(session)
 end
 
 function player:send_msg(stype, ctype, body)
-    if not self.session then
+    if not self.session or self.is_robot then
         return
     end
 
