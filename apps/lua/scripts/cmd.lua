@@ -21,6 +21,10 @@ Cmd = {
     eGetSysMsgRes         = 20,
     eLogicLoginReq        = 21,
     eLogicLoginRes        = 22,
+    eEnterZoneReq         = 23,
+    eEnterZoneRes         = 24,
+    eEnterMatch           = 25,
+    eOnOtherEnteredMatch  = 26,
 }
 
 return Cmd
