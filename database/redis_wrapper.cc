@@ -106,6 +106,9 @@ struct query_req {
 };
 
 static void getCallback(redisAsyncContext* c, void* r, void* privdata) {
+	if (c->data == NULL)
+		return;
+	
 	redisReply* reply = (redisReply*)r;
 
 	struct query_req* query_req = (struct query_req*)c->data;
@@ -113,11 +116,11 @@ static void getCallback(redisAsyncContext* c, void* r, void* privdata) {
 	if (reply == NULL) {
 		query_req->err = my_strdup(c->errstr);
 		query_req->query_cb(query_req->err, NULL, query_req->udata);
-		return;
 	}
-
-	query_req->result = reply;
-	query_req->query_cb(NULL, query_req->result, query_req->udata);
+	else {
+		query_req->result = reply;
+		query_req->query_cb(NULL, query_req->result, query_req->udata);
+	}
 
 	if (query_req->sql) {
 		free_strdup(query_req->sql);
@@ -126,7 +129,7 @@ static void getCallback(redisAsyncContext* c, void* r, void* privdata) {
 		free_strdup(query_req->err);
 	}
 	my_free(query_req);
-	//c->data = NULL;  // this will raise a crash in the next query
+	c->data = NULL;
 }
 
 void RedisWrapper::query(void* context, const char* sql, void(*query_cb)(const char* err, redisReply* result, void* udata), void* udata)
