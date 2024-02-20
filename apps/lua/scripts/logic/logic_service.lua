@@ -5,6 +5,8 @@ local GameManager = require("logic.game_manager")
 local logic_service_handlers = {}
 logic_service_handlers[Cmd.eLogicLoginReq] = GameManager.logic_login
 logic_service_handlers[Cmd.eUserLostConn] = GameManager.on_user_lost_conn
+logic_service_handlers[Cmd.eEnterZoneReq] = GameManager.enter_zone
+
 
 local function session_recv_cmd(s, cmd_msg)
     if logic_service_handlers[cmd_msg[2]] then

@@ -7,6 +7,7 @@ local Responses = {
     INVALID_PARAMS    = -103,
     USERNAME_EXISTS   = -104,
     USER_NOT_EXISTS   = -105,
+    INVALID_OPT       = -106,
 }
 
 return Responses
