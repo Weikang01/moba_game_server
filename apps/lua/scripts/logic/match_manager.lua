@@ -43,7 +43,7 @@ function MatchManager:enter_match(player)
         return false
     end
 
-    if self.inview_players[player.uid] == player then
+    if self.inview_players[player.seat_id] == player then
         return true
     end
 
@@ -55,24 +55,23 @@ function MatchManager:enter_match(player)
     local other_users = {}
     for _, other in pairs(self.inview_players) do
         table.insert(other_users, other:get_uinfo())
-
-        if not other.is_robot then
-            local c = 0
-            for _, _ in pairs(self.inview_players) do
-                c = c + 1
-            end
-        end
     end
 
     -- tell player that they are in waiting room
     player:send_msg(Stype.Logic, Cmd.eEnterMatch, {
-        zid         = self.zid,
-        matchid     = self.matchid,
-        other_uinfo = other_users,
+        zid         = player.zid,
+        matchid     = player.matchid,
+        other_uinfo = other_users
     })
 
     -- add player
-    self.inview_players[player.uid] = player
+    for i = 1, PLAYER_NUM * 2 do
+        if self.inview_players[i] == nil then
+            self.inview_players[i] = player
+            player.seat_id = i
+            break
+        end
+    end
 
     -- broadcast_cmd_inview_players
     self:broadcast_cmd_inview_players(Stype.Logic, Cmd.eOnOtherEnteredMatch, player:get_uinfo(), player)
@@ -89,19 +88,31 @@ function MatchManager:enter_match(player)
 end
 
 function MatchManager:quit_match(player)
+    player:send_msg(Stype.Logic, Cmd.eQuitMatchRes, {
+        status = Responses.OK
+    })
+
     if self.inview_players then
-        self.inview_players[player.uid] = nil
+        self.inview_players[player.seat_id] = nil
     end
 
+    self:broadcast_cmd_inview_players(Stype.Logic, Cmd.eOnOtherQuittedMatch, {
+        seatid = player.seat_id
+    }, player)
+
+    player:quit_match()
     if not player.is_robot then
         self.human_count = self.human_count - 1
         if self.human_count == 0 then
-            for robot_uid, robot in pairs(self.inview_players) do
+            for robot_seatid, robot in pairs(self.inview_players) do
                 robot:quit_match()
-                self.inview_players[robot_uid] = nil
+                self.inview_players[robot_seatid] = nil
             end
+            return true
         end
     end
+
+    return false
 end
 
 return MatchManager

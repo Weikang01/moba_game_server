@@ -82,6 +82,9 @@ end
 Scheduler.once(load_robots, 2000)
 
 local function send_status(session, stype, ctype, uid, status)
+    if session == nil then
+        return
+    end
     Session.send_msg(session, {
         stype = stype,
         ctype = ctype,
@@ -98,9 +101,8 @@ local function search_inview_match_manager(zone_id)
         zone_match_list[zone_id] = {}
     end
 
-    local i
-    local match_manager = nil
     for match_id, m_manager in pairs(match_list) do
+        print("found the match [" .. match_id .. "]!")
         if m_manager.state == State.inView then
             return m_manager
         end
@@ -147,6 +149,7 @@ local function find_idle_robot(zone_id)
     return nil
 end
 
+
 local function do_push_robot_to_match()
     for zone_id, match_list in pairs(zone_match_list) do
         for match_id, match in pairs(match_list) do
@@ -155,6 +158,11 @@ local function do_push_robot_to_match()
                 if robot then
                     robot.match_id = match_id
                     match:enter_match(robot)
+                    -- test
+                    -- Scheduler.once(function()
+                    --     match:quit_match(robot)
+                    -- end, 3000)
+                    -- test end
                 end
             end
         end
@@ -162,7 +170,6 @@ local function do_push_robot_to_match()
 end
 
 Scheduler.schedule(do_push_robot_to_match, 1000, 1000, -1)
-
 
 -- {stype, ctype, utag, body}
 local function logic_login(session, cmd_msg)
@@ -203,11 +210,12 @@ local function on_user_lost_conn(session, cmd_msg)
 
         if p.match_id ~= -1 then
             local c_match = zone_match_list[p.zid][p.match_id]
-            c_match:quit_match(p)
-            zone_match_list[p.zid][p.match_id] = nil
-            p.match_id = -1
+            local p_zid = p.zid
+            local p_match_id = p.match_id
+            if c_match:quit_match(p) then
+                zone_match_list[p_zid][p_match_id] = nil
+            end
         end
-        p.zid = -1
     end
 
     if logic_server_players[uid] then
@@ -233,6 +241,16 @@ local function enter_zone(session, cmd_msg)
     local stype = cmd_msg[1]
     local uid   = cmd_msg[3]
     local p     = logic_server_players[uid]
+
+    -- print(
+    --     " uid: " .. tostring(p.uid) ..
+    --     " session: " .. tostring(p.session) ..
+    --     " zid: " .. tostring(p.zid) ..
+    --     " match_id: " .. tostring(p.match_id) ..
+    --     " seat_id: " .. tostring(p.seat_id) ..
+    --     " state: " .. tostring(p.state) ..
+    --     " is_robot: " .. tostring(p.is_robot)
+    -- )
 
     if not p then
         send_status(session, stype, Cmd.eEnterZoneRes, uid, Responses.INVALID_OPT)
@@ -267,14 +285,39 @@ local function enter_zone(session, cmd_msg)
     send_status(session, stype, Cmd.eEnterZoneRes, uid, Responses.OK)
 end
 
+-- {stype, ctype, utag, body}
+local function on_quit_match(session, cmd_msg)
+    local stype  = cmd_msg[1]
+    local uid    = cmd_msg[3]
+    local player = logic_server_players[uid]
+
+    if not player then
+        send_status(session, stype, Cmd.eQuitMatchRes, uid, Responses.INVALID_OPT)
+        return
+    end
+
+    if player.state ~= State.inView or player.zid == -1 or player.match_id == -1 or player.seat_id == -1 then
+        send_status(session, stype, Cmd.eQuitMatchRes, uid, Responses.INVALID_OPT)
+        return
+    end
+
+    local match = zone_match_list[player.zid][player.match_id]
+    if not match or match.state ~= State.inView then
+        send_status(session, stype, Cmd.eQuitMatchRes, uid, Responses.INVALID_OPT)
+        return
+    end
+    zone_match_list[player.zid][player.match_id] = nil
+
+    match:quit_match(player)
+end
 
 local game_manager = {
     logic_login = logic_login,
     on_user_lost_conn = on_user_lost_conn,
     on_gateway_session_connect = on_gateway_session_connect,
     on_gateway_session_disconnect = on_gateway_session_disconnect,
-
     enter_zone = enter_zone,
+    on_quit_match = on_quit_match,
 }
 
 return game_manager

@@ -20,6 +20,7 @@ function player:init(uid, session, ret_handler, is_robot)
     self.session  = session
     self.zid      = -1 -- current zone of player
     self.match_id = -1 -- id of the match
+    self.seat_id  = -1
     self.state    = State.inView
     self.is_robot = is_robot or false
 
@@ -76,7 +77,15 @@ function player:get_uinfo()
         unick      = self.uinfo.unick,
         usex       = self.uinfo.usex,
         usysavatar = self.uinfo.usysavatar,
+        seatid     = self.seat_id,
     }
+end
+
+function player:quit_match()
+    self.zid      = -1
+    self.match_id = -1
+    self.seat_id  = -1
+    self.state    = State.inView
 end
 
 return player
