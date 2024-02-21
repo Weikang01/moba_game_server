@@ -1,15 +1,17 @@
-local Stype = require("stype")
-local Cmd = require("cmd")
-local Responses = require("responses")
-local mysql_moba_game = require("db.mysql_moba_game")
-local redis_game = require("db.redis_game")
-local Player = require("logic.player")
-local Zones = require("logic.zone")
-local State = require("logic.state")
+local Stype                   = require("stype")
+local Cmd                     = require("cmd")
+local Responses               = require("responses")
+local mysql_moba_game         = require("db.mysql_moba_game")
+local redis_game              = require("db.redis_game")
+local Player                  = require("logic.player")
+local Zones                   = require("logic.zone")
+local State                   = require("logic.state")
 
-local MatchManager = {}
-local g_match_id = 1
-local PLAYER_NUM = 3
+local MatchManager            = {}
+local g_match_id              = 1
+local NR_PLAYERS_IN_EACH_TEAM = 2
+local NR_TEAMS                = 2
+local NR_CHARACTERS           = 5
 
 function MatchManager:new(instance)
     instance = instance or {}
@@ -26,16 +28,29 @@ function MatchManager:init(zid)
 
     -- get inview player list
     self.inview_players = {} -- uid to player
-    self.t1_players     = {} -- uid to player
-    self.t2_players     = {} -- uid to player
+    self.teams          = {} -- team_id to list_of_players
 end
 
 function MatchManager:broadcast_cmd_inview_players(stype, ctype, body, excluded_player)
     for _, player in pairs(self.inview_players) do
-        if player ~= excluded_player then
+        if excluded_player == nil or player ~= excluded_player then
             player:send_msg(stype, ctype, body)
         end
     end
+end
+
+function MatchManager:game_start()
+    local characters = {}
+    for key, player in pairs(self.inview_players) do
+        table.insert(characters, {
+            seatid      = player.seat_id,
+            characterid = player.character_id
+        })
+    end
+
+    self:broadcast_cmd_inview_players(Stype.Logic, Cmd.eGameStart, {
+        characters = characters
+    })
 end
 
 function MatchManager:enter_match(player)
@@ -57,31 +72,42 @@ function MatchManager:enter_match(player)
         table.insert(other_users, other:get_uinfo())
     end
 
+    -- add player
+    for i = 1, NR_PLAYERS_IN_EACH_TEAM * NR_TEAMS do
+        if self.inview_players[i] == nil then
+            self.inview_players[i] = player
+            player.seat_id = i
+            player.team_id = ((i - 1) % NR_TEAMS) + 1
+            break
+        end
+    end
+
     -- tell player that they are in waiting room
     player:send_msg(Stype.Logic, Cmd.eEnterMatch, {
         zid         = player.zid,
         matchid     = player.matchid,
+        seatid      = player.seat_id,
+        teamid      = player.team_id,
         other_uinfo = other_users
     })
-
-    -- add player
-    for i = 1, PLAYER_NUM * 2 do
-        if self.inview_players[i] == nil then
-            self.inview_players[i] = player
-            player.seat_id = i
-            break
-        end
-    end
 
     -- broadcast_cmd_inview_players
     self:broadcast_cmd_inview_players(Stype.Logic, Cmd.eOnOtherEnteredMatch, player:get_uinfo(), player)
 
     -- check if room is full
-    if #self.inview_players >= PLAYER_NUM * 2 then
+    if #self.inview_players >= NR_PLAYERS_IN_EACH_TEAM * NR_TEAMS then
         self.state = State.Ready
+
         for index, value in pairs(self.inview_players) do
             self.inview_players[index].state = State.Ready
         end
+
+        -- randomly assign a character id to each player between [1, NR_CHARACTERS]
+        for key, c_player in pairs(self.inview_players) do
+            c_player.character_id = math.random(1, NR_CHARACTERS)
+        end
+
+        self:game_start()
     end
 
     return true
