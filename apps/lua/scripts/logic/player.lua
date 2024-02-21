@@ -16,13 +16,15 @@ function player:new(instance)
 end
 
 function player:init(uid, session, ret_handler, is_robot)
-    self.uid      = uid
-    self.session  = session
-    self.zid      = -1 -- current zone of player
-    self.match_id = -1 -- id of the match
-    self.seat_id  = -1
-    self.state    = State.inView
-    self.is_robot = is_robot or false
+    self.uid          = uid
+    self.session      = session
+    self.zid          = -1 -- current zone of player
+    self.match_id     = -1 -- id of the match
+    self.seat_id      = -1
+    self.team_id      = -1 -- player's team within match
+    self.character_id = -1 -- which character player is using
+    self.state        = State.inView
+    self.is_robot     = is_robot or false
 
     if self.is_robot then
         return
@@ -78,6 +80,7 @@ function player:get_uinfo()
         usex       = self.uinfo.usex,
         usysavatar = self.uinfo.usysavatar,
         seatid     = self.seat_id,
+        teamid     = self.team_id,
     }
 end
 
@@ -85,6 +88,7 @@ function player:quit_match()
     self.zid      = -1
     self.match_id = -1
     self.seat_id  = -1
+    self.team_id  = -1
     self.state    = State.inView
 end
 

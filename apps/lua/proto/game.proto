@@ -38,6 +38,7 @@ enum Cmd {
 	eQuitMatchReq         = 27;
 	eQuitMatchRes         = 28;
 	eOnOtherQuittedMatch  = 29;
+	eGameStart            = 30;
 }
 
 message GuestLoginReq {
@@ -150,12 +151,15 @@ message OnOtherEnteredMatch {
 	int32 usex       = 2;
 	int32 usysavatar = 3;
 	int32 seatid     = 4;
+	int32 teamid     = 5;
 }
 
 message EnterMatch {
 	int32 zid                                = 1;
 	int32 matchid                            = 2;
-	repeated OnOtherEnteredMatch other_uinfo = 3;
+	int32 seatid                             = 3;
+	int32 teamid                             = 4;
+	repeated OnOtherEnteredMatch other_uinfo = 5;
 }
 
 message QuitMatchRes {
@@ -164,4 +168,13 @@ message QuitMatchRes {
 
 message OnOtherQuittedMatch {
 	int32 seatid     = 1;
+}
+
+message CharacterInfo {
+	int32 seatid      = 1;
+	int32 characterid = 2;
+}
+
+message GameStart {
+	repeated CharacterInfo characters = 1;
 }

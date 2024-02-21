@@ -312,12 +312,12 @@ local function on_quit_match(session, cmd_msg)
 end
 
 local game_manager = {
-    logic_login = logic_login,
-    on_user_lost_conn = on_user_lost_conn,
-    on_gateway_session_connect = on_gateway_session_connect,
+    logic_login                   = logic_login,
+    on_user_lost_conn             = on_user_lost_conn,
+    on_gateway_session_connect    = on_gateway_session_connect,
     on_gateway_session_disconnect = on_gateway_session_disconnect,
-    enter_zone = enter_zone,
-    on_quit_match = on_quit_match,
+    enter_zone                    = enter_zone,
+    on_quit_match                 = on_quit_match,
 }
 
 return game_manager

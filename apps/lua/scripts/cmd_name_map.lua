@@ -28,6 +28,7 @@ local cmd_name_map = {
     "QuitMatchReq",
     "QuitMatchRes",
     "OnOtherQuittedMatch",
+    "GameStart",
 }
 
 return cmd_name_map;

@@ -28,6 +28,7 @@ Cmd = {
     eQuitMatchReq         = 27,
     eQuitMatchRes         = 28,
     eOnOtherQuittedMatch  = 29,
+    eGameStart            = 30,
 }
 
 return Cmd
