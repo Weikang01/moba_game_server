@@ -25,6 +25,9 @@ local cmd_name_map = {
     "EnterZoneRes",
     "EnterMatch",
     "OnOtherEnteredMatch",
+    "QuitMatchReq",
+    "QuitMatchRes",
+    "OnOtherQuittedMatch",
 }
 
 return cmd_name_map;

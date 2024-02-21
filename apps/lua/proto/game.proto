@@ -35,6 +35,9 @@ enum Cmd {
 	eEnterZoneRes         = 24;
 	eEnterMatch           = 25;
 	eOnOtherEnteredMatch  = 26;
+	eQuitMatchReq         = 27;
+	eQuitMatchRes         = 28;
+	eOnOtherQuittedMatch  = 29;
 }
 
 message GuestLoginReq {
@@ -146,10 +149,19 @@ message OnOtherEnteredMatch {
 	string unick     = 1;
 	int32 usex       = 2;
 	int32 usysavatar = 3;
+	int32 seatid     = 4;
 }
 
 message EnterMatch {
 	int32 zid                                = 1;
 	int32 matchid                            = 2;
 	repeated OnOtherEnteredMatch other_uinfo = 3;
+}
+
+message QuitMatchRes {
+	int32 status = 1;
+}
+
+message OnOtherQuittedMatch {
+	int32 seatid     = 1;
 }

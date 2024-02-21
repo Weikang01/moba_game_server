@@ -25,6 +25,9 @@ Cmd = {
     eEnterZoneRes         = 24,
     eEnterMatch           = 25,
     eOnOtherEnteredMatch  = 26,
+    eQuitMatchReq         = 27,
+    eQuitMatchRes         = 28,
+    eOnOtherQuittedMatch  = 29,
 }
 
 return Cmd
