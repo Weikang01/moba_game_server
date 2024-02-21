@@ -44,6 +44,8 @@ public:
 	void send_msg(cmd_msg* msg) override;
 	void send_raw_cmd(raw_cmd_msg* raw) override;
 	const char* get_address(int* client_port) override;
+	void* operator new(size_t size);
+	void operator delete(void* ptr);
 };
 
 void init_session_allocator();

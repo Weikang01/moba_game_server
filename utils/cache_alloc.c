@@ -17,6 +17,8 @@ struct CacheAllocator {
 
 struct CacheAllocator* create_cache_allocator(int capacity, int element_size)
 {
+	int i;
+
 	struct CacheAllocator* allocator = (struct CacheAllocator*)malloc(sizeof(struct CacheAllocator));
 	memset(allocator, 0, sizeof(struct CacheAllocator));
 	element_size = (element_size < sizeof(struct node)) ? sizeof(struct node) : element_size;
@@ -27,7 +29,7 @@ struct CacheAllocator* create_cache_allocator(int capacity, int element_size)
 
 	allocator->free_list = NULL;
 
-	for (int i = 0; i < capacity; i++) {
+	for (i = 0; i < capacity; i++) {
 		struct node* n = (struct node*)(allocator->cache_mem + i * element_size);
 		n->next = allocator->free_list;
 		allocator->free_list = n;

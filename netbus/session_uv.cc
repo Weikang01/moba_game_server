@@ -79,8 +79,9 @@ void UVSession::exit()
 
 UVSession* UVSession::create()
 {
-	UVSession* s = (UVSession*)cache_alloc(session_allocator, sizeof(UVSession));
-	s->UVSession::UVSession();
+	/*UVSession* s = (UVSession*)cache_alloc(session_allocator, sizeof(UVSession));
+	s->UVSession::UVSession();*/  // this operation is unsupported in gcc
+	UVSession* s = new UVSession();
 	s->init();
 	return s;
 }
@@ -89,8 +90,9 @@ void UVSession::destroy(UVSession* s)
 {
 	s->exit();
 
-	s->UVSession::~UVSession();
-	cache_free(session_allocator, s);
+	/*s->UVSession::~UVSession();
+	cache_free(session_allocator, s);*/  // this operation is unsupported in gcc
+	delete s;
 }
 
 void UVSession::close()
@@ -105,7 +107,11 @@ void UVSession::close()
 	this->is_shutdown = true;
 	uv_shutdown_t* req = &this->req_shutdown;
 	memset(req, 0, sizeof(uv_shutdown_t));
-	uv_shutdown(req, (uv_stream_t*)&this->client_handler, on_uv_shutdown);
+	int ret = uv_shutdown(req, (uv_stream_t*)&this->client_handler, on_uv_shutdown);
+	if (ret)  // socket not connected
+	{
+		uv_close((uv_handle_t*)&this->client_handler, on_uv_close);
+	}
 }
 
 void UVSession::send_data(unsigned char* data, int len)
@@ -157,6 +163,16 @@ const char* UVSession::get_address(int* client_port)
 {
 	*client_port = this->client_port;
 	return this->client_address;
+}
+
+void* UVSession::operator new(size_t size)
+{
+	return cache_alloc(session_allocator, size);
+}
+
+void UVSession::operator delete(void* ptr)
+{
+	cache_free(session_allocator, ptr);
 }
 
 

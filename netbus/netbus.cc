@@ -106,6 +106,12 @@ extern "C" {
 				break;
 			}
 
+			if (payload_size < 0)
+			{
+				client_session->close();
+				return;
+			}
+
 			if (client_session->recved < payload_size + head_size) {
 				break;
 			}
