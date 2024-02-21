@@ -27,6 +27,8 @@ local game_config = {
     gateway_tcp_port = 6080,
     gateway_ws_ip    = "127.0.0.1",
     gateway_ws_port  = 6081,
+    gateway_udp_ip   = "127.0.0.1",
+    gateway_udp_port = 6082,
 
     servers          = remote_servers,
 
@@ -62,7 +64,12 @@ local game_config = {
         host     = "127.0.0.1",
         port     = 6379,
         db_index = 3,
-    }
+    },
+
+    logic_udp        = {
+        host = "127.0.0.1",
+        port = 8003,
+    },
 }
 
 return game_config

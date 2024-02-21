@@ -43,7 +43,7 @@ void UDPSession::send_msg(cmd_msg* msg)
 
 	if (encode_data != NULL) {
 		this->send_data(encode_data, encode_len);
-		ProtoManager::cmd_msg_free(msg);
+		ProtoManager::raw_msg_free(encode_data);
 	}
 	else {
 		printf("encode_msg_to_raw failed\n");

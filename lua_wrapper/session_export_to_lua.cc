@@ -285,7 +285,21 @@ static int lua_session_send_msg(lua_State* tolua_S)
     struct cmd_msg msg;
 
     msg.stype = lua_tointeger(tolua_S, -4);
+	if (msg.stype == 0)
+	{
+		lua_pushstring(tolua_S, "stype is not a key in cmd_msg");
+		lua_error(tolua_S);
+		goto failed;
+	}
+
     msg.ctype = lua_tointeger(tolua_S, -3);
+	if (msg.ctype == 0)
+	{
+		lua_pushstring(tolua_S, "ctype is not a key in cmd_msg");
+		lua_error(tolua_S);
+		goto failed;
+	}
+
     msg.utag  = lua_tointeger(tolua_S, -2);
 
     if (ProtoManager::proto_type() == PROTO_JSON)
