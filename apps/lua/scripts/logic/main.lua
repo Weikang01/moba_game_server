@@ -18,7 +18,8 @@ local servers = game_config.servers
 local Stype = require("stype")
 
 Netbus.tcp_listen(servers[Stype.Logic].port)
-print("Logic server starts at " .. servers[Stype.Logic].port)
+Netbus.udp_listen(game_config.logic_udp.port)
+print("Logic server starts at " .. servers[Stype.Logic].port .. " and udp listening on: " .. game_config.logic_udp.port)
 
 local logic_service = require("logic.logic_service")
 local ret = Service.register(Stype.Logic, logic_service)

@@ -67,7 +67,8 @@ void cache_free(struct CacheAllocator* allocator, void* ptr)
 		return;
 	}
 
-	if ((unsigned char*)ptr >= allocator->cache_mem && (unsigned char*)ptr < allocator->cache_mem + allocator->capacity * allocator->element_size) {
+	if ((unsigned char*)ptr >= allocator->cache_mem &&
+		(unsigned char*)ptr < allocator->cache_mem + allocator->capacity * allocator->element_size) {
 		struct node* n = (struct node*)ptr;
 		n->next = allocator->free_list;
 		allocator->free_list = n;
