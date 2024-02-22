@@ -7,19 +7,6 @@ logic_service_handlers[Cmd.eLogicLoginReq] = GameManager.logic_login
 logic_service_handlers[Cmd.eUserLostConn] = GameManager.on_user_lost_conn
 logic_service_handlers[Cmd.eEnterZoneReq] = GameManager.enter_zone
 logic_service_handlers[Cmd.eQuitMatchReq] = GameManager.on_quit_match
-logic_service_handlers[Cmd.eUDPTest] = function(s, cmd_msg)
-    local body = cmd_msg[4]
-
-    print("body.content: " .. body.content)
-    Session.send_msg(s, {
-        stype = cmd_msg[1],
-        ctype = cmd_msg[2],
-        utag  = cmd_msg[3],
-        body  = {
-            content = body.content
-        }
-    })
-end
 
 local function session_recv_cmd(s, cmd_msg)
     if logic_service_handlers[cmd_msg[2]] then

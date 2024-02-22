@@ -173,8 +173,12 @@ Scheduler.schedule(do_push_robot_to_match, 1000, 1000, -1)
 
 -- {stype, ctype, utag, body}
 local function logic_login(session, cmd_msg)
-    local uid   = cmd_msg[3]
     local stype = cmd_msg[1]
+    local uid   = cmd_msg[3]
+    local body  = cmd_msg[4]
+
+    -- print(body.ip, body.udp_port)
+
     local p     = logic_server_players[uid] -- player object
     if p then                               -- player already exists, just renew the session
         p:set_session(session)
@@ -191,9 +195,9 @@ local function logic_login(session, cmd_msg)
             send_status(session, stype, Cmd.eLogicLoginRes, status)
         end
     end)
+    p:set_udp_address(body.udp_ip, body.udp_port)
 
     -- other stuff ...
-
     send_status(session, stype, Cmd.eLogicLoginRes, uid, Responses.OK)
 end
 
@@ -204,6 +208,9 @@ local function on_user_lost_conn(session, cmd_msg)
     if not p then
         return
     end
+
+    p:set_session(nil) -- prevent UDP calls
+    p:set_udp_address(nil, 0)
 
     if p.zid ~= -1 then
         zone_wait_list[p.zid][p.uid] = nil
@@ -218,6 +225,7 @@ local function on_user_lost_conn(session, cmd_msg)
         end
     end
 
+    -- remove player from list
     if logic_server_players[uid] then
         logic_server_players[uid] = nil
         online_player_num = online_player_num - 1

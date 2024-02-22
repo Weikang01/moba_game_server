@@ -39,7 +39,7 @@ enum Cmd {
 	eQuitMatchRes         = 28;
 	eOnOtherQuittedMatch  = 29;
 	eGameStart            = 30;
-	eUDPTest              = 31;
+	eLogicFrame           = 31;
 }
 
 message GuestLoginReq {
@@ -180,6 +180,11 @@ message GameStart {
 	repeated CharacterInfo characters = 1;
 }
 
-message UDPTest {
-	string content = 1;
+message LogicLoginReq {
+	string udp_ip  = 1;
+	int32 udp_port = 2;
+}
+
+message LogicFrame {
+	int32 frameid = 1;
 }

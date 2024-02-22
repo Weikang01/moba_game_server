@@ -29,7 +29,7 @@ local cmd_name_map = {
     "QuitMatchRes",
     "OnOtherQuittedMatch",
     "GameStart",
-    "UDPTest",
+    "LogicFrame",
 }
 
 return cmd_name_map;

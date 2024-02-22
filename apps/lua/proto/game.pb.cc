@@ -395,20 +395,34 @@ struct GameStartDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 GameStartDefaultTypeInternal _GameStart_default_instance_;
-PROTOBUF_CONSTEXPR UDPTest::UDPTest(
+PROTOBUF_CONSTEXPR LogicLoginReq::LogicLoginReq(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.content_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+    /*decltype(_impl_.udp_ip_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.udp_port_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
-struct UDPTestDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR UDPTestDefaultTypeInternal()
+struct LogicLoginReqDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR LogicLoginReqDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
-  ~UDPTestDefaultTypeInternal() {}
+  ~LogicLoginReqDefaultTypeInternal() {}
   union {
-    UDPTest _instance;
+    LogicLoginReq _instance;
   };
 };
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 UDPTestDefaultTypeInternal _UDPTest_default_instance_;
-static ::_pb::Metadata file_level_metadata_game_2eproto[27];
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 LogicLoginReqDefaultTypeInternal _LogicLoginReq_default_instance_;
+PROTOBUF_CONSTEXPR LogicFrame::LogicFrame(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.frameid_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct LogicFrameDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR LogicFrameDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~LogicFrameDefaultTypeInternal() {}
+  union {
+    LogicFrame _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 LogicFrameDefaultTypeInternal _LogicFrame_default_instance_;
+static ::_pb::Metadata file_level_metadata_game_2eproto[28];
 static const ::_pb::EnumDescriptor* file_level_enum_descriptors_game_2eproto[2];
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_game_2eproto = nullptr;
 
@@ -636,12 +650,20 @@ const uint32_t TableStruct_game_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(pro
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::GameStart, _impl_.characters_),
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::UDPTest, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::LogicLoginReq, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::UDPTest, _impl_.content_),
+  PROTOBUF_FIELD_OFFSET(::LogicLoginReq, _impl_.udp_ip_),
+  PROTOBUF_FIELD_OFFSET(::LogicLoginReq, _impl_.udp_port_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::LogicFrame, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::LogicFrame, _impl_.frameid_),
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::GuestLoginReq)},
@@ -670,7 +692,8 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 200, -1, -1, sizeof(::OnOtherQuittedMatch)},
   { 207, -1, -1, sizeof(::CharacterInfo)},
   { 215, -1, -1, sizeof(::GameStart)},
-  { 222, -1, -1, sizeof(::UDPTest)},
+  { 222, -1, -1, sizeof(::LogicLoginReq)},
+  { 230, -1, -1, sizeof(::LogicFrame)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -700,7 +723,8 @@ static const ::_pb::Message* const file_default_instances[] = {
   &::_OnOtherQuittedMatch_default_instance_._instance,
   &::_CharacterInfo_default_instance_._instance,
   &::_GameStart_default_instance_._instance,
-  &::_UDPTest_default_instance_._instance,
+  &::_LogicLoginReq_default_instance_._instance,
+  &::_LogicFrame_default_instance_._instance,
 };
 
 const char descriptor_table_protodef_game_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
@@ -743,32 +767,33 @@ const char descriptor_table_protodef_game_2eproto[] PROTOBUF_SECTION_VARIABLE(pr
   "\001 \001(\005\"%\n\023OnOtherQuittedMatch\022\016\n\006seatid\030\001"
   " \001(\005\"4\n\rCharacterInfo\022\016\n\006seatid\030\001 \001(\005\022\023\n"
   "\013characterid\030\002 \001(\005\"/\n\tGameStart\022\"\n\nchara"
-  "cters\030\001 \003(\0132\016.CharacterInfo\"\032\n\007UDPTest\022\017"
-  "\n\007content\030\001 \001(\t*>\n\005Stype\022\021\n\rINVALID_STYP"
-  "E\020\000\022\t\n\005eAuth\020\001\022\013\n\007eSystem\020\002\022\n\n\006eLogic\020\003*"
-  "\215\005\n\003Cmd\022\017\n\013INVALID_CMD\020\000\022\022\n\016eGuestLoginR"
-  "eq\020\001\022\022\n\016eGuestLoginRes\020\002\022\017\n\013eReloginRes\020"
-  "\003\022\021\n\reUserLostConn\020\004\022\023\n\017eEditProfileReq\020"
-  "\005\022\023\n\017eEditProfileRes\020\006\022\024\n\020eGuestUpgradeR"
-  "eq\020\007\022\024\n\020eGuestUpgradeRes\020\010\022\021\n\reUserLogin"
-  "Req\020\t\022\021\n\reUserLoginRes\020\n\022\016\n\neLogoutReq\020\013"
-  "\022\016\n\neLogoutRes\020\014\022\024\n\020eGetUGameInfoReq\020\r\022\024"
-  "\n\020eGetUGameInfoRes\020\016\022\026\n\022eRecvLoginBonusR"
-  "eq\020\017\022\026\n\022eRecvLoginBonusRes\020\020\022\031\n\025eGetWorl"
-  "dRankUchipReq\020\021\022\031\n\025eGetWorldRankUchipRes"
-  "\020\022\022\021\n\reGetSysMsgReq\020\023\022\021\n\reGetSysMsgRes\020\024"
-  "\022\022\n\016eLogicLoginReq\020\025\022\022\n\016eLogicLoginRes\020\026"
-  "\022\021\n\reEnterZoneReq\020\027\022\021\n\reEnterZoneRes\020\030\022\017"
-  "\n\013eEnterMatch\020\031\022\030\n\024eOnOtherEnteredMatch\020"
-  "\032\022\021\n\reQuitMatchReq\020\033\022\021\n\reQuitMatchRes\020\034\022"
-  "\030\n\024eOnOtherQuittedMatch\020\035\022\016\n\neGameStart\020"
-  "\036\022\014\n\010eUDPTest\020\037b\006proto3"
+  "cters\030\001 \003(\0132\016.CharacterInfo\"1\n\rLogicLogi"
+  "nReq\022\016\n\006udp_ip\030\001 \001(\t\022\020\n\010udp_port\030\002 \001(\005\"\035"
+  "\n\nLogicFrame\022\017\n\007frameid\030\001 \001(\005*>\n\005Stype\022\021"
+  "\n\rINVALID_STYPE\020\000\022\t\n\005eAuth\020\001\022\013\n\007eSystem\020"
+  "\002\022\n\n\006eLogic\020\003*\220\005\n\003Cmd\022\017\n\013INVALID_CMD\020\000\022\022"
+  "\n\016eGuestLoginReq\020\001\022\022\n\016eGuestLoginRes\020\002\022\017"
+  "\n\013eReloginRes\020\003\022\021\n\reUserLostConn\020\004\022\023\n\017eE"
+  "ditProfileReq\020\005\022\023\n\017eEditProfileRes\020\006\022\024\n\020"
+  "eGuestUpgradeReq\020\007\022\024\n\020eGuestUpgradeRes\020\010"
+  "\022\021\n\reUserLoginReq\020\t\022\021\n\reUserLoginRes\020\n\022\016"
+  "\n\neLogoutReq\020\013\022\016\n\neLogoutRes\020\014\022\024\n\020eGetUG"
+  "ameInfoReq\020\r\022\024\n\020eGetUGameInfoRes\020\016\022\026\n\022eR"
+  "ecvLoginBonusReq\020\017\022\026\n\022eRecvLoginBonusRes"
+  "\020\020\022\031\n\025eGetWorldRankUchipReq\020\021\022\031\n\025eGetWor"
+  "ldRankUchipRes\020\022\022\021\n\reGetSysMsgReq\020\023\022\021\n\re"
+  "GetSysMsgRes\020\024\022\022\n\016eLogicLoginReq\020\025\022\022\n\016eL"
+  "ogicLoginRes\020\026\022\021\n\reEnterZoneReq\020\027\022\021\n\reEn"
+  "terZoneRes\020\030\022\017\n\013eEnterMatch\020\031\022\030\n\024eOnOthe"
+  "rEnteredMatch\020\032\022\021\n\reQuitMatchReq\020\033\022\021\n\reQ"
+  "uitMatchRes\020\034\022\030\n\024eOnOtherQuittedMatch\020\035\022"
+  "\016\n\neGameStart\020\036\022\017\n\013eLogicFrame\020\037b\006proto3"
   ;
 static ::_pbi::once_flag descriptor_table_game_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_game_2eproto = {
-    false, false, 2343, descriptor_table_protodef_game_2eproto,
+    false, false, 2400, descriptor_table_protodef_game_2eproto,
     "game.proto",
-    &descriptor_table_game_2eproto_once, nullptr, 0, 27,
+    &descriptor_table_game_2eproto_once, nullptr, 0, 28,
     schemas, file_default_instances, TableStruct_game_2eproto::offsets,
     file_level_metadata_game_2eproto, file_level_enum_descriptors_game_2eproto,
     file_level_service_descriptors_game_2eproto,
@@ -6741,51 +6766,54 @@ void GameStart::InternalSwap(GameStart* other) {
 
 // ===================================================================
 
-class UDPTest::_Internal {
+class LogicLoginReq::_Internal {
  public:
 };
 
-UDPTest::UDPTest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+LogicLoginReq::LogicLoginReq(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
   SharedCtor(arena, is_message_owned);
-  // @@protoc_insertion_point(arena_constructor:UDPTest)
+  // @@protoc_insertion_point(arena_constructor:LogicLoginReq)
 }
-UDPTest::UDPTest(const UDPTest& from)
+LogicLoginReq::LogicLoginReq(const LogicLoginReq& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
-  UDPTest* const _this = this; (void)_this;
+  LogicLoginReq* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.content_){}
+      decltype(_impl_.udp_ip_){}
+    , decltype(_impl_.udp_port_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  _impl_.content_.InitDefault();
+  _impl_.udp_ip_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.content_.Set("", GetArenaForAllocation());
+    _impl_.udp_ip_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_content().empty()) {
-    _this->_impl_.content_.Set(from._internal_content(), 
+  if (!from._internal_udp_ip().empty()) {
+    _this->_impl_.udp_ip_.Set(from._internal_udp_ip(), 
       _this->GetArenaForAllocation());
   }
-  // @@protoc_insertion_point(copy_constructor:UDPTest)
+  _this->_impl_.udp_port_ = from._impl_.udp_port_;
+  // @@protoc_insertion_point(copy_constructor:LogicLoginReq)
 }
 
-inline void UDPTest::SharedCtor(
+inline void LogicLoginReq::SharedCtor(
     ::_pb::Arena* arena, bool is_message_owned) {
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.content_){}
+      decltype(_impl_.udp_ip_){}
+    , decltype(_impl_.udp_port_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
-  _impl_.content_.InitDefault();
+  _impl_.udp_ip_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.content_.Set("", GetArenaForAllocation());
+    _impl_.udp_ip_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
-UDPTest::~UDPTest() {
-  // @@protoc_insertion_point(destructor:UDPTest)
+LogicLoginReq::~LogicLoginReq() {
+  // @@protoc_insertion_point(destructor:LogicLoginReq)
   if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
   (void)arena;
     return;
@@ -6793,38 +6821,47 @@ UDPTest::~UDPTest() {
   SharedDtor();
 }
 
-inline void UDPTest::SharedDtor() {
+inline void LogicLoginReq::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  _impl_.content_.Destroy();
+  _impl_.udp_ip_.Destroy();
 }
 
-void UDPTest::SetCachedSize(int size) const {
+void LogicLoginReq::SetCachedSize(int size) const {
   _impl_._cached_size_.Set(size);
 }
 
-void UDPTest::Clear() {
-// @@protoc_insertion_point(message_clear_start:UDPTest)
+void LogicLoginReq::Clear() {
+// @@protoc_insertion_point(message_clear_start:LogicLoginReq)
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _impl_.content_.ClearToEmpty();
+  _impl_.udp_ip_.ClearToEmpty();
+  _impl_.udp_port_ = 0;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-const char* UDPTest::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+const char* LogicLoginReq::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
   while (!ctx->Done(&ptr)) {
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // string content = 1;
+      // string udp_ip = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
-          auto str = _internal_mutable_content();
+          auto str = _internal_mutable_udp_ip();
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "UDPTest.content"));
+          CHK_(::_pbi::VerifyUTF8(str, "LogicLoginReq.udp_ip"));
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 udp_port = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          _impl_.udp_port_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
@@ -6851,95 +6888,288 @@ failure:
 #undef CHK_
 }
 
-uint8_t* UDPTest::_InternalSerialize(
+uint8_t* LogicLoginReq::_InternalSerialize(
     uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:UDPTest)
+  // @@protoc_insertion_point(serialize_to_array_start:LogicLoginReq)
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // string content = 1;
-  if (!this->_internal_content().empty()) {
+  // string udp_ip = 1;
+  if (!this->_internal_udp_ip().empty()) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_content().data(), static_cast<int>(this->_internal_content().length()),
+      this->_internal_udp_ip().data(), static_cast<int>(this->_internal_udp_ip().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "UDPTest.content");
+      "LogicLoginReq.udp_ip");
     target = stream->WriteStringMaybeAliased(
-        1, this->_internal_content(), target);
+        1, this->_internal_udp_ip(), target);
+  }
+
+  // int32 udp_port = 2;
+  if (this->_internal_udp_port() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_udp_port(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:UDPTest)
+  // @@protoc_insertion_point(serialize_to_array_end:LogicLoginReq)
   return target;
 }
 
-size_t UDPTest::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:UDPTest)
+size_t LogicLoginReq::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:LogicLoginReq)
   size_t total_size = 0;
 
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // string content = 1;
-  if (!this->_internal_content().empty()) {
+  // string udp_ip = 1;
+  if (!this->_internal_udp_ip().empty()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_content());
+        this->_internal_udp_ip());
+  }
+
+  // int32 udp_port = 2;
+  if (this->_internal_udp_port() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_udp_port());
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData UDPTest::_class_data_ = {
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData LogicLoginReq::_class_data_ = {
     ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
-    UDPTest::MergeImpl
+    LogicLoginReq::MergeImpl
 };
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*UDPTest::GetClassData() const { return &_class_data_; }
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*LogicLoginReq::GetClassData() const { return &_class_data_; }
 
 
-void UDPTest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
-  auto* const _this = static_cast<UDPTest*>(&to_msg);
-  auto& from = static_cast<const UDPTest&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:UDPTest)
+void LogicLoginReq::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<LogicLoginReq*>(&to_msg);
+  auto& from = static_cast<const LogicLoginReq&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:LogicLoginReq)
   GOOGLE_DCHECK_NE(&from, _this);
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (!from._internal_content().empty()) {
-    _this->_internal_set_content(from._internal_content());
+  if (!from._internal_udp_ip().empty()) {
+    _this->_internal_set_udp_ip(from._internal_udp_ip());
+  }
+  if (from._internal_udp_port() != 0) {
+    _this->_internal_set_udp_port(from._internal_udp_port());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
-void UDPTest::CopyFrom(const UDPTest& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:UDPTest)
+void LogicLoginReq::CopyFrom(const LogicLoginReq& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:LogicLoginReq)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool UDPTest::IsInitialized() const {
+bool LogicLoginReq::IsInitialized() const {
   return true;
 }
 
-void UDPTest::InternalSwap(UDPTest* other) {
+void LogicLoginReq::InternalSwap(LogicLoginReq* other) {
   using std::swap;
   auto* lhs_arena = GetArenaForAllocation();
   auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.content_, lhs_arena,
-      &other->_impl_.content_, rhs_arena
+      &_impl_.udp_ip_, lhs_arena,
+      &other->_impl_.udp_ip_, rhs_arena
   );
+  swap(_impl_.udp_port_, other->_impl_.udp_port_);
 }
 
-::PROTOBUF_NAMESPACE_ID::Metadata UDPTest::GetMetadata() const {
+::PROTOBUF_NAMESPACE_ID::Metadata LogicLoginReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_game_2eproto_getter, &descriptor_table_game_2eproto_once,
       file_level_metadata_game_2eproto[26]);
+}
+
+// ===================================================================
+
+class LogicFrame::_Internal {
+ public:
+};
+
+LogicFrame::LogicFrame(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:LogicFrame)
+}
+LogicFrame::LogicFrame(const LogicFrame& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  LogicFrame* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.frameid_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _this->_impl_.frameid_ = from._impl_.frameid_;
+  // @@protoc_insertion_point(copy_constructor:LogicFrame)
+}
+
+inline void LogicFrame::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.frameid_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+}
+
+LogicFrame::~LogicFrame() {
+  // @@protoc_insertion_point(destructor:LogicFrame)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void LogicFrame::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+}
+
+void LogicFrame::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void LogicFrame::Clear() {
+// @@protoc_insertion_point(message_clear_start:LogicFrame)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.frameid_ = 0;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* LogicFrame::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // int32 frameid = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.frameid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* LogicFrame::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:LogicFrame)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int32 frameid = 1;
+  if (this->_internal_frameid() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_frameid(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:LogicFrame)
+  return target;
+}
+
+size_t LogicFrame::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:LogicFrame)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // int32 frameid = 1;
+  if (this->_internal_frameid() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_frameid());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData LogicFrame::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    LogicFrame::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*LogicFrame::GetClassData() const { return &_class_data_; }
+
+
+void LogicFrame::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<LogicFrame*>(&to_msg);
+  auto& from = static_cast<const LogicFrame&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:LogicFrame)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_frameid() != 0) {
+    _this->_internal_set_frameid(from._internal_frameid());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void LogicFrame::CopyFrom(const LogicFrame& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:LogicFrame)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool LogicFrame::IsInitialized() const {
+  return true;
+}
+
+void LogicFrame::InternalSwap(LogicFrame* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_.frameid_, other->_impl_.frameid_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata LogicFrame::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_game_2eproto_getter, &descriptor_table_game_2eproto_once,
+      file_level_metadata_game_2eproto[27]);
 }
 
 // @@protoc_insertion_point(namespace_scope)
@@ -7048,9 +7278,13 @@ template<> PROTOBUF_NOINLINE ::GameStart*
 Arena::CreateMaybeMessage< ::GameStart >(Arena* arena) {
   return Arena::CreateMessageInternal< ::GameStart >(arena);
 }
-template<> PROTOBUF_NOINLINE ::UDPTest*
-Arena::CreateMaybeMessage< ::UDPTest >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::UDPTest >(arena);
+template<> PROTOBUF_NOINLINE ::LogicLoginReq*
+Arena::CreateMaybeMessage< ::LogicLoginReq >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::LogicLoginReq >(arena);
+}
+template<> PROTOBUF_NOINLINE ::LogicFrame*
+Arena::CreateMaybeMessage< ::LogicFrame >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::LogicFrame >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

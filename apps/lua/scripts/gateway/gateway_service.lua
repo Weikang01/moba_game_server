@@ -128,6 +128,7 @@ end
 local function send_to_server(client_session, raw_cmd)
     local stype, ctype, utag = RawCmd.read_header(raw_cmd)
     local server_session = map_server_session[stype]
+
     if server_session == nil then -- server error
         Logger.error("stype: " .. stype .. " server error!")
         return
@@ -141,6 +142,23 @@ local function send_to_server(client_session, raw_cmd)
             Session.set_utag(client_session, utag)
         end
         client_sessions_ukey[utag] = client_session
+    elseif ctype == Cmd.eLogicLoginReq then
+        local uid = Session.get_uid(client_session)
+        if uid == 0 then
+            return
+        end
+
+        local tcp_ip, tcp_port = Session.get_address(client_session)
+        local body = RawCmd.read_body(raw_cmd)
+
+        body.udp_ip = tcp_ip
+        Session.send_msg(server_session, {
+            stype = stype,
+            ctype = ctype,
+            utag  = uid,
+            body  = body
+        })
+        return
     else                 -- after login
         local uid = Session.get_uid(client_session)
         if uid == 0 then -- this operation needs login first

@@ -12,11 +12,20 @@
 #include "tcp_protocol.h"
 #include "proto_manager.h"
 #include "service_manager.h"
+#include "../utils/small_alloc.h"
 
-static Netbus* _instance = nullptr;
+#define my_malloc small_alloc
+#define my_free small_free
+
+static Netbus _instance;
 Netbus* Netbus::instance()
 {
-	return _instance;
+	return &_instance;
+}
+
+Netbus::Netbus()
+{
+	this->udp_handler = NULL;
 }
 
 extern "C" {
@@ -220,26 +229,27 @@ extern "C" {
 		}
 
 		UVSession* session = UVSession::create();
-
 		uv_tcp_t* client = &session->client_handler;
+		memset(client, 0, sizeof(uv_tcp_t));
+		uv_tcp_init(uv_default_loop(), client);
 
+		client->data = (void*)session;
+		uv_accept(server, (uv_stream_t*)client);
 		struct sockaddr_in addr;
 		int len = sizeof(addr);
 		uv_tcp_getpeername((uv_tcp_t*)client, (struct sockaddr*)&addr, &len);
-		uv_ip4_name(&addr, session->client_address, 32);
+		uv_ip4_name(&addr, session->client_address, 64);
 		session->client_port = ntohs(addr.sin_port);
 		session->socket_type = (int)(server->data);
 
-		uv_tcp_init(uv_default_loop(), client);
-		client->data = (void*)session;
-		if (uv_accept(server, (uv_stream_t*)client) == 0) {
-			uv_read_start((uv_stream_t*)client, on_alloc_buffer, after_read);
+		uv_read_start((uv_stream_t*)client, on_alloc_buffer, after_read);
 
-			ServiceManager::on_session_connect(session);
-		}
-		else {
-			session->close();
-		}
+		ServiceManager::on_session_connect(session);
+	}
+
+	static void after_udp_send(uv_udp_send_t* req, int status)
+	{
+		small_free(req);
 	}
 }
 
@@ -256,7 +266,7 @@ void Netbus::tcp_listen(int port) {
 	uv_tcp_init(uv_default_loop(), tcp_server);
 
 	struct sockaddr_in addr;
-	uv_ip4_addr("127.0.0.1", port, &addr);
+	uv_ip4_addr("0.0.0.0", port, &addr);
 
 	int ret = uv_tcp_bind(tcp_server, (const struct sockaddr*)&addr, 0);
 
@@ -278,7 +288,7 @@ void Netbus::ws_listen(int port)
 	uv_tcp_init(uv_default_loop(), tcp_server);
 
 	struct sockaddr_in addr;
-	uv_ip4_addr("127.0.0.1", port, &addr);
+	uv_ip4_addr("0.0.0.0", port, &addr);
 
 	int ret = uv_tcp_bind(tcp_server, (const struct sockaddr*)&addr, 0);
 
@@ -294,6 +304,9 @@ void Netbus::ws_listen(int port)
 
 void Netbus::udp_listen(int port)
 {
+	if (this->udp_handler)
+		return;
+
 	uv_udp_t* udp_server = (uv_udp_t*)malloc(sizeof(uv_udp_t));
 	memset(udp_server, 0, sizeof(uv_udp_t));
 	uv_udp_init(uv_default_loop(), udp_server);
@@ -304,10 +317,10 @@ void Netbus::udp_listen(int port)
 	udp_server->data = (void*)buffer;
 
 	struct sockaddr_in addr;
-	uv_ip4_addr("127.0.0.1", port, &addr);
-
+	uv_ip4_addr("0.0.0.0", port, &addr);
 	uv_udp_bind(udp_server, (const struct sockaddr*)&addr, 0);
 
+	this->udp_handler = (void*)udp_server;
 	uv_udp_recv_start(udp_server, on_udp_alloc_buffer, after_udp_read);
 }
 
@@ -371,4 +384,15 @@ void Netbus::tcp_connect(const char* host, int port, void(*connect_cb)(int err, 
 	connect_req->data = cb_data;
 
 	r = uv_tcp_connect(connect_req, client, (const struct sockaddr*)&addr, after_connect);
+}
+
+void Netbus::udp_sendto(const char* host, int port, unsigned char* data, int len)
+{
+	uv_udp_t* udp_server = (uv_udp_t*)this->udp_handler;
+	struct sockaddr_in addr;
+	addr.sin_family = AF_INET;
+	uv_ip4_addr(host, port, &addr);
+	uv_buf_t buf = uv_buf_init((char*)data, len);
+	uv_udp_send_t* send_req = (uv_udp_send_t*)my_malloc(sizeof(uv_udp_send_t));
+	uv_udp_send(send_req, udp_server, &buf, 1, (const struct sockaddr*)&addr, after_udp_send);
 }

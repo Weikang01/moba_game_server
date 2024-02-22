@@ -10,6 +10,7 @@ extern "C" {
 #endif
 #include <tolua_fix.h>
 
+#include "../netbus/netbus.h"
 #include "../netbus/proto_manager.h"
 #include "session_export_to_lua.h"
 #include "../netbus/session.h"
@@ -357,6 +358,111 @@ failed:
 	return 0;
 }
 
+
+static void udp_send_msg(char* ip, int port, cmd_msg* msg)
+{
+	unsigned char* encoded_msg = NULL;
+	int msg_len = 0;
+	encoded_msg = ProtoManager::encode_msg_to_raw(msg, &msg_len);
+	if (encoded_msg)
+	{
+		Netbus::instance()->udp_sendto(ip, port, encoded_msg, msg_len);
+		ProtoManager::raw_msg_free(encoded_msg);
+	}
+}
+
+/*
+struct cmd_msg {
+	int stype; // service type
+	int ctype; // cmd type
+	int utag; // user tag
+	void* body; // json string or binary buffer
+};
+*/
+static int lua_session_udp_send_msg(lua_State* tolua_S)
+{
+	//int nargs = lua_gettop(tolua_S);
+	int port, stype, ctype, utag;
+
+	char* ip = (char*)tolua_tostring(tolua_S, 1, 0);
+
+	if (ip == NULL)
+	{
+		lua_pushstring(tolua_S, "arg 1 is not a string");
+		lua_error(tolua_S);
+		goto failed;
+	}
+	port = tolua_tonumber(tolua_S, 2, 0);
+	if (port <= 0 || port > 65535)
+	{
+		lua_pushstring(tolua_S, "arg 2 is not a valid port");
+		lua_error(tolua_S);
+		goto failed;
+	}
+
+	// stack: 1. session, 2. table
+	if (!lua_istable(tolua_S, 3))
+	{
+		lua_pushstring(tolua_S, "arg 3 is not a table");
+		lua_error(tolua_S);
+		goto failed;
+	}
+
+	lua_getfield(tolua_S, 3, "stype");
+	lua_getfield(tolua_S, 3, "ctype");
+	lua_getfield(tolua_S, 3, "utag");
+	lua_getfield(tolua_S, 3, "body");
+
+	struct cmd_msg msg;
+
+	msg.stype = lua_tointeger(tolua_S, -4);
+	if (msg.stype == 0)
+	{
+		lua_pushstring(tolua_S, "stype is not a key in cmd_msg");
+		lua_error(tolua_S);
+		goto failed;
+	}
+
+	msg.ctype = lua_tointeger(tolua_S, -3);
+	if (msg.ctype == 0)
+	{
+		lua_pushstring(tolua_S, "ctype is not a key in cmd_msg");
+		lua_error(tolua_S);
+		goto failed;
+	}
+
+	msg.utag = lua_tointeger(tolua_S, -2);
+
+	if (ProtoManager::proto_type() == PROTO_JSON)
+	{
+		msg.body = (char*)lua_tostring(tolua_S, -1);
+		udp_send_msg(ip, port, &msg);
+	}
+	else if (ProtoManager::proto_type() == PROTO_BUF)
+	{
+		if (!lua_istable(tolua_S, -1)) {
+			msg.body = NULL;
+			udp_send_msg(ip, port, &msg);
+		}
+		else {
+			const char* msg_name = ProtoManager::pb_type2name(msg.ctype);
+			if (msg_name == NULL)  // not found
+			{
+				lua_pushstring(tolua_S, "Ctype not found");
+				lua_error(tolua_S);
+				goto failed;
+			}
+
+			msg.body = lua_table_to_protobuf(tolua_S, lua_gettop(tolua_S), msg_name);
+			udp_send_msg(ip, port, &msg);
+			ProtoManager::free_protobuf_message((Message*)msg.body);
+		}
+	}
+	return 1;
+failed:
+	return 0;
+}
+
 static int lua_set_utag(lua_State* tolua_S)
 {
 	Session* s = (Session*)tolua_touserdata(tolua_S, 1, 0);
@@ -421,7 +527,6 @@ failed:
 	return 0;
 }
 
-
 static int lua_session_get_address(lua_State* tolua_S)
 {
     Session* s = (Session*)tolua_touserdata(tolua_S, 1, 0);
@@ -478,6 +583,8 @@ int register_session_export(lua_State* tolua_S)
 		// lua format: Session.send_raw_msg(session, raw_msg)
 		// lua return: void
 		tolua_function(tolua_S, "send_raw_msg", lua_session_send_raw_msg);
+
+		tolua_function(tolua_S, "udp_send_msg", lua_session_udp_send_msg);
 		// lua format: Session.get_address(session)
 		// lua return: ip, port
         tolua_function(tolua_S, "get_address", lua_session_get_address);
