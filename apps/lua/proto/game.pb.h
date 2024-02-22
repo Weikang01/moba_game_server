@@ -93,6 +93,12 @@ extern GuestUpgradeReqDefaultTypeInternal _GuestUpgradeReq_default_instance_;
 class GuestUpgradeRes;
 struct GuestUpgradeResDefaultTypeInternal;
 extern GuestUpgradeResDefaultTypeInternal _GuestUpgradeRes_default_instance_;
+class LogicFrame;
+struct LogicFrameDefaultTypeInternal;
+extern LogicFrameDefaultTypeInternal _LogicFrame_default_instance_;
+class LogicLoginReq;
+struct LogicLoginReqDefaultTypeInternal;
+extern LogicLoginReqDefaultTypeInternal _LogicLoginReq_default_instance_;
 class LogicLoginRes;
 struct LogicLoginResDefaultTypeInternal;
 extern LogicLoginResDefaultTypeInternal _LogicLoginRes_default_instance_;
@@ -111,9 +117,6 @@ extern QuitMatchResDefaultTypeInternal _QuitMatchRes_default_instance_;
 class RecvLoginBonusRes;
 struct RecvLoginBonusResDefaultTypeInternal;
 extern RecvLoginBonusResDefaultTypeInternal _RecvLoginBonusRes_default_instance_;
-class UDPTest;
-struct UDPTestDefaultTypeInternal;
-extern UDPTestDefaultTypeInternal _UDPTest_default_instance_;
 class UserCenterInfo;
 struct UserCenterInfoDefaultTypeInternal;
 extern UserCenterInfoDefaultTypeInternal _UserCenterInfo_default_instance_;
@@ -143,13 +146,14 @@ template<> ::GuestLoginReq* Arena::CreateMaybeMessage<::GuestLoginReq>(Arena*);
 template<> ::GuestLoginRes* Arena::CreateMaybeMessage<::GuestLoginRes>(Arena*);
 template<> ::GuestUpgradeReq* Arena::CreateMaybeMessage<::GuestUpgradeReq>(Arena*);
 template<> ::GuestUpgradeRes* Arena::CreateMaybeMessage<::GuestUpgradeRes>(Arena*);
+template<> ::LogicFrame* Arena::CreateMaybeMessage<::LogicFrame>(Arena*);
+template<> ::LogicLoginReq* Arena::CreateMaybeMessage<::LogicLoginReq>(Arena*);
 template<> ::LogicLoginRes* Arena::CreateMaybeMessage<::LogicLoginRes>(Arena*);
 template<> ::LogoutRes* Arena::CreateMaybeMessage<::LogoutRes>(Arena*);
 template<> ::OnOtherEnteredMatch* Arena::CreateMaybeMessage<::OnOtherEnteredMatch>(Arena*);
 template<> ::OnOtherQuittedMatch* Arena::CreateMaybeMessage<::OnOtherQuittedMatch>(Arena*);
 template<> ::QuitMatchRes* Arena::CreateMaybeMessage<::QuitMatchRes>(Arena*);
 template<> ::RecvLoginBonusRes* Arena::CreateMaybeMessage<::RecvLoginBonusRes>(Arena*);
-template<> ::UDPTest* Arena::CreateMaybeMessage<::UDPTest>(Arena*);
 template<> ::UserCenterInfo* Arena::CreateMaybeMessage<::UserCenterInfo>(Arena*);
 template<> ::UserLoginReq* Arena::CreateMaybeMessage<::UserLoginReq>(Arena*);
 template<> ::UserLoginRes* Arena::CreateMaybeMessage<::UserLoginRes>(Arena*);
@@ -215,13 +219,13 @@ enum Cmd : int {
   eQuitMatchRes = 28,
   eOnOtherQuittedMatch = 29,
   eGameStart = 30,
-  eUDPTest = 31,
+  eLogicFrame = 31,
   Cmd_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
   Cmd_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
 };
 bool Cmd_IsValid(int value);
 constexpr Cmd Cmd_MIN = INVALID_CMD;
-constexpr Cmd Cmd_MAX = eUDPTest;
+constexpr Cmd Cmd_MAX = eLogicFrame;
 constexpr int Cmd_ARRAYSIZE = Cmd_MAX + 1;
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* Cmd_descriptor();
@@ -4579,24 +4583,24 @@ class GameStart final :
 };
 // -------------------------------------------------------------------
 
-class UDPTest final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:UDPTest) */ {
+class LogicLoginReq final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:LogicLoginReq) */ {
  public:
-  inline UDPTest() : UDPTest(nullptr) {}
-  ~UDPTest() override;
-  explicit PROTOBUF_CONSTEXPR UDPTest(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+  inline LogicLoginReq() : LogicLoginReq(nullptr) {}
+  ~LogicLoginReq() override;
+  explicit PROTOBUF_CONSTEXPR LogicLoginReq(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
 
-  UDPTest(const UDPTest& from);
-  UDPTest(UDPTest&& from) noexcept
-    : UDPTest() {
+  LogicLoginReq(const LogicLoginReq& from);
+  LogicLoginReq(LogicLoginReq&& from) noexcept
+    : LogicLoginReq() {
     *this = ::std::move(from);
   }
 
-  inline UDPTest& operator=(const UDPTest& from) {
+  inline LogicLoginReq& operator=(const LogicLoginReq& from) {
     CopyFrom(from);
     return *this;
   }
-  inline UDPTest& operator=(UDPTest&& from) noexcept {
+  inline LogicLoginReq& operator=(LogicLoginReq&& from) noexcept {
     if (this == &from) return *this;
     if (GetOwningArena() == from.GetOwningArena()
   #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
@@ -4619,20 +4623,20 @@ class UDPTest final :
   static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
     return default_instance().GetMetadata().reflection;
   }
-  static const UDPTest& default_instance() {
+  static const LogicLoginReq& default_instance() {
     return *internal_default_instance();
   }
-  static inline const UDPTest* internal_default_instance() {
-    return reinterpret_cast<const UDPTest*>(
-               &_UDPTest_default_instance_);
+  static inline const LogicLoginReq* internal_default_instance() {
+    return reinterpret_cast<const LogicLoginReq*>(
+               &_LogicLoginReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     26;
 
-  friend void swap(UDPTest& a, UDPTest& b) {
+  friend void swap(LogicLoginReq& a, LogicLoginReq& b) {
     a.Swap(&b);
   }
-  inline void Swap(UDPTest* other) {
+  inline void Swap(LogicLoginReq* other) {
     if (other == this) return;
   #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
     if (GetOwningArena() != nullptr &&
@@ -4645,7 +4649,7 @@ class UDPTest final :
       ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(UDPTest* other) {
+  void UnsafeArenaSwap(LogicLoginReq* other) {
     if (other == this) return;
     GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
     InternalSwap(other);
@@ -4653,14 +4657,14 @@ class UDPTest final :
 
   // implements Message ----------------------------------------------
 
-  UDPTest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<UDPTest>(arena);
+  LogicLoginReq* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<LogicLoginReq>(arena);
   }
   using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const UDPTest& from);
+  void CopyFrom(const LogicLoginReq& from);
   using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const UDPTest& from) {
-    UDPTest::MergeImpl(*this, from);
+  void MergeFrom( const LogicLoginReq& from) {
+    LogicLoginReq::MergeImpl(*this, from);
   }
   private:
   static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
@@ -4678,15 +4682,15 @@ class UDPTest final :
   void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(UDPTest* other);
+  void InternalSwap(LogicLoginReq* other);
 
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "UDPTest";
+    return "LogicLoginReq";
   }
   protected:
-  explicit UDPTest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+  explicit LogicLoginReq(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                        bool is_message_owned = false);
   public:
 
@@ -4700,23 +4704,33 @@ class UDPTest final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kContentFieldNumber = 1,
+    kUdpIpFieldNumber = 1,
+    kUdpPortFieldNumber = 2,
   };
-  // string content = 1;
-  void clear_content();
-  const std::string& content() const;
+  // string udp_ip = 1;
+  void clear_udp_ip();
+  const std::string& udp_ip() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_content(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_content();
-  PROTOBUF_NODISCARD std::string* release_content();
-  void set_allocated_content(std::string* content);
+  void set_udp_ip(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_udp_ip();
+  PROTOBUF_NODISCARD std::string* release_udp_ip();
+  void set_allocated_udp_ip(std::string* udp_ip);
   private:
-  const std::string& _internal_content() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_content(const std::string& value);
-  std::string* _internal_mutable_content();
+  const std::string& _internal_udp_ip() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_udp_ip(const std::string& value);
+  std::string* _internal_mutable_udp_ip();
   public:
 
-  // @@protoc_insertion_point(class_scope:UDPTest)
+  // int32 udp_port = 2;
+  void clear_udp_port();
+  int32_t udp_port() const;
+  void set_udp_port(int32_t value);
+  private:
+  int32_t _internal_udp_port() const;
+  void _internal_set_udp_port(int32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:LogicLoginReq)
  private:
   class _Internal;
 
@@ -4724,7 +4738,156 @@ class UDPTest final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr content_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr udp_ip_;
+    int32_t udp_port_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_game_2eproto;
+};
+// -------------------------------------------------------------------
+
+class LogicFrame final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:LogicFrame) */ {
+ public:
+  inline LogicFrame() : LogicFrame(nullptr) {}
+  ~LogicFrame() override;
+  explicit PROTOBUF_CONSTEXPR LogicFrame(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  LogicFrame(const LogicFrame& from);
+  LogicFrame(LogicFrame&& from) noexcept
+    : LogicFrame() {
+    *this = ::std::move(from);
+  }
+
+  inline LogicFrame& operator=(const LogicFrame& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline LogicFrame& operator=(LogicFrame&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const LogicFrame& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const LogicFrame* internal_default_instance() {
+    return reinterpret_cast<const LogicFrame*>(
+               &_LogicFrame_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    27;
+
+  friend void swap(LogicFrame& a, LogicFrame& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(LogicFrame* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(LogicFrame* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  LogicFrame* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<LogicFrame>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const LogicFrame& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const LogicFrame& from) {
+    LogicFrame::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(LogicFrame* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "LogicFrame";
+  }
+  protected:
+  explicit LogicFrame(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kFrameidFieldNumber = 1,
+  };
+  // int32 frameid = 1;
+  void clear_frameid();
+  int32_t frameid() const;
+  void set_frameid(int32_t value);
+  private:
+  int32_t _internal_frameid() const;
+  void _internal_set_frameid(int32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:LogicFrame)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    int32_t frameid_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -6638,61 +6801,107 @@ GameStart::characters() const {
 
 // -------------------------------------------------------------------
 
-// UDPTest
+// LogicLoginReq
 
-// string content = 1;
-inline void UDPTest::clear_content() {
-  _impl_.content_.ClearToEmpty();
+// string udp_ip = 1;
+inline void LogicLoginReq::clear_udp_ip() {
+  _impl_.udp_ip_.ClearToEmpty();
 }
-inline const std::string& UDPTest::content() const {
-  // @@protoc_insertion_point(field_get:UDPTest.content)
-  return _internal_content();
+inline const std::string& LogicLoginReq::udp_ip() const {
+  // @@protoc_insertion_point(field_get:LogicLoginReq.udp_ip)
+  return _internal_udp_ip();
 }
 template <typename ArgT0, typename... ArgT>
 inline PROTOBUF_ALWAYS_INLINE
-void UDPTest::set_content(ArgT0&& arg0, ArgT... args) {
+void LogicLoginReq::set_udp_ip(ArgT0&& arg0, ArgT... args) {
  
- _impl_.content_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:UDPTest.content)
+ _impl_.udp_ip_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:LogicLoginReq.udp_ip)
 }
-inline std::string* UDPTest::mutable_content() {
-  std::string* _s = _internal_mutable_content();
-  // @@protoc_insertion_point(field_mutable:UDPTest.content)
+inline std::string* LogicLoginReq::mutable_udp_ip() {
+  std::string* _s = _internal_mutable_udp_ip();
+  // @@protoc_insertion_point(field_mutable:LogicLoginReq.udp_ip)
   return _s;
 }
-inline const std::string& UDPTest::_internal_content() const {
-  return _impl_.content_.Get();
+inline const std::string& LogicLoginReq::_internal_udp_ip() const {
+  return _impl_.udp_ip_.Get();
 }
-inline void UDPTest::_internal_set_content(const std::string& value) {
+inline void LogicLoginReq::_internal_set_udp_ip(const std::string& value) {
   
-  _impl_.content_.Set(value, GetArenaForAllocation());
+  _impl_.udp_ip_.Set(value, GetArenaForAllocation());
 }
-inline std::string* UDPTest::_internal_mutable_content() {
+inline std::string* LogicLoginReq::_internal_mutable_udp_ip() {
   
-  return _impl_.content_.Mutable(GetArenaForAllocation());
+  return _impl_.udp_ip_.Mutable(GetArenaForAllocation());
 }
-inline std::string* UDPTest::release_content() {
-  // @@protoc_insertion_point(field_release:UDPTest.content)
-  return _impl_.content_.Release();
+inline std::string* LogicLoginReq::release_udp_ip() {
+  // @@protoc_insertion_point(field_release:LogicLoginReq.udp_ip)
+  return _impl_.udp_ip_.Release();
 }
-inline void UDPTest::set_allocated_content(std::string* content) {
-  if (content != nullptr) {
+inline void LogicLoginReq::set_allocated_udp_ip(std::string* udp_ip) {
+  if (udp_ip != nullptr) {
     
   } else {
     
   }
-  _impl_.content_.SetAllocated(content, GetArenaForAllocation());
+  _impl_.udp_ip_.SetAllocated(udp_ip, GetArenaForAllocation());
 #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.content_.IsDefault()) {
-    _impl_.content_.Set("", GetArenaForAllocation());
+  if (_impl_.udp_ip_.IsDefault()) {
+    _impl_.udp_ip_.Set("", GetArenaForAllocation());
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:UDPTest.content)
+  // @@protoc_insertion_point(field_set_allocated:LogicLoginReq.udp_ip)
+}
+
+// int32 udp_port = 2;
+inline void LogicLoginReq::clear_udp_port() {
+  _impl_.udp_port_ = 0;
+}
+inline int32_t LogicLoginReq::_internal_udp_port() const {
+  return _impl_.udp_port_;
+}
+inline int32_t LogicLoginReq::udp_port() const {
+  // @@protoc_insertion_point(field_get:LogicLoginReq.udp_port)
+  return _internal_udp_port();
+}
+inline void LogicLoginReq::_internal_set_udp_port(int32_t value) {
+  
+  _impl_.udp_port_ = value;
+}
+inline void LogicLoginReq::set_udp_port(int32_t value) {
+  _internal_set_udp_port(value);
+  // @@protoc_insertion_point(field_set:LogicLoginReq.udp_port)
+}
+
+// -------------------------------------------------------------------
+
+// LogicFrame
+
+// int32 frameid = 1;
+inline void LogicFrame::clear_frameid() {
+  _impl_.frameid_ = 0;
+}
+inline int32_t LogicFrame::_internal_frameid() const {
+  return _impl_.frameid_;
+}
+inline int32_t LogicFrame::frameid() const {
+  // @@protoc_insertion_point(field_get:LogicFrame.frameid)
+  return _internal_frameid();
+}
+inline void LogicFrame::_internal_set_frameid(int32_t value) {
+  
+  _impl_.frameid_ = value;
+}
+inline void LogicFrame::set_frameid(int32_t value) {
+  _internal_set_frameid(value);
+  // @@protoc_insertion_point(field_set:LogicFrame.frameid)
 }
 
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

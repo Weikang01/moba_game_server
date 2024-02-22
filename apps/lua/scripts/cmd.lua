@@ -29,7 +29,7 @@ Cmd = {
     eQuitMatchRes         = 28,
     eOnOtherQuittedMatch  = 29,
     eGameStart            = 30,
-    eUDPTest              = 31,
+    eLogicFrame           = 31,
 }
 
 return Cmd

@@ -25,6 +25,8 @@ function player:init(uid, session, ret_handler, is_robot)
     self.character_id = -1 -- which character player is using
     self.state        = State.inView
     self.is_robot     = is_robot or false
+    self.client_ip    = nil -- player's udp ip
+    self.client_port  = 0   -- player's udp port
 
     if self.is_robot then
         return
@@ -90,6 +92,28 @@ function player:quit_match()
     self.seat_id  = -1
     self.team_id  = -1
     self.state    = State.inView
+end
+
+function player:set_udp_address(ip, port)
+    self.client_ip   = ip
+    self.client_port = port
+end
+
+function player:send_udp_msg(stype, ctype, body)
+    if not self.session or self.is_robot then -- if tcp connection lost, udp do not need to send anymore
+        return
+    end
+
+    if not self.client_ip or self.client_port == 0 then
+        return
+    end
+
+    Session.udp_send_msg(self.client_ip, self.client_port, {
+        stype = stype,
+        ctype = ctype,
+        utag  = 0,
+        body  = body
+    })
 end
 
 return player
