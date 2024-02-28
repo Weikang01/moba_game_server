@@ -102,7 +102,7 @@ local function search_inview_match_manager(zone_id)
     end
 
     for match_id, m_manager in pairs(match_list) do
-        print("found the match [" .. match_id .. "]!")
+        -- print("found the match [" .. match_id .. "]!")
         if m_manager.state == State.inView then
             return m_manager
         end
@@ -319,6 +319,26 @@ local function on_quit_match(session, cmd_msg)
     match:quit_match(player)
 end
 
+-- {stype, ctype, utag, body}
+local function on_next_frame_event(session, cmd_msg)
+    local stype = cmd_msg[1]
+    local uid   = cmd_msg[3]
+    local body  = cmd_msg[4]
+    --[[
+    int32 frameid                    = 1;
+	int32 zid                        = 2;
+	int32 matchid                    = 3;
+	repeated OptionEvent opts        = 4;
+    ]]
+    local match = zone_match_list[body.zid][body.matchid]
+
+    if not match or match.state ~= State.Playing then
+        return
+    end
+
+    match:on_next_frame_event(body)
+end
+
 local game_manager = {
     logic_login                   = logic_login,
     on_user_lost_conn             = on_user_lost_conn,
@@ -326,6 +346,7 @@ local game_manager = {
     on_gateway_session_disconnect = on_gateway_session_disconnect,
     enter_zone                    = enter_zone,
     on_quit_match                 = on_quit_match,
+    on_next_frame_event           = on_next_frame_event,
 }
 
 return game_manager

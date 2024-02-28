@@ -40,6 +40,7 @@ enum Cmd {
 	eOnOtherQuittedMatch  = 29;
 	eGameStart            = 30;
 	eLogicFrame           = 31;
+	eNextFrameOpt         = 32;
 }
 
 message GuestLoginReq {
@@ -172,8 +173,9 @@ message OnOtherQuittedMatch {
 }
 
 message CharacterInfo {
-	int32 seatid      = 1;
-	int32 characterid = 2;
+	int32 teamid      = 1;
+	int32 seatid      = 2;
+	int32 characterid = 3;
 }
 
 message GameStart {
@@ -185,6 +187,27 @@ message LogicLoginReq {
 	int32 udp_port = 2;
 }
 
+message OptionEvent {
+	int32 seatid   = 1;
+	int32 opt_type = 2;
+	int32 x        = 3;
+	int32 y        = 4;
+}
+
+message FrameOpts {
+	int32 frameid             = 1;
+	repeated OptionEvent opts = 2;
+}
+
 message LogicFrame {
-	int32 frameid = 1;
+	int32 frameid                    = 1;
+	repeated FrameOpts unsync_frames = 2;
+}
+
+message NextFrameOpt {
+	int32 frameid                    = 1;
+	int32 zid                        = 2;
+	int32 matchid                    = 3;
+	int32 seatid                     = 4;
+	repeated OptionEvent opts        = 5;
 }

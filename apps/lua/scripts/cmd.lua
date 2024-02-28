@@ -30,6 +30,7 @@ Cmd = {
     eOnOtherQuittedMatch  = 29,
     eGameStart            = 30,
     eLogicFrame           = 31,
+    eNextFrameOpt         = 32,
 }
 
 return Cmd
