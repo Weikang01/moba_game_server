@@ -63,6 +63,9 @@ extern EnterZoneReqDefaultTypeInternal _EnterZoneReq_default_instance_;
 class EnterZoneRes;
 struct EnterZoneResDefaultTypeInternal;
 extern EnterZoneResDefaultTypeInternal _EnterZoneRes_default_instance_;
+class FrameOpts;
+struct FrameOptsDefaultTypeInternal;
+extern FrameOptsDefaultTypeInternal _FrameOpts_default_instance_;
 class GameStart;
 struct GameStartDefaultTypeInternal;
 extern GameStartDefaultTypeInternal _GameStart_default_instance_;
@@ -105,12 +108,18 @@ extern LogicLoginResDefaultTypeInternal _LogicLoginRes_default_instance_;
 class LogoutRes;
 struct LogoutResDefaultTypeInternal;
 extern LogoutResDefaultTypeInternal _LogoutRes_default_instance_;
+class NextFrameOpt;
+struct NextFrameOptDefaultTypeInternal;
+extern NextFrameOptDefaultTypeInternal _NextFrameOpt_default_instance_;
 class OnOtherEnteredMatch;
 struct OnOtherEnteredMatchDefaultTypeInternal;
 extern OnOtherEnteredMatchDefaultTypeInternal _OnOtherEnteredMatch_default_instance_;
 class OnOtherQuittedMatch;
 struct OnOtherQuittedMatchDefaultTypeInternal;
 extern OnOtherQuittedMatchDefaultTypeInternal _OnOtherQuittedMatch_default_instance_;
+class OptionEvent;
+struct OptionEventDefaultTypeInternal;
+extern OptionEventDefaultTypeInternal _OptionEvent_default_instance_;
 class QuitMatchRes;
 struct QuitMatchResDefaultTypeInternal;
 extern QuitMatchResDefaultTypeInternal _QuitMatchRes_default_instance_;
@@ -136,6 +145,7 @@ template<> ::EditProfileRes* Arena::CreateMaybeMessage<::EditProfileRes>(Arena*)
 template<> ::EnterMatch* Arena::CreateMaybeMessage<::EnterMatch>(Arena*);
 template<> ::EnterZoneReq* Arena::CreateMaybeMessage<::EnterZoneReq>(Arena*);
 template<> ::EnterZoneRes* Arena::CreateMaybeMessage<::EnterZoneRes>(Arena*);
+template<> ::FrameOpts* Arena::CreateMaybeMessage<::FrameOpts>(Arena*);
 template<> ::GameStart* Arena::CreateMaybeMessage<::GameStart>(Arena*);
 template<> ::GetSysMsgReq* Arena::CreateMaybeMessage<::GetSysMsgReq>(Arena*);
 template<> ::GetSysMsgRes* Arena::CreateMaybeMessage<::GetSysMsgRes>(Arena*);
@@ -150,8 +160,10 @@ template<> ::LogicFrame* Arena::CreateMaybeMessage<::LogicFrame>(Arena*);
 template<> ::LogicLoginReq* Arena::CreateMaybeMessage<::LogicLoginReq>(Arena*);
 template<> ::LogicLoginRes* Arena::CreateMaybeMessage<::LogicLoginRes>(Arena*);
 template<> ::LogoutRes* Arena::CreateMaybeMessage<::LogoutRes>(Arena*);
+template<> ::NextFrameOpt* Arena::CreateMaybeMessage<::NextFrameOpt>(Arena*);
 template<> ::OnOtherEnteredMatch* Arena::CreateMaybeMessage<::OnOtherEnteredMatch>(Arena*);
 template<> ::OnOtherQuittedMatch* Arena::CreateMaybeMessage<::OnOtherQuittedMatch>(Arena*);
+template<> ::OptionEvent* Arena::CreateMaybeMessage<::OptionEvent>(Arena*);
 template<> ::QuitMatchRes* Arena::CreateMaybeMessage<::QuitMatchRes>(Arena*);
 template<> ::RecvLoginBonusRes* Arena::CreateMaybeMessage<::RecvLoginBonusRes>(Arena*);
 template<> ::UserCenterInfo* Arena::CreateMaybeMessage<::UserCenterInfo>(Arena*);
@@ -220,12 +232,13 @@ enum Cmd : int {
   eOnOtherQuittedMatch = 29,
   eGameStart = 30,
   eLogicFrame = 31,
+  eNextFrameOpt = 32,
   Cmd_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
   Cmd_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
 };
 bool Cmd_IsValid(int value);
 constexpr Cmd Cmd_MIN = INVALID_CMD;
-constexpr Cmd Cmd_MAX = eLogicFrame;
+constexpr Cmd Cmd_MAX = eNextFrameOpt;
 constexpr int Cmd_ARRAYSIZE = Cmd_MAX + 1;
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* Cmd_descriptor();
@@ -4388,10 +4401,20 @@ class CharacterInfo final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kSeatidFieldNumber = 1,
-    kCharacteridFieldNumber = 2,
+    kTeamidFieldNumber = 1,
+    kSeatidFieldNumber = 2,
+    kCharacteridFieldNumber = 3,
   };
-  // int32 seatid = 1;
+  // int32 teamid = 1;
+  void clear_teamid();
+  int32_t teamid() const;
+  void set_teamid(int32_t value);
+  private:
+  int32_t _internal_teamid() const;
+  void _internal_set_teamid(int32_t value);
+  public:
+
+  // int32 seatid = 2;
   void clear_seatid();
   int32_t seatid() const;
   void set_seatid(int32_t value);
@@ -4400,7 +4423,7 @@ class CharacterInfo final :
   void _internal_set_seatid(int32_t value);
   public:
 
-  // int32 characterid = 2;
+  // int32 characterid = 3;
   void clear_characterid();
   int32_t characterid() const;
   void set_characterid(int32_t value);
@@ -4417,6 +4440,7 @@ class CharacterInfo final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
+    int32_t teamid_;
     int32_t seatid_;
     int32_t characterid_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
@@ -4747,6 +4771,355 @@ class LogicLoginReq final :
 };
 // -------------------------------------------------------------------
 
+class OptionEvent final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:OptionEvent) */ {
+ public:
+  inline OptionEvent() : OptionEvent(nullptr) {}
+  ~OptionEvent() override;
+  explicit PROTOBUF_CONSTEXPR OptionEvent(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  OptionEvent(const OptionEvent& from);
+  OptionEvent(OptionEvent&& from) noexcept
+    : OptionEvent() {
+    *this = ::std::move(from);
+  }
+
+  inline OptionEvent& operator=(const OptionEvent& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline OptionEvent& operator=(OptionEvent&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const OptionEvent& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const OptionEvent* internal_default_instance() {
+    return reinterpret_cast<const OptionEvent*>(
+               &_OptionEvent_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    27;
+
+  friend void swap(OptionEvent& a, OptionEvent& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(OptionEvent* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(OptionEvent* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  OptionEvent* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<OptionEvent>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const OptionEvent& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const OptionEvent& from) {
+    OptionEvent::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(OptionEvent* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "OptionEvent";
+  }
+  protected:
+  explicit OptionEvent(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kSeatidFieldNumber = 1,
+    kOptTypeFieldNumber = 2,
+    kXFieldNumber = 3,
+    kYFieldNumber = 4,
+  };
+  // int32 seatid = 1;
+  void clear_seatid();
+  int32_t seatid() const;
+  void set_seatid(int32_t value);
+  private:
+  int32_t _internal_seatid() const;
+  void _internal_set_seatid(int32_t value);
+  public:
+
+  // int32 opt_type = 2;
+  void clear_opt_type();
+  int32_t opt_type() const;
+  void set_opt_type(int32_t value);
+  private:
+  int32_t _internal_opt_type() const;
+  void _internal_set_opt_type(int32_t value);
+  public:
+
+  // int32 x = 3;
+  void clear_x();
+  int32_t x() const;
+  void set_x(int32_t value);
+  private:
+  int32_t _internal_x() const;
+  void _internal_set_x(int32_t value);
+  public:
+
+  // int32 y = 4;
+  void clear_y();
+  int32_t y() const;
+  void set_y(int32_t value);
+  private:
+  int32_t _internal_y() const;
+  void _internal_set_y(int32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:OptionEvent)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    int32_t seatid_;
+    int32_t opt_type_;
+    int32_t x_;
+    int32_t y_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_game_2eproto;
+};
+// -------------------------------------------------------------------
+
+class FrameOpts final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:FrameOpts) */ {
+ public:
+  inline FrameOpts() : FrameOpts(nullptr) {}
+  ~FrameOpts() override;
+  explicit PROTOBUF_CONSTEXPR FrameOpts(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  FrameOpts(const FrameOpts& from);
+  FrameOpts(FrameOpts&& from) noexcept
+    : FrameOpts() {
+    *this = ::std::move(from);
+  }
+
+  inline FrameOpts& operator=(const FrameOpts& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline FrameOpts& operator=(FrameOpts&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const FrameOpts& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const FrameOpts* internal_default_instance() {
+    return reinterpret_cast<const FrameOpts*>(
+               &_FrameOpts_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    28;
+
+  friend void swap(FrameOpts& a, FrameOpts& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(FrameOpts* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(FrameOpts* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  FrameOpts* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<FrameOpts>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const FrameOpts& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const FrameOpts& from) {
+    FrameOpts::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(FrameOpts* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "FrameOpts";
+  }
+  protected:
+  explicit FrameOpts(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kOptsFieldNumber = 2,
+    kFrameidFieldNumber = 1,
+  };
+  // repeated .OptionEvent opts = 2;
+  int opts_size() const;
+  private:
+  int _internal_opts_size() const;
+  public:
+  void clear_opts();
+  ::OptionEvent* mutable_opts(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::OptionEvent >*
+      mutable_opts();
+  private:
+  const ::OptionEvent& _internal_opts(int index) const;
+  ::OptionEvent* _internal_add_opts();
+  public:
+  const ::OptionEvent& opts(int index) const;
+  ::OptionEvent* add_opts();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::OptionEvent >&
+      opts() const;
+
+  // int32 frameid = 1;
+  void clear_frameid();
+  int32_t frameid() const;
+  void set_frameid(int32_t value);
+  private:
+  int32_t _internal_frameid() const;
+  void _internal_set_frameid(int32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:FrameOpts)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::OptionEvent > opts_;
+    int32_t frameid_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_game_2eproto;
+};
+// -------------------------------------------------------------------
+
 class LogicFrame final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:LogicFrame) */ {
  public:
@@ -4795,7 +5168,7 @@ class LogicFrame final :
                &_LogicFrame_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    27;
+    29;
 
   friend void swap(LogicFrame& a, LogicFrame& b) {
     a.Swap(&b);
@@ -4868,8 +5241,27 @@ class LogicFrame final :
   // accessors -------------------------------------------------------
 
   enum : int {
+    kUnsyncFramesFieldNumber = 2,
     kFrameidFieldNumber = 1,
   };
+  // repeated .FrameOpts unsync_frames = 2;
+  int unsync_frames_size() const;
+  private:
+  int _internal_unsync_frames_size() const;
+  public:
+  void clear_unsync_frames();
+  ::FrameOpts* mutable_unsync_frames(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::FrameOpts >*
+      mutable_unsync_frames();
+  private:
+  const ::FrameOpts& _internal_unsync_frames(int index) const;
+  ::FrameOpts* _internal_add_unsync_frames();
+  public:
+  const ::FrameOpts& unsync_frames(int index) const;
+  ::FrameOpts* add_unsync_frames();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::FrameOpts >&
+      unsync_frames() const;
+
   // int32 frameid = 1;
   void clear_frameid();
   int32_t frameid() const;
@@ -4887,7 +5279,209 @@ class LogicFrame final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::FrameOpts > unsync_frames_;
     int32_t frameid_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_game_2eproto;
+};
+// -------------------------------------------------------------------
+
+class NextFrameOpt final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:NextFrameOpt) */ {
+ public:
+  inline NextFrameOpt() : NextFrameOpt(nullptr) {}
+  ~NextFrameOpt() override;
+  explicit PROTOBUF_CONSTEXPR NextFrameOpt(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  NextFrameOpt(const NextFrameOpt& from);
+  NextFrameOpt(NextFrameOpt&& from) noexcept
+    : NextFrameOpt() {
+    *this = ::std::move(from);
+  }
+
+  inline NextFrameOpt& operator=(const NextFrameOpt& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline NextFrameOpt& operator=(NextFrameOpt&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const NextFrameOpt& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const NextFrameOpt* internal_default_instance() {
+    return reinterpret_cast<const NextFrameOpt*>(
+               &_NextFrameOpt_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    30;
+
+  friend void swap(NextFrameOpt& a, NextFrameOpt& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(NextFrameOpt* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(NextFrameOpt* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  NextFrameOpt* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<NextFrameOpt>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const NextFrameOpt& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const NextFrameOpt& from) {
+    NextFrameOpt::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(NextFrameOpt* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "NextFrameOpt";
+  }
+  protected:
+  explicit NextFrameOpt(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kOptsFieldNumber = 5,
+    kFrameidFieldNumber = 1,
+    kZidFieldNumber = 2,
+    kMatchidFieldNumber = 3,
+    kSeatidFieldNumber = 4,
+  };
+  // repeated .OptionEvent opts = 5;
+  int opts_size() const;
+  private:
+  int _internal_opts_size() const;
+  public:
+  void clear_opts();
+  ::OptionEvent* mutable_opts(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::OptionEvent >*
+      mutable_opts();
+  private:
+  const ::OptionEvent& _internal_opts(int index) const;
+  ::OptionEvent* _internal_add_opts();
+  public:
+  const ::OptionEvent& opts(int index) const;
+  ::OptionEvent* add_opts();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::OptionEvent >&
+      opts() const;
+
+  // int32 frameid = 1;
+  void clear_frameid();
+  int32_t frameid() const;
+  void set_frameid(int32_t value);
+  private:
+  int32_t _internal_frameid() const;
+  void _internal_set_frameid(int32_t value);
+  public:
+
+  // int32 zid = 2;
+  void clear_zid();
+  int32_t zid() const;
+  void set_zid(int32_t value);
+  private:
+  int32_t _internal_zid() const;
+  void _internal_set_zid(int32_t value);
+  public:
+
+  // int32 matchid = 3;
+  void clear_matchid();
+  int32_t matchid() const;
+  void set_matchid(int32_t value);
+  private:
+  int32_t _internal_matchid() const;
+  void _internal_set_matchid(int32_t value);
+  public:
+
+  // int32 seatid = 4;
+  void clear_seatid();
+  int32_t seatid() const;
+  void set_seatid(int32_t value);
+  private:
+  int32_t _internal_seatid() const;
+  void _internal_set_seatid(int32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:NextFrameOpt)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::OptionEvent > opts_;
+    int32_t frameid_;
+    int32_t zid_;
+    int32_t matchid_;
+    int32_t seatid_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -6715,7 +7309,27 @@ inline void OnOtherQuittedMatch::set_seatid(int32_t value) {
 
 // CharacterInfo
 
-// int32 seatid = 1;
+// int32 teamid = 1;
+inline void CharacterInfo::clear_teamid() {
+  _impl_.teamid_ = 0;
+}
+inline int32_t CharacterInfo::_internal_teamid() const {
+  return _impl_.teamid_;
+}
+inline int32_t CharacterInfo::teamid() const {
+  // @@protoc_insertion_point(field_get:CharacterInfo.teamid)
+  return _internal_teamid();
+}
+inline void CharacterInfo::_internal_set_teamid(int32_t value) {
+  
+  _impl_.teamid_ = value;
+}
+inline void CharacterInfo::set_teamid(int32_t value) {
+  _internal_set_teamid(value);
+  // @@protoc_insertion_point(field_set:CharacterInfo.teamid)
+}
+
+// int32 seatid = 2;
 inline void CharacterInfo::clear_seatid() {
   _impl_.seatid_ = 0;
 }
@@ -6735,7 +7349,7 @@ inline void CharacterInfo::set_seatid(int32_t value) {
   // @@protoc_insertion_point(field_set:CharacterInfo.seatid)
 }
 
-// int32 characterid = 2;
+// int32 characterid = 3;
 inline void CharacterInfo::clear_characterid() {
   _impl_.characterid_ = 0;
 }
@@ -6875,6 +7489,154 @@ inline void LogicLoginReq::set_udp_port(int32_t value) {
 
 // -------------------------------------------------------------------
 
+// OptionEvent
+
+// int32 seatid = 1;
+inline void OptionEvent::clear_seatid() {
+  _impl_.seatid_ = 0;
+}
+inline int32_t OptionEvent::_internal_seatid() const {
+  return _impl_.seatid_;
+}
+inline int32_t OptionEvent::seatid() const {
+  // @@protoc_insertion_point(field_get:OptionEvent.seatid)
+  return _internal_seatid();
+}
+inline void OptionEvent::_internal_set_seatid(int32_t value) {
+  
+  _impl_.seatid_ = value;
+}
+inline void OptionEvent::set_seatid(int32_t value) {
+  _internal_set_seatid(value);
+  // @@protoc_insertion_point(field_set:OptionEvent.seatid)
+}
+
+// int32 opt_type = 2;
+inline void OptionEvent::clear_opt_type() {
+  _impl_.opt_type_ = 0;
+}
+inline int32_t OptionEvent::_internal_opt_type() const {
+  return _impl_.opt_type_;
+}
+inline int32_t OptionEvent::opt_type() const {
+  // @@protoc_insertion_point(field_get:OptionEvent.opt_type)
+  return _internal_opt_type();
+}
+inline void OptionEvent::_internal_set_opt_type(int32_t value) {
+  
+  _impl_.opt_type_ = value;
+}
+inline void OptionEvent::set_opt_type(int32_t value) {
+  _internal_set_opt_type(value);
+  // @@protoc_insertion_point(field_set:OptionEvent.opt_type)
+}
+
+// int32 x = 3;
+inline void OptionEvent::clear_x() {
+  _impl_.x_ = 0;
+}
+inline int32_t OptionEvent::_internal_x() const {
+  return _impl_.x_;
+}
+inline int32_t OptionEvent::x() const {
+  // @@protoc_insertion_point(field_get:OptionEvent.x)
+  return _internal_x();
+}
+inline void OptionEvent::_internal_set_x(int32_t value) {
+  
+  _impl_.x_ = value;
+}
+inline void OptionEvent::set_x(int32_t value) {
+  _internal_set_x(value);
+  // @@protoc_insertion_point(field_set:OptionEvent.x)
+}
+
+// int32 y = 4;
+inline void OptionEvent::clear_y() {
+  _impl_.y_ = 0;
+}
+inline int32_t OptionEvent::_internal_y() const {
+  return _impl_.y_;
+}
+inline int32_t OptionEvent::y() const {
+  // @@protoc_insertion_point(field_get:OptionEvent.y)
+  return _internal_y();
+}
+inline void OptionEvent::_internal_set_y(int32_t value) {
+  
+  _impl_.y_ = value;
+}
+inline void OptionEvent::set_y(int32_t value) {
+  _internal_set_y(value);
+  // @@protoc_insertion_point(field_set:OptionEvent.y)
+}
+
+// -------------------------------------------------------------------
+
+// FrameOpts
+
+// int32 frameid = 1;
+inline void FrameOpts::clear_frameid() {
+  _impl_.frameid_ = 0;
+}
+inline int32_t FrameOpts::_internal_frameid() const {
+  return _impl_.frameid_;
+}
+inline int32_t FrameOpts::frameid() const {
+  // @@protoc_insertion_point(field_get:FrameOpts.frameid)
+  return _internal_frameid();
+}
+inline void FrameOpts::_internal_set_frameid(int32_t value) {
+  
+  _impl_.frameid_ = value;
+}
+inline void FrameOpts::set_frameid(int32_t value) {
+  _internal_set_frameid(value);
+  // @@protoc_insertion_point(field_set:FrameOpts.frameid)
+}
+
+// repeated .OptionEvent opts = 2;
+inline int FrameOpts::_internal_opts_size() const {
+  return _impl_.opts_.size();
+}
+inline int FrameOpts::opts_size() const {
+  return _internal_opts_size();
+}
+inline void FrameOpts::clear_opts() {
+  _impl_.opts_.Clear();
+}
+inline ::OptionEvent* FrameOpts::mutable_opts(int index) {
+  // @@protoc_insertion_point(field_mutable:FrameOpts.opts)
+  return _impl_.opts_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::OptionEvent >*
+FrameOpts::mutable_opts() {
+  // @@protoc_insertion_point(field_mutable_list:FrameOpts.opts)
+  return &_impl_.opts_;
+}
+inline const ::OptionEvent& FrameOpts::_internal_opts(int index) const {
+  return _impl_.opts_.Get(index);
+}
+inline const ::OptionEvent& FrameOpts::opts(int index) const {
+  // @@protoc_insertion_point(field_get:FrameOpts.opts)
+  return _internal_opts(index);
+}
+inline ::OptionEvent* FrameOpts::_internal_add_opts() {
+  return _impl_.opts_.Add();
+}
+inline ::OptionEvent* FrameOpts::add_opts() {
+  ::OptionEvent* _add = _internal_add_opts();
+  // @@protoc_insertion_point(field_add:FrameOpts.opts)
+  return _add;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::OptionEvent >&
+FrameOpts::opts() const {
+  // @@protoc_insertion_point(field_list:FrameOpts.opts)
+  return _impl_.opts_;
+}
+
+// -------------------------------------------------------------------
+
 // LogicFrame
 
 // int32 frameid = 1;
@@ -6897,9 +7659,179 @@ inline void LogicFrame::set_frameid(int32_t value) {
   // @@protoc_insertion_point(field_set:LogicFrame.frameid)
 }
 
+// repeated .FrameOpts unsync_frames = 2;
+inline int LogicFrame::_internal_unsync_frames_size() const {
+  return _impl_.unsync_frames_.size();
+}
+inline int LogicFrame::unsync_frames_size() const {
+  return _internal_unsync_frames_size();
+}
+inline void LogicFrame::clear_unsync_frames() {
+  _impl_.unsync_frames_.Clear();
+}
+inline ::FrameOpts* LogicFrame::mutable_unsync_frames(int index) {
+  // @@protoc_insertion_point(field_mutable:LogicFrame.unsync_frames)
+  return _impl_.unsync_frames_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::FrameOpts >*
+LogicFrame::mutable_unsync_frames() {
+  // @@protoc_insertion_point(field_mutable_list:LogicFrame.unsync_frames)
+  return &_impl_.unsync_frames_;
+}
+inline const ::FrameOpts& LogicFrame::_internal_unsync_frames(int index) const {
+  return _impl_.unsync_frames_.Get(index);
+}
+inline const ::FrameOpts& LogicFrame::unsync_frames(int index) const {
+  // @@protoc_insertion_point(field_get:LogicFrame.unsync_frames)
+  return _internal_unsync_frames(index);
+}
+inline ::FrameOpts* LogicFrame::_internal_add_unsync_frames() {
+  return _impl_.unsync_frames_.Add();
+}
+inline ::FrameOpts* LogicFrame::add_unsync_frames() {
+  ::FrameOpts* _add = _internal_add_unsync_frames();
+  // @@protoc_insertion_point(field_add:LogicFrame.unsync_frames)
+  return _add;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::FrameOpts >&
+LogicFrame::unsync_frames() const {
+  // @@protoc_insertion_point(field_list:LogicFrame.unsync_frames)
+  return _impl_.unsync_frames_;
+}
+
+// -------------------------------------------------------------------
+
+// NextFrameOpt
+
+// int32 frameid = 1;
+inline void NextFrameOpt::clear_frameid() {
+  _impl_.frameid_ = 0;
+}
+inline int32_t NextFrameOpt::_internal_frameid() const {
+  return _impl_.frameid_;
+}
+inline int32_t NextFrameOpt::frameid() const {
+  // @@protoc_insertion_point(field_get:NextFrameOpt.frameid)
+  return _internal_frameid();
+}
+inline void NextFrameOpt::_internal_set_frameid(int32_t value) {
+  
+  _impl_.frameid_ = value;
+}
+inline void NextFrameOpt::set_frameid(int32_t value) {
+  _internal_set_frameid(value);
+  // @@protoc_insertion_point(field_set:NextFrameOpt.frameid)
+}
+
+// int32 zid = 2;
+inline void NextFrameOpt::clear_zid() {
+  _impl_.zid_ = 0;
+}
+inline int32_t NextFrameOpt::_internal_zid() const {
+  return _impl_.zid_;
+}
+inline int32_t NextFrameOpt::zid() const {
+  // @@protoc_insertion_point(field_get:NextFrameOpt.zid)
+  return _internal_zid();
+}
+inline void NextFrameOpt::_internal_set_zid(int32_t value) {
+  
+  _impl_.zid_ = value;
+}
+inline void NextFrameOpt::set_zid(int32_t value) {
+  _internal_set_zid(value);
+  // @@protoc_insertion_point(field_set:NextFrameOpt.zid)
+}
+
+// int32 matchid = 3;
+inline void NextFrameOpt::clear_matchid() {
+  _impl_.matchid_ = 0;
+}
+inline int32_t NextFrameOpt::_internal_matchid() const {
+  return _impl_.matchid_;
+}
+inline int32_t NextFrameOpt::matchid() const {
+  // @@protoc_insertion_point(field_get:NextFrameOpt.matchid)
+  return _internal_matchid();
+}
+inline void NextFrameOpt::_internal_set_matchid(int32_t value) {
+  
+  _impl_.matchid_ = value;
+}
+inline void NextFrameOpt::set_matchid(int32_t value) {
+  _internal_set_matchid(value);
+  // @@protoc_insertion_point(field_set:NextFrameOpt.matchid)
+}
+
+// int32 seatid = 4;
+inline void NextFrameOpt::clear_seatid() {
+  _impl_.seatid_ = 0;
+}
+inline int32_t NextFrameOpt::_internal_seatid() const {
+  return _impl_.seatid_;
+}
+inline int32_t NextFrameOpt::seatid() const {
+  // @@protoc_insertion_point(field_get:NextFrameOpt.seatid)
+  return _internal_seatid();
+}
+inline void NextFrameOpt::_internal_set_seatid(int32_t value) {
+  
+  _impl_.seatid_ = value;
+}
+inline void NextFrameOpt::set_seatid(int32_t value) {
+  _internal_set_seatid(value);
+  // @@protoc_insertion_point(field_set:NextFrameOpt.seatid)
+}
+
+// repeated .OptionEvent opts = 5;
+inline int NextFrameOpt::_internal_opts_size() const {
+  return _impl_.opts_.size();
+}
+inline int NextFrameOpt::opts_size() const {
+  return _internal_opts_size();
+}
+inline void NextFrameOpt::clear_opts() {
+  _impl_.opts_.Clear();
+}
+inline ::OptionEvent* NextFrameOpt::mutable_opts(int index) {
+  // @@protoc_insertion_point(field_mutable:NextFrameOpt.opts)
+  return _impl_.opts_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::OptionEvent >*
+NextFrameOpt::mutable_opts() {
+  // @@protoc_insertion_point(field_mutable_list:NextFrameOpt.opts)
+  return &_impl_.opts_;
+}
+inline const ::OptionEvent& NextFrameOpt::_internal_opts(int index) const {
+  return _impl_.opts_.Get(index);
+}
+inline const ::OptionEvent& NextFrameOpt::opts(int index) const {
+  // @@protoc_insertion_point(field_get:NextFrameOpt.opts)
+  return _internal_opts(index);
+}
+inline ::OptionEvent* NextFrameOpt::_internal_add_opts() {
+  return _impl_.opts_.Add();
+}
+inline ::OptionEvent* NextFrameOpt::add_opts() {
+  ::OptionEvent* _add = _internal_add_opts();
+  // @@protoc_insertion_point(field_add:NextFrameOpt.opts)
+  return _add;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::OptionEvent >&
+NextFrameOpt::opts() const {
+  // @@protoc_insertion_point(field_list:NextFrameOpt.opts)
+  return _impl_.opts_;
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

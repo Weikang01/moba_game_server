@@ -30,6 +30,7 @@ local cmd_name_map = {
     "OnOtherQuittedMatch",
     "GameStart",
     "LogicFrame",
+    "NextFrameOpt",
 }
 
 return cmd_name_map;

@@ -27,6 +27,7 @@ function player:init(uid, session, ret_handler, is_robot)
     self.is_robot     = is_robot or false
     self.client_ip    = nil -- player's udp ip
     self.client_port  = 0   -- player's udp port
+    self.sync_frameid = 0   -- current synchronized frameid of clients
 
     if self.is_robot then
         return
