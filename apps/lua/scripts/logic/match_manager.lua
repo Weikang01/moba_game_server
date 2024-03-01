@@ -12,6 +12,7 @@ local g_match_id              = 1
 local NR_PLAYERS_IN_EACH_TEAM = 2
 local NR_TEAMS                = 2
 local NR_CHARACTERS           = 5
+local LOGIC_DELTA_TIME        = 66; -- frame event every 66ms, appx. 15 fps
 
 function MatchManager:new(instance)
     instance = instance or {}
@@ -158,7 +159,7 @@ function MatchManager:on_start_playing()
 
     Scheduler.schedule(function()
         self:on_frame_sync()
-    end, 0, 50, -1)
+    end, 0, LOGIC_DELTA_TIME, -1)
 end
 
 function MatchManager:game_start()
