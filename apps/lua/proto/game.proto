@@ -205,9 +205,9 @@ message LogicFrame {
 }
 
 message NextFrameOpt {
-	int32 frameid                    = 1;
-	int32 zid                        = 2;
-	int32 matchid                    = 3;
-	int32 seatid                     = 4;
-	repeated OptionEvent opts        = 5;
+	int32 frameid             = 1;
+	int32 zid                 = 2;
+	int32 matchid             = 3;
+	int32 seatid              = 4;
+	repeated OptionEvent opts = 5;
 }
