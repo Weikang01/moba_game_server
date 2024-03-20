@@ -31,6 +31,8 @@ Cmd = {
     eGameStart            = 30,
     eLogicFrame           = 31,
     eNextFrameOpt         = 32,
+    eGameFinishedReq      = 33,
+    eGameFinishedRes      = 34,
 }
 
 return Cmd

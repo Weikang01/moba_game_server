@@ -41,6 +41,8 @@ enum Cmd {
 	eGameStart            = 30;
 	eLogicFrame           = 31;
 	eNextFrameOpt         = 32;
+	eGameFinishedReq      = 33;
+	eGameFinishedRes      = 34;
 }
 
 message GuestLoginReq {
@@ -210,4 +212,8 @@ message NextFrameOpt {
 	int32 matchid             = 3;
 	int32 seatid              = 4;
 	repeated OptionEvent opts = 5;
+}
+
+message GameFinishedRes {
+	int32 winner_teamid = 1;
 }

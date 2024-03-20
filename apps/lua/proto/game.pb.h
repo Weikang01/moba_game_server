@@ -66,6 +66,9 @@ extern EnterZoneResDefaultTypeInternal _EnterZoneRes_default_instance_;
 class FrameOpts;
 struct FrameOptsDefaultTypeInternal;
 extern FrameOptsDefaultTypeInternal _FrameOpts_default_instance_;
+class GameFinishedRes;
+struct GameFinishedResDefaultTypeInternal;
+extern GameFinishedResDefaultTypeInternal _GameFinishedRes_default_instance_;
 class GameStart;
 struct GameStartDefaultTypeInternal;
 extern GameStartDefaultTypeInternal _GameStart_default_instance_;
@@ -146,6 +149,7 @@ template<> ::EnterMatch* Arena::CreateMaybeMessage<::EnterMatch>(Arena*);
 template<> ::EnterZoneReq* Arena::CreateMaybeMessage<::EnterZoneReq>(Arena*);
 template<> ::EnterZoneRes* Arena::CreateMaybeMessage<::EnterZoneRes>(Arena*);
 template<> ::FrameOpts* Arena::CreateMaybeMessage<::FrameOpts>(Arena*);
+template<> ::GameFinishedRes* Arena::CreateMaybeMessage<::GameFinishedRes>(Arena*);
 template<> ::GameStart* Arena::CreateMaybeMessage<::GameStart>(Arena*);
 template<> ::GetSysMsgReq* Arena::CreateMaybeMessage<::GetSysMsgReq>(Arena*);
 template<> ::GetSysMsgRes* Arena::CreateMaybeMessage<::GetSysMsgRes>(Arena*);
@@ -233,12 +237,14 @@ enum Cmd : int {
   eGameStart = 30,
   eLogicFrame = 31,
   eNextFrameOpt = 32,
+  eGameFinishedReq = 33,
+  eGameFinishedRes = 34,
   Cmd_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
   Cmd_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
 };
 bool Cmd_IsValid(int value);
 constexpr Cmd Cmd_MIN = INVALID_CMD;
-constexpr Cmd Cmd_MAX = eNextFrameOpt;
+constexpr Cmd Cmd_MAX = eGameFinishedRes;
 constexpr int Cmd_ARRAYSIZE = Cmd_MAX + 1;
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* Cmd_descriptor();
@@ -5487,6 +5493,154 @@ class NextFrameOpt final :
   union { Impl_ _impl_; };
   friend struct ::TableStruct_game_2eproto;
 };
+// -------------------------------------------------------------------
+
+class GameFinishedRes final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:GameFinishedRes) */ {
+ public:
+  inline GameFinishedRes() : GameFinishedRes(nullptr) {}
+  ~GameFinishedRes() override;
+  explicit PROTOBUF_CONSTEXPR GameFinishedRes(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  GameFinishedRes(const GameFinishedRes& from);
+  GameFinishedRes(GameFinishedRes&& from) noexcept
+    : GameFinishedRes() {
+    *this = ::std::move(from);
+  }
+
+  inline GameFinishedRes& operator=(const GameFinishedRes& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline GameFinishedRes& operator=(GameFinishedRes&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const GameFinishedRes& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const GameFinishedRes* internal_default_instance() {
+    return reinterpret_cast<const GameFinishedRes*>(
+               &_GameFinishedRes_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    31;
+
+  friend void swap(GameFinishedRes& a, GameFinishedRes& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(GameFinishedRes* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(GameFinishedRes* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  GameFinishedRes* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<GameFinishedRes>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const GameFinishedRes& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const GameFinishedRes& from) {
+    GameFinishedRes::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(GameFinishedRes* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "GameFinishedRes";
+  }
+  protected:
+  explicit GameFinishedRes(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kWinnerTeamidFieldNumber = 1,
+  };
+  // int32 winner_teamid = 1;
+  void clear_winner_teamid();
+  int32_t winner_teamid() const;
+  void set_winner_teamid(int32_t value);
+  private:
+  int32_t _internal_winner_teamid() const;
+  void _internal_set_winner_teamid(int32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:GameFinishedRes)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    int32_t winner_teamid_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_game_2eproto;
+};
 // ===================================================================
 
 
@@ -7823,9 +7977,35 @@ NextFrameOpt::opts() const {
   return _impl_.opts_;
 }
 
+// -------------------------------------------------------------------
+
+// GameFinishedRes
+
+// int32 winner_teamid = 1;
+inline void GameFinishedRes::clear_winner_teamid() {
+  _impl_.winner_teamid_ = 0;
+}
+inline int32_t GameFinishedRes::_internal_winner_teamid() const {
+  return _impl_.winner_teamid_;
+}
+inline int32_t GameFinishedRes::winner_teamid() const {
+  // @@protoc_insertion_point(field_get:GameFinishedRes.winner_teamid)
+  return _internal_winner_teamid();
+}
+inline void GameFinishedRes::_internal_set_winner_teamid(int32_t value) {
+  
+  _impl_.winner_teamid_ = value;
+}
+inline void GameFinishedRes::set_winner_teamid(int32_t value) {
+  _internal_set_winner_teamid(value);
+  // @@protoc_insertion_point(field_set:GameFinishedRes.winner_teamid)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

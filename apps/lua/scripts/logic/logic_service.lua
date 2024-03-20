@@ -8,6 +8,7 @@ logic_service_handlers[Cmd.eUserLostConn] = GameManager.on_user_lost_conn
 logic_service_handlers[Cmd.eEnterZoneReq] = GameManager.enter_zone
 logic_service_handlers[Cmd.eQuitMatchReq] = GameManager.on_quit_match
 logic_service_handlers[Cmd.eNextFrameOpt] = GameManager.on_next_frame_event
+logic_service_handlers[Cmd.eGameFinishedReq] = GameManager.on_game_finished
 
 
 local function session_recv_cmd(s, cmd_msg)

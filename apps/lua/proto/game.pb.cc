@@ -471,7 +471,20 @@ struct NextFrameOptDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 NextFrameOptDefaultTypeInternal _NextFrameOpt_default_instance_;
-static ::_pb::Metadata file_level_metadata_game_2eproto[31];
+PROTOBUF_CONSTEXPR GameFinishedRes::GameFinishedRes(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.winner_teamid_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct GameFinishedResDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR GameFinishedResDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~GameFinishedResDefaultTypeInternal() {}
+  union {
+    GameFinishedRes _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 GameFinishedResDefaultTypeInternal _GameFinishedRes_default_instance_;
+static ::_pb::Metadata file_level_metadata_game_2eproto[32];
 static const ::_pb::EnumDescriptor* file_level_enum_descriptors_game_2eproto[2];
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_game_2eproto = nullptr;
 
@@ -744,6 +757,13 @@ const uint32_t TableStruct_game_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(pro
   PROTOBUF_FIELD_OFFSET(::NextFrameOpt, _impl_.matchid_),
   PROTOBUF_FIELD_OFFSET(::NextFrameOpt, _impl_.seatid_),
   PROTOBUF_FIELD_OFFSET(::NextFrameOpt, _impl_.opts_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::GameFinishedRes, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::GameFinishedRes, _impl_.winner_teamid_),
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::GuestLoginReq)},
@@ -777,6 +797,7 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 241, -1, -1, sizeof(::FrameOpts)},
   { 249, -1, -1, sizeof(::LogicFrame)},
   { 257, -1, -1, sizeof(::NextFrameOpt)},
+  { 268, -1, -1, sizeof(::GameFinishedRes)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -811,6 +832,7 @@ static const ::_pb::Message* const file_default_instances[] = {
   &::_FrameOpts_default_instance_._instance,
   &::_LogicFrame_default_instance_._instance,
   &::_NextFrameOpt_default_instance_._instance,
+  &::_GameFinishedRes_default_instance_._instance,
 };
 
 const char descriptor_table_protodef_game_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
@@ -862,32 +884,34 @@ const char descriptor_table_protodef_game_2eproto[] PROTOBUF_SECTION_VARIABLE(pr
   "\007frameid\030\001 \001(\005\022!\n\runsync_frames\030\002 \003(\0132\n."
   "FrameOpts\"i\n\014NextFrameOpt\022\017\n\007frameid\030\001 \001"
   "(\005\022\013\n\003zid\030\002 \001(\005\022\017\n\007matchid\030\003 \001(\005\022\016\n\006seat"
-  "id\030\004 \001(\005\022\032\n\004opts\030\005 \003(\0132\014.OptionEvent*>\n\005"
-  "Stype\022\021\n\rINVALID_STYPE\020\000\022\t\n\005eAuth\020\001\022\013\n\007e"
-  "System\020\002\022\n\n\006eLogic\020\003*\243\005\n\003Cmd\022\017\n\013INVALID_"
-  "CMD\020\000\022\022\n\016eGuestLoginReq\020\001\022\022\n\016eGuestLogin"
-  "Res\020\002\022\017\n\013eReloginRes\020\003\022\021\n\reUserLostConn\020"
-  "\004\022\023\n\017eEditProfileReq\020\005\022\023\n\017eEditProfileRe"
-  "s\020\006\022\024\n\020eGuestUpgradeReq\020\007\022\024\n\020eGuestUpgra"
-  "deRes\020\010\022\021\n\reUserLoginReq\020\t\022\021\n\reUserLogin"
-  "Res\020\n\022\016\n\neLogoutReq\020\013\022\016\n\neLogoutRes\020\014\022\024\n"
-  "\020eGetUGameInfoReq\020\r\022\024\n\020eGetUGameInfoRes\020"
-  "\016\022\026\n\022eRecvLoginBonusReq\020\017\022\026\n\022eRecvLoginB"
-  "onusRes\020\020\022\031\n\025eGetWorldRankUchipReq\020\021\022\031\n\025"
-  "eGetWorldRankUchipRes\020\022\022\021\n\reGetSysMsgReq"
-  "\020\023\022\021\n\reGetSysMsgRes\020\024\022\022\n\016eLogicLoginReq\020"
-  "\025\022\022\n\016eLogicLoginRes\020\026\022\021\n\reEnterZoneReq\020\027"
-  "\022\021\n\reEnterZoneRes\020\030\022\017\n\013eEnterMatch\020\031\022\030\n\024"
-  "eOnOtherEnteredMatch\020\032\022\021\n\reQuitMatchReq\020"
-  "\033\022\021\n\reQuitMatchRes\020\034\022\030\n\024eOnOtherQuittedM"
-  "atch\020\035\022\016\n\neGameStart\020\036\022\017\n\013eLogicFrame\020\037\022"
-  "\021\n\reNextFrameOpt\020 b\006proto3"
+  "id\030\004 \001(\005\022\032\n\004opts\030\005 \003(\0132\014.OptionEvent\"(\n\017"
+  "GameFinishedRes\022\025\n\rwinner_teamid\030\001 \001(\005*>"
+  "\n\005Stype\022\021\n\rINVALID_STYPE\020\000\022\t\n\005eAuth\020\001\022\013\n"
+  "\007eSystem\020\002\022\n\n\006eLogic\020\003*\317\005\n\003Cmd\022\017\n\013INVALI"
+  "D_CMD\020\000\022\022\n\016eGuestLoginReq\020\001\022\022\n\016eGuestLog"
+  "inRes\020\002\022\017\n\013eReloginRes\020\003\022\021\n\reUserLostCon"
+  "n\020\004\022\023\n\017eEditProfileReq\020\005\022\023\n\017eEditProfile"
+  "Res\020\006\022\024\n\020eGuestUpgradeReq\020\007\022\024\n\020eGuestUpg"
+  "radeRes\020\010\022\021\n\reUserLoginReq\020\t\022\021\n\reUserLog"
+  "inRes\020\n\022\016\n\neLogoutReq\020\013\022\016\n\neLogoutRes\020\014\022"
+  "\024\n\020eGetUGameInfoReq\020\r\022\024\n\020eGetUGameInfoRe"
+  "s\020\016\022\026\n\022eRecvLoginBonusReq\020\017\022\026\n\022eRecvLogi"
+  "nBonusRes\020\020\022\031\n\025eGetWorldRankUchipReq\020\021\022\031"
+  "\n\025eGetWorldRankUchipRes\020\022\022\021\n\reGetSysMsgR"
+  "eq\020\023\022\021\n\reGetSysMsgRes\020\024\022\022\n\016eLogicLoginRe"
+  "q\020\025\022\022\n\016eLogicLoginRes\020\026\022\021\n\reEnterZoneReq"
+  "\020\027\022\021\n\reEnterZoneRes\020\030\022\017\n\013eEnterMatch\020\031\022\030"
+  "\n\024eOnOtherEnteredMatch\020\032\022\021\n\reQuitMatchRe"
+  "q\020\033\022\021\n\reQuitMatchRes\020\034\022\030\n\024eOnOtherQuitte"
+  "dMatch\020\035\022\016\n\neGameStart\020\036\022\017\n\013eLogicFrame\020"
+  "\037\022\021\n\reNextFrameOpt\020 \022\024\n\020eGameFinishedReq"
+  "\020!\022\024\n\020eGameFinishedRes\020\"b\006proto3"
   ;
 static ::_pbi::once_flag descriptor_table_game_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_game_2eproto = {
-    false, false, 2706, descriptor_table_protodef_game_2eproto,
+    false, false, 2792, descriptor_table_protodef_game_2eproto,
     "game.proto",
-    &descriptor_table_game_2eproto_once, nullptr, 0, 31,
+    &descriptor_table_game_2eproto_once, nullptr, 0, 32,
     schemas, file_default_instances, TableStruct_game_2eproto::offsets,
     file_level_metadata_game_2eproto, file_level_enum_descriptors_game_2eproto,
     file_level_service_descriptors_game_2eproto,
@@ -953,6 +977,8 @@ bool Cmd_IsValid(int value) {
     case 30:
     case 31:
     case 32:
+    case 33:
+    case 34:
       return true;
     default:
       return false;
@@ -8089,6 +8115,184 @@ void NextFrameOpt::InternalSwap(NextFrameOpt* other) {
       file_level_metadata_game_2eproto[30]);
 }
 
+// ===================================================================
+
+class GameFinishedRes::_Internal {
+ public:
+};
+
+GameFinishedRes::GameFinishedRes(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:GameFinishedRes)
+}
+GameFinishedRes::GameFinishedRes(const GameFinishedRes& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  GameFinishedRes* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.winner_teamid_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _this->_impl_.winner_teamid_ = from._impl_.winner_teamid_;
+  // @@protoc_insertion_point(copy_constructor:GameFinishedRes)
+}
+
+inline void GameFinishedRes::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.winner_teamid_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+}
+
+GameFinishedRes::~GameFinishedRes() {
+  // @@protoc_insertion_point(destructor:GameFinishedRes)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void GameFinishedRes::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+}
+
+void GameFinishedRes::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void GameFinishedRes::Clear() {
+// @@protoc_insertion_point(message_clear_start:GameFinishedRes)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.winner_teamid_ = 0;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* GameFinishedRes::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // int32 winner_teamid = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.winner_teamid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* GameFinishedRes::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:GameFinishedRes)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int32 winner_teamid = 1;
+  if (this->_internal_winner_teamid() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_winner_teamid(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:GameFinishedRes)
+  return target;
+}
+
+size_t GameFinishedRes::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:GameFinishedRes)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // int32 winner_teamid = 1;
+  if (this->_internal_winner_teamid() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_winner_teamid());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData GameFinishedRes::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    GameFinishedRes::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GameFinishedRes::GetClassData() const { return &_class_data_; }
+
+
+void GameFinishedRes::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<GameFinishedRes*>(&to_msg);
+  auto& from = static_cast<const GameFinishedRes&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:GameFinishedRes)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_winner_teamid() != 0) {
+    _this->_internal_set_winner_teamid(from._internal_winner_teamid());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void GameFinishedRes::CopyFrom(const GameFinishedRes& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:GameFinishedRes)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool GameFinishedRes::IsInitialized() const {
+  return true;
+}
+
+void GameFinishedRes::InternalSwap(GameFinishedRes* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_.winner_teamid_, other->_impl_.winner_teamid_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata GameFinishedRes::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_game_2eproto_getter, &descriptor_table_game_2eproto_once,
+      file_level_metadata_game_2eproto[31]);
+}
+
 // @@protoc_insertion_point(namespace_scope)
 PROTOBUF_NAMESPACE_OPEN
 template<> PROTOBUF_NOINLINE ::GuestLoginReq*
@@ -8214,6 +8418,10 @@ Arena::CreateMaybeMessage< ::LogicFrame >(Arena* arena) {
 template<> PROTOBUF_NOINLINE ::NextFrameOpt*
 Arena::CreateMaybeMessage< ::NextFrameOpt >(Arena* arena) {
   return Arena::CreateMessageInternal< ::NextFrameOpt >(arena);
+}
+template<> PROTOBUF_NOINLINE ::GameFinishedRes*
+Arena::CreateMaybeMessage< ::GameFinishedRes >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::GameFinishedRes >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

@@ -212,6 +212,10 @@ extern "C" {
 
 	static void after_udp_read(uv_udp_t* handle, ssize_t nread, const uv_buf_t* buf, const struct sockaddr* addr, unsigned flags)
 	{
+		if (nread <= 0) {
+			return;
+		}
+
 		UDPSession udp_session;
 		udp_session.udp_handler = handle;
 		udp_session.addr = addr;
