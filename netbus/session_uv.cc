@@ -52,10 +52,19 @@ extern "C" {
 		uv_close((uv_handle_t*)req->handle, on_uv_close);
 	}
 
-	static void after_write(uv_write_t* req, int status) {
+	static void ws_after_write(uv_write_t* req, int status) {
 		if (status < 0) {
 			//fprintf(stderr, "Write error %s\n", uv_strerror(status));
 		}
+		WSProtocol::free_ws_package((unsigned char*)req->write_buffer.base);
+		cache_free(wrt_req_allocator, req);
+	}
+
+	static void tcp_after_write(uv_write_t* req, int status) {
+		if (status < 0) {
+			//fprintf(stderr, "Write error %s\n", uv_strerror(status));
+		}
+		TCPProtocol::free_package((unsigned char*)req->write_buffer.base);
 		cache_free(wrt_req_allocator, req);
 	}
 }
@@ -121,26 +130,32 @@ void UVSession::send_data(unsigned char* data, int len)
 
 	if (this->socket_type == SESSION_TYPE_WS) {
 		if (this->is_ws_shakehand) {
-			int ws_len = 0;
-			unsigned char* ws_data = WSProtocol::package_ws_send_data(data, len, &ws_len);
+			static char response_buf[512];
+			memcpy(response_buf, data, len);
 
-			wrbuf = uv_buf_init((char*)ws_data, ws_len);
+			wrbuf = uv_buf_init((char*)response_buf, len);
+			uv_write(write_req, (uv_stream_t*)&this->client_handler, &wrbuf, 1, NULL);
 		}
 		else {
-			wrbuf = uv_buf_init((char*)data, len);
+			int ws_len = 0;
+			unsigned char* ws_data = WSProtocol::package_ws_send_data((const unsigned char*)data, len, &ws_len);
+			wrbuf = uv_buf_init((char*)ws_data, ws_len);
+			write_req->write_buffer.base = (char*)ws_data;
+			write_req->write_buffer.len = ws_len;
+			uv_write(write_req, (uv_stream_t*)&this->client_handler, &wrbuf, 1, ws_after_write);
 		}
 	}
 	else if (this->socket_type == SESSION_TYPE_TCP) {
 		int tcp_len = 0;
 		unsigned char* tcp_data = TCPProtocol::package((const unsigned char*)data, len, &tcp_len);
-
 		wrbuf = uv_buf_init((char*)tcp_data, tcp_len);
+		write_req->write_buffer.base = (char*)tcp_data;
+		write_req->write_buffer.len = tcp_len;
+		uv_write(write_req, (uv_stream_t*)&this->client_handler, &wrbuf, 1, tcp_after_write);
 	}
 	else {
 		return;
 	}
-
-	uv_write(write_req, (uv_stream_t*)&this->client_handler, &wrbuf, 1, after_write);
 }
 
 void UVSession::send_msg(cmd_msg* msg)

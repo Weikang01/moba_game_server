@@ -80,7 +80,6 @@ function MatchManager:enter_match(player)
                 self.teams[player.team_id] = {}
             end
             self.teams[player.team_id][player.seat_id] = player
-            -- print("player added to team " .. player.team_id .. " at " .. player.seat_id)
             break
         end
     end
@@ -177,7 +176,7 @@ function MatchManager:game_start()
 
     self:broadcast_cmd_inview_players(Stype.Logic, Cmd.eGameStart, {
         characters = characters
-    })
+    }, nil)
 
     self.state = State.Start
     self:update_players_state(State.Start)
@@ -185,7 +184,7 @@ function MatchManager:game_start()
     -- after 5 sec, starts the first frame event, then invoke a frame event every 50ms (20 fps)
     self.frame_timer = Scheduler.once(function()
         self:on_start_playing()
-    end, 5000)
+    end, 2000)
 end
 
 function MatchManager:on_next_frame_event(next_frame_opts)
@@ -235,6 +234,18 @@ function MatchManager:quit_match(player)
     end
 
     return false
+end
+
+function MatchManager:game_finish(winner_teamid)
+    for uid, player in pairs(self.inview_players) do
+        player.state = State.Checkout
+    end
+
+    self:broadcast_cmd_inview_players(Stype.Logic, Cmd.eGameFinishedRes, {
+        winner_teamid = winner_teamid
+    }, nil)
+
+    self.state = State.Checkout
 end
 
 return MatchManager

@@ -35,7 +35,6 @@ for _, zone_id in ipairs(zone_list) do -- initialize zone_robot_list
     zone_robot_list[zone_id] = {}
 end
 
-
 local function do_load_robot_ugame_info()
     mysql_moba_game.load_robot_ugame_info(function(err, gameinfos)
         if err then
@@ -149,7 +148,6 @@ local function find_idle_robot(zone_id)
     return nil
 end
 
-
 local function do_push_robot_to_match()
     for zone_id, match_list in pairs(zone_match_list) do
         for match_id, match in pairs(match_list) do
@@ -169,7 +167,8 @@ local function do_push_robot_to_match()
     end
 end
 
-Scheduler.schedule(do_push_robot_to_match, 1000, 1000, -1)
+Scheduler.schedule(do_push_robot_to_match, 1000, 400, -1)
+-- Scheduler.schedule(do_push_robot_to_match, 1000, 40000, -1)
 
 -- {stype, ctype, utag, body}
 local function logic_login(session, cmd_msg)
@@ -217,6 +216,9 @@ local function on_user_lost_conn(session, cmd_msg)
 
         if p.match_id ~= -1 then
             local c_match = zone_match_list[p.zid][p.match_id]
+            if c_match == nil then
+                print("What?? c_match==nil?? p.zid:" .. p.zid .. "\tp.match_id: " .. p.match_id)
+            end
             local p_zid = p.zid
             local p_match_id = p.match_id
             if c_match:quit_match(p) then
@@ -298,25 +300,31 @@ local function on_quit_match(session, cmd_msg)
     local stype  = cmd_msg[1]
     local uid    = cmd_msg[3]
     local player = logic_server_players[uid]
-
     if not player then
         send_status(session, stype, Cmd.eQuitMatchRes, uid, Responses.INVALID_OPT)
         return
     end
 
-    if player.state ~= State.inView or player.zid == -1 or player.match_id == -1 or player.seat_id == -1 then
+    if (player.state ~= State.inView and player.state ~= State.Checkout)
+        or player.zid == -1
+        or player.match_id == -1
+        or player.seat_id == -1 then
         send_status(session, stype, Cmd.eQuitMatchRes, uid, Responses.INVALID_OPT)
         return
     end
 
     local match = zone_match_list[player.zid][player.match_id]
-    if not match or match.state ~= State.inView then
+
+    if not match or (match.state ~= State.inView and match.state ~= State.Checkout) then
         send_status(session, stype, Cmd.eQuitMatchRes, uid, Responses.INVALID_OPT)
         return
     end
-    zone_match_list[player.zid][player.match_id] = nil
+    local zid = player.zid
+    local match_id = player.match_id
 
-    match:quit_match(player)
+    if match:quit_match(player) then
+        zone_match_list[zid][match_id] = nil
+    end
 end
 
 -- {stype, ctype, utag, body}
@@ -339,6 +347,24 @@ local function on_next_frame_event(session, cmd_msg)
     match:on_next_frame_event(body)
 end
 
+-- {stype, ctype, utag, body}
+local function on_game_finished(session, cmd_msg)
+    local stype  = cmd_msg[1]
+    local uid    = cmd_msg[3]
+    local player = logic_server_players[uid]
+    if not player or player.state ~= State.Playing then
+        -- send_status(session, stype, Cmd.eGameFinishedRes, uid, Responses.INVALID_OPT)
+        return
+    end
+
+    local match = zone_match_list[player.zid][player.match_id]
+    if not match then
+        return
+    end
+
+    match:game_finish(player.team_id)
+end
+
 local game_manager = {
     logic_login                   = logic_login,
     on_user_lost_conn             = on_user_lost_conn,
@@ -347,6 +373,7 @@ local game_manager = {
     enter_zone                    = enter_zone,
     on_quit_match                 = on_quit_match,
     on_next_frame_event           = on_next_frame_event,
+    on_game_finished              = on_game_finished,
 }
 
 return game_manager

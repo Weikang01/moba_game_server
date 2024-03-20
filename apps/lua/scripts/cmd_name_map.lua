@@ -31,6 +31,8 @@ local cmd_name_map = {
     "GameStart",
     "LogicFrame",
     "NextFrameOpt",
+    "GameFinishedReq",
+    "GameFinishedRes",
 }
 
 return cmd_name_map;
