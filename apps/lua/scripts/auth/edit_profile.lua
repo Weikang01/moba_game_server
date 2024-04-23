@@ -9,8 +9,7 @@ local function do_edit_profile(session, cmd_msg)
     local uid = cmd_msg[3]
     local edit_profile_req = cmd_msg[4]
 
-    print("unick: " ..
-        edit_profile_req.unick .. "usex: " .. edit_profile_req.usex .. "usysavatar: " .. edit_profile_req.usysavatar)
+    -- print("unick: " .. edit_profile_req.unick .. "usex: " .. edit_profile_req.usex .. "usysavatar: " .. edit_profile_req.usysavatar)
 
     if string.len(edit_profile_req.unick) <= 0 or
         edit_profile_req.usex < 0 or edit_profile_req.usex > 2 or

@@ -15,6 +15,23 @@ function player:new(instance)
     return instance
 end
 
+function player:synchronize_uinfo_from_redis(ret_handler)
+    redis_center.get_uinfo_to_redis(self.uid, function(err, uinfo)
+        if err then
+            if ret_handler then
+                ret_handler(err, nil)
+            end
+            return
+        end
+
+        self.uinfo = uinfo
+
+        if ret_handler then
+            ret_handler(nil, {})
+        end
+    end)
+end
+
 function player:init(uid, session, ret_handler, is_robot)
     self.uid          = uid
     self.session      = session
@@ -58,6 +75,14 @@ function player:init(uid, session, ret_handler, is_robot)
             end
         end)
     end)
+
+    Scheduler.schedule(function()
+        redis_center.get_uinfo_to_redis(self.uid, function(err, uinfo)
+            if uinfo then
+                self.uinfo = uinfo
+            end
+        end)
+    end, 100, 1000, -1)
 end
 
 function player:set_session(session)
@@ -77,6 +102,7 @@ function player:send_msg(stype, ctype, body)
     })
 end
 
+--  uinfo_return_handler(err, uinfo)
 function player:get_uinfo()
     return {
         unick      = self.uinfo.unick,

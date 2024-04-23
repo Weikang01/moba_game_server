@@ -4902,6 +4902,8 @@ class OptionEvent final :
     kOptTypeFieldNumber = 2,
     kXFieldNumber = 3,
     kYFieldNumber = 4,
+    kPosXFieldNumber = 5,
+    kPosYFieldNumber = 6,
   };
   // int32 seatid = 1;
   void clear_seatid();
@@ -4939,6 +4941,24 @@ class OptionEvent final :
   void _internal_set_y(int32_t value);
   public:
 
+  // int32 pos_x = 5;
+  void clear_pos_x();
+  int32_t pos_x() const;
+  void set_pos_x(int32_t value);
+  private:
+  int32_t _internal_pos_x() const;
+  void _internal_set_pos_x(int32_t value);
+  public:
+
+  // int32 pos_y = 6;
+  void clear_pos_y();
+  int32_t pos_y() const;
+  void set_pos_y(int32_t value);
+  private:
+  int32_t _internal_pos_y() const;
+  void _internal_set_pos_y(int32_t value);
+  public:
+
   // @@protoc_insertion_point(class_scope:OptionEvent)
  private:
   class _Internal;
@@ -4951,6 +4971,8 @@ class OptionEvent final :
     int32_t opt_type_;
     int32_t x_;
     int32_t y_;
+    int32_t pos_x_;
+    int32_t pos_y_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -7723,6 +7745,46 @@ inline void OptionEvent::_internal_set_y(int32_t value) {
 inline void OptionEvent::set_y(int32_t value) {
   _internal_set_y(value);
   // @@protoc_insertion_point(field_set:OptionEvent.y)
+}
+
+// int32 pos_x = 5;
+inline void OptionEvent::clear_pos_x() {
+  _impl_.pos_x_ = 0;
+}
+inline int32_t OptionEvent::_internal_pos_x() const {
+  return _impl_.pos_x_;
+}
+inline int32_t OptionEvent::pos_x() const {
+  // @@protoc_insertion_point(field_get:OptionEvent.pos_x)
+  return _internal_pos_x();
+}
+inline void OptionEvent::_internal_set_pos_x(int32_t value) {
+  
+  _impl_.pos_x_ = value;
+}
+inline void OptionEvent::set_pos_x(int32_t value) {
+  _internal_set_pos_x(value);
+  // @@protoc_insertion_point(field_set:OptionEvent.pos_x)
+}
+
+// int32 pos_y = 6;
+inline void OptionEvent::clear_pos_y() {
+  _impl_.pos_y_ = 0;
+}
+inline int32_t OptionEvent::_internal_pos_y() const {
+  return _impl_.pos_y_;
+}
+inline int32_t OptionEvent::pos_y() const {
+  // @@protoc_insertion_point(field_get:OptionEvent.pos_y)
+  return _internal_pos_y();
+}
+inline void OptionEvent::_internal_set_pos_y(int32_t value) {
+  
+  _impl_.pos_y_ = value;
+}
+inline void OptionEvent::set_pos_y(int32_t value) {
+  _internal_set_pos_y(value);
+  // @@protoc_insertion_point(field_set:OptionEvent.pos_y)
 }
 
 // -------------------------------------------------------------------

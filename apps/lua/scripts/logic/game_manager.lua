@@ -137,7 +137,7 @@ local function do_match_players_in_zones()
     end
 end
 
-Scheduler.schedule(do_match_players_in_zones, 1000, 5000, -1)
+Scheduler.schedule(do_match_players_in_zones, 1000, 2000, -1)
 
 local function find_idle_robot(zone_id)
     for uid, robot in pairs(zone_robot_list[zone_id]) do
@@ -167,8 +167,7 @@ local function do_push_robot_to_match()
     end
 end
 
-Scheduler.schedule(do_push_robot_to_match, 1000, 400, -1)
--- Scheduler.schedule(do_push_robot_to_match, 1000, 40000, -1)
+-- Scheduler.schedule(do_push_robot_to_match, 1000, 400, -1)
 
 -- {stype, ctype, utag, body}
 local function logic_login(session, cmd_msg)

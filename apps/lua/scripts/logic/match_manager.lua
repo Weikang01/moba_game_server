@@ -12,7 +12,8 @@ local g_match_id              = 1
 local NR_PLAYERS_IN_EACH_TEAM = 2
 local NR_TEAMS                = 2
 local NR_CHARACTERS           = 5
-local LOGIC_DELTA_TIME        = 66; -- frame event every 66ms, appx. 15 fps
+-- local LOGIC_DELTA_TIME        = 66; -- frame event every 66ms, appx. 15 fps
+local LOGIC_DELTA_TIME        = 25; -- frame event every 25ms, appx. 40 fps
 
 function MatchManager:new(instance)
     instance = instance or {}

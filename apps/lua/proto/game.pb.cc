@@ -416,6 +416,8 @@ PROTOBUF_CONSTEXPR OptionEvent::OptionEvent(
   , /*decltype(_impl_.opt_type_)*/0
   , /*decltype(_impl_.x_)*/0
   , /*decltype(_impl_.y_)*/0
+  , /*decltype(_impl_.pos_x_)*/0
+  , /*decltype(_impl_.pos_y_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct OptionEventDefaultTypeInternal {
   PROTOBUF_CONSTEXPR OptionEventDefaultTypeInternal()
@@ -730,6 +732,8 @@ const uint32_t TableStruct_game_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(pro
   PROTOBUF_FIELD_OFFSET(::OptionEvent, _impl_.opt_type_),
   PROTOBUF_FIELD_OFFSET(::OptionEvent, _impl_.x_),
   PROTOBUF_FIELD_OFFSET(::OptionEvent, _impl_.y_),
+  PROTOBUF_FIELD_OFFSET(::OptionEvent, _impl_.pos_x_),
+  PROTOBUF_FIELD_OFFSET(::OptionEvent, _impl_.pos_y_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::FrameOpts, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -794,10 +798,10 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 216, -1, -1, sizeof(::GameStart)},
   { 223, -1, -1, sizeof(::LogicLoginReq)},
   { 231, -1, -1, sizeof(::OptionEvent)},
-  { 241, -1, -1, sizeof(::FrameOpts)},
-  { 249, -1, -1, sizeof(::LogicFrame)},
-  { 257, -1, -1, sizeof(::NextFrameOpt)},
-  { 268, -1, -1, sizeof(::GameFinishedRes)},
+  { 243, -1, -1, sizeof(::FrameOpts)},
+  { 251, -1, -1, sizeof(::LogicFrame)},
+  { 259, -1, -1, sizeof(::NextFrameOpt)},
+  { 270, -1, -1, sizeof(::GameFinishedRes)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -877,39 +881,40 @@ const char descriptor_table_protodef_game_2eproto[] PROTOBUF_SECTION_VARIABLE(pr
   "\006seatid\030\002 \001(\005\022\023\n\013characterid\030\003 \001(\005\"/\n\tGa"
   "meStart\022\"\n\ncharacters\030\001 \003(\0132\016.CharacterI"
   "nfo\"1\n\rLogicLoginReq\022\016\n\006udp_ip\030\001 \001(\t\022\020\n\010"
-  "udp_port\030\002 \001(\005\"E\n\013OptionEvent\022\016\n\006seatid\030"
+  "udp_port\030\002 \001(\005\"c\n\013OptionEvent\022\016\n\006seatid\030"
   "\001 \001(\005\022\020\n\010opt_type\030\002 \001(\005\022\t\n\001x\030\003 \001(\005\022\t\n\001y\030"
-  "\004 \001(\005\"8\n\tFrameOpts\022\017\n\007frameid\030\001 \001(\005\022\032\n\004o"
-  "pts\030\002 \003(\0132\014.OptionEvent\"@\n\nLogicFrame\022\017\n"
-  "\007frameid\030\001 \001(\005\022!\n\runsync_frames\030\002 \003(\0132\n."
-  "FrameOpts\"i\n\014NextFrameOpt\022\017\n\007frameid\030\001 \001"
-  "(\005\022\013\n\003zid\030\002 \001(\005\022\017\n\007matchid\030\003 \001(\005\022\016\n\006seat"
-  "id\030\004 \001(\005\022\032\n\004opts\030\005 \003(\0132\014.OptionEvent\"(\n\017"
-  "GameFinishedRes\022\025\n\rwinner_teamid\030\001 \001(\005*>"
-  "\n\005Stype\022\021\n\rINVALID_STYPE\020\000\022\t\n\005eAuth\020\001\022\013\n"
-  "\007eSystem\020\002\022\n\n\006eLogic\020\003*\317\005\n\003Cmd\022\017\n\013INVALI"
-  "D_CMD\020\000\022\022\n\016eGuestLoginReq\020\001\022\022\n\016eGuestLog"
-  "inRes\020\002\022\017\n\013eReloginRes\020\003\022\021\n\reUserLostCon"
-  "n\020\004\022\023\n\017eEditProfileReq\020\005\022\023\n\017eEditProfile"
-  "Res\020\006\022\024\n\020eGuestUpgradeReq\020\007\022\024\n\020eGuestUpg"
-  "radeRes\020\010\022\021\n\reUserLoginReq\020\t\022\021\n\reUserLog"
-  "inRes\020\n\022\016\n\neLogoutReq\020\013\022\016\n\neLogoutRes\020\014\022"
-  "\024\n\020eGetUGameInfoReq\020\r\022\024\n\020eGetUGameInfoRe"
-  "s\020\016\022\026\n\022eRecvLoginBonusReq\020\017\022\026\n\022eRecvLogi"
-  "nBonusRes\020\020\022\031\n\025eGetWorldRankUchipReq\020\021\022\031"
-  "\n\025eGetWorldRankUchipRes\020\022\022\021\n\reGetSysMsgR"
-  "eq\020\023\022\021\n\reGetSysMsgRes\020\024\022\022\n\016eLogicLoginRe"
-  "q\020\025\022\022\n\016eLogicLoginRes\020\026\022\021\n\reEnterZoneReq"
-  "\020\027\022\021\n\reEnterZoneRes\020\030\022\017\n\013eEnterMatch\020\031\022\030"
-  "\n\024eOnOtherEnteredMatch\020\032\022\021\n\reQuitMatchRe"
-  "q\020\033\022\021\n\reQuitMatchRes\020\034\022\030\n\024eOnOtherQuitte"
-  "dMatch\020\035\022\016\n\neGameStart\020\036\022\017\n\013eLogicFrame\020"
-  "\037\022\021\n\reNextFrameOpt\020 \022\024\n\020eGameFinishedReq"
-  "\020!\022\024\n\020eGameFinishedRes\020\"b\006proto3"
+  "\004 \001(\005\022\r\n\005pos_x\030\005 \001(\005\022\r\n\005pos_y\030\006 \001(\005\"8\n\tF"
+  "rameOpts\022\017\n\007frameid\030\001 \001(\005\022\032\n\004opts\030\002 \003(\0132"
+  "\014.OptionEvent\"@\n\nLogicFrame\022\017\n\007frameid\030\001"
+  " \001(\005\022!\n\runsync_frames\030\002 \003(\0132\n.FrameOpts\""
+  "i\n\014NextFrameOpt\022\017\n\007frameid\030\001 \001(\005\022\013\n\003zid\030"
+  "\002 \001(\005\022\017\n\007matchid\030\003 \001(\005\022\016\n\006seatid\030\004 \001(\005\022\032"
+  "\n\004opts\030\005 \003(\0132\014.OptionEvent\"(\n\017GameFinish"
+  "edRes\022\025\n\rwinner_teamid\030\001 \001(\005*>\n\005Stype\022\021\n"
+  "\rINVALID_STYPE\020\000\022\t\n\005eAuth\020\001\022\013\n\007eSystem\020\002"
+  "\022\n\n\006eLogic\020\003*\317\005\n\003Cmd\022\017\n\013INVALID_CMD\020\000\022\022\n"
+  "\016eGuestLoginReq\020\001\022\022\n\016eGuestLoginRes\020\002\022\017\n"
+  "\013eReloginRes\020\003\022\021\n\reUserLostConn\020\004\022\023\n\017eEd"
+  "itProfileReq\020\005\022\023\n\017eEditProfileRes\020\006\022\024\n\020e"
+  "GuestUpgradeReq\020\007\022\024\n\020eGuestUpgradeRes\020\010\022"
+  "\021\n\reUserLoginReq\020\t\022\021\n\reUserLoginRes\020\n\022\016\n"
+  "\neLogoutReq\020\013\022\016\n\neLogoutRes\020\014\022\024\n\020eGetUGa"
+  "meInfoReq\020\r\022\024\n\020eGetUGameInfoRes\020\016\022\026\n\022eRe"
+  "cvLoginBonusReq\020\017\022\026\n\022eRecvLoginBonusRes\020"
+  "\020\022\031\n\025eGetWorldRankUchipReq\020\021\022\031\n\025eGetWorl"
+  "dRankUchipRes\020\022\022\021\n\reGetSysMsgReq\020\023\022\021\n\reG"
+  "etSysMsgRes\020\024\022\022\n\016eLogicLoginReq\020\025\022\022\n\016eLo"
+  "gicLoginRes\020\026\022\021\n\reEnterZoneReq\020\027\022\021\n\reEnt"
+  "erZoneRes\020\030\022\017\n\013eEnterMatch\020\031\022\030\n\024eOnOther"
+  "EnteredMatch\020\032\022\021\n\reQuitMatchReq\020\033\022\021\n\reQu"
+  "itMatchRes\020\034\022\030\n\024eOnOtherQuittedMatch\020\035\022\016"
+  "\n\neGameStart\020\036\022\017\n\013eLogicFrame\020\037\022\021\n\reNext"
+  "FrameOpt\020 \022\024\n\020eGameFinishedReq\020!\022\024\n\020eGam"
+  "eFinishedRes\020\"b\006proto3"
   ;
 static ::_pbi::once_flag descriptor_table_game_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_game_2eproto = {
-    false, false, 2792, descriptor_table_protodef_game_2eproto,
+    false, false, 2822, descriptor_table_protodef_game_2eproto,
     "game.proto",
     &descriptor_table_game_2eproto_once, nullptr, 0, 32,
     schemas, file_default_instances, TableStruct_game_2eproto::offsets,
@@ -7159,12 +7164,14 @@ OptionEvent::OptionEvent(const OptionEvent& from)
     , decltype(_impl_.opt_type_){}
     , decltype(_impl_.x_){}
     , decltype(_impl_.y_){}
+    , decltype(_impl_.pos_x_){}
+    , decltype(_impl_.pos_y_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ::memcpy(&_impl_.seatid_, &from._impl_.seatid_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.y_) -
-    reinterpret_cast<char*>(&_impl_.seatid_)) + sizeof(_impl_.y_));
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.pos_y_) -
+    reinterpret_cast<char*>(&_impl_.seatid_)) + sizeof(_impl_.pos_y_));
   // @@protoc_insertion_point(copy_constructor:OptionEvent)
 }
 
@@ -7177,6 +7184,8 @@ inline void OptionEvent::SharedCtor(
     , decltype(_impl_.opt_type_){0}
     , decltype(_impl_.x_){0}
     , decltype(_impl_.y_){0}
+    , decltype(_impl_.pos_x_){0}
+    , decltype(_impl_.pos_y_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
 }
@@ -7205,8 +7214,8 @@ void OptionEvent::Clear() {
   (void) cached_has_bits;
 
   ::memset(&_impl_.seatid_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&_impl_.y_) -
-      reinterpret_cast<char*>(&_impl_.seatid_)) + sizeof(_impl_.y_));
+      reinterpret_cast<char*>(&_impl_.pos_y_) -
+      reinterpret_cast<char*>(&_impl_.seatid_)) + sizeof(_impl_.pos_y_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -7244,6 +7253,22 @@ const char* OptionEvent::_InternalParse(const char* ptr, ::_pbi::ParseContext* c
       case 4:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
           _impl_.y_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 pos_x = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 40)) {
+          _impl_.pos_x_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 pos_y = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 48)) {
+          _impl_.pos_y_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -7301,6 +7326,18 @@ uint8_t* OptionEvent::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteInt32ToArray(4, this->_internal_y(), target);
   }
 
+  // int32 pos_x = 5;
+  if (this->_internal_pos_x() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(5, this->_internal_pos_x(), target);
+  }
+
+  // int32 pos_y = 6;
+  if (this->_internal_pos_y() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(6, this->_internal_pos_y(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -7337,6 +7374,16 @@ size_t OptionEvent::ByteSizeLong() const {
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_y());
   }
 
+  // int32 pos_x = 5;
+  if (this->_internal_pos_x() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_pos_x());
+  }
+
+  // int32 pos_y = 6;
+  if (this->_internal_pos_y() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_pos_y());
+  }
+
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
@@ -7367,6 +7414,12 @@ void OptionEvent::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PR
   if (from._internal_y() != 0) {
     _this->_internal_set_y(from._internal_y());
   }
+  if (from._internal_pos_x() != 0) {
+    _this->_internal_set_pos_x(from._internal_pos_x());
+  }
+  if (from._internal_pos_y() != 0) {
+    _this->_internal_set_pos_y(from._internal_pos_y());
+  }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -7385,8 +7438,8 @@ void OptionEvent::InternalSwap(OptionEvent* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(OptionEvent, _impl_.y_)
-      + sizeof(OptionEvent::_impl_.y_)
+      PROTOBUF_FIELD_OFFSET(OptionEvent, _impl_.pos_y_)
+      + sizeof(OptionEvent::_impl_.pos_y_)
       - PROTOBUF_FIELD_OFFSET(OptionEvent, _impl_.seatid_)>(
           reinterpret_cast<char*>(&_impl_.seatid_),
           reinterpret_cast<char*>(&other->_impl_.seatid_));
