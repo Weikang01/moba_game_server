@@ -194,6 +194,8 @@ message OptionEvent {
 	int32 opt_type = 2;
 	int32 x        = 3;
 	int32 y        = 4;
+	int32 pos_x    = 5;
+	int32 pos_y    = 6;
 }
 
 message FrameOpts {
